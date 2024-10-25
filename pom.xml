@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>maco</groupId>
-	<artifactId>hobby_backend</artifactId>
+	<artifactId>habit_backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hobby_backend</name>
 	<description>hobby_backend</description>

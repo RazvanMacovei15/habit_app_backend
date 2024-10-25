@@ -1,4 +1,4 @@
-package maco.hobby_backend;
+package maco.habit_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
