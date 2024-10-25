@@ -1,7 +1,6 @@
 package maco.habit_backend.entities;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity

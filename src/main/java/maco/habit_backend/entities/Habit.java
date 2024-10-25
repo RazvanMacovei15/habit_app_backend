@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.enums.Type;
-
-import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor

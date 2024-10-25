@@ -2,8 +2,6 @@ package maco.habit_backend.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
