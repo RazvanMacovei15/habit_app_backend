@@ -11,7 +11,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "daily_progress")
-public class DailyProgress {
+public class DailyProgressEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "daily_progress_id_seq")
     private int id;
