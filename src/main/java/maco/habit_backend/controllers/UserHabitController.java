@@ -35,4 +35,5 @@ public class UserHabitController {
                 .map(userHabitMapper::mapTo)
                 .collect(Collectors.toList());
     }
+
 }

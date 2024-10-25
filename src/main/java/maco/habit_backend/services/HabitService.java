@@ -8,4 +8,5 @@ import java.util.List;
 public interface HabitService {
     Habit save(Habit habit);
     List<Habit> getAll();
+    Habit getById(int id);
 }

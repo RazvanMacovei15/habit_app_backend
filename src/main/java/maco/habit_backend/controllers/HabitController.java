@@ -34,4 +34,10 @@ public class HabitController {
                 .map(habitMapper::mapTo)
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/{id}")
+    public HabitDTO getHabitById(@PathVariable int id){
+        Habit habit = habitService.getById(id);
+        return habitMapper.mapTo(habit);
+    }
 }

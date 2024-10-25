@@ -23,4 +23,9 @@ public class HabitServiceI implements HabitService {
     public List<Habit> getAll() {
         return habitRepo.findAll();
     }
+
+    @Override
+    public Habit getById(int id) {
+        return habitRepo.findById(id).orElse(null);
+    }
 }
