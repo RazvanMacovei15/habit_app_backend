@@ -5,7 +5,6 @@ import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class HabitMapper {
 

@@ -1,8 +1,14 @@
 package maco.habit_backend.entities;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
 
+import java.time.LocalDateTime;
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Setter
+@Getter
 @Entity
 @Table(name = "user_habits")
 public class UserHabit {
