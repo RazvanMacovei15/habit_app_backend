@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @Table(name = "user_habits")
 public class UserHabit {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_habit_id_seq")
     private int id;
