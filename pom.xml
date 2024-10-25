@@ -11,8 +11,8 @@
 	<groupId>maco</groupId>
 	<artifactId>habit_backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hobby_backend</name>
-	<description>hobby_backend</description>
+	<name>habit_backend</name>
+	<description>habit_backend</description>
 	<url/>
 	<licenses>
 		<license/>

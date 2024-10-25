@@ -1,13 +1,14 @@
 package maco.habit_backend.mapper;
 
+
 import maco.habit_backend.dtos.HabitDTO;
-import maco.habit_backend.dtos.UserDTO;
 import maco.habit_backend.entities.Habit;
-import maco.habit_backend.entities.User;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class HabitMapper {
+
     public HabitDTO mapTo(Habit habit) {
         return HabitDTO.builder()
                 .id(habit.getId())

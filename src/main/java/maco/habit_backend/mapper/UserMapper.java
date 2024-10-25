@@ -14,11 +14,11 @@ public class UserMapper {
                 .build();
     }
 
-    public User mapFrom(UserDTO hotelDto) {
+    public User mapFrom(UserDTO userDto) {
         return User.builder()
-                .id(hotelDto.getId())
-                .username(hotelDto.getUsername())
-                .email(hotelDto.getEmail())
+                .id(userDto.getId())
+                .username(userDto.getUsername())
+                .email(userDto.getEmail())
                 .build();
     }
 }

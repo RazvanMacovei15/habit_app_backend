@@ -1,13 +1,11 @@
 package maco.habit_backend.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
 @EqualsAndHashCode
 public class UserDTO {
 
