@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HobbyBackendApplication {
+public class HabitBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HobbyBackendApplication.class, args);
+		SpringApplication.run(HabitBackendApplication.class, args);
 	}
 
 }
