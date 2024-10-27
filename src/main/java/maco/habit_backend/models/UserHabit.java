@@ -10,7 +10,7 @@ import lombok.*;
 public class UserHabit {
     private String username;
     private String email;
+    private int habitId;
     private String habitName;
     private int currentStreak;
-
 }

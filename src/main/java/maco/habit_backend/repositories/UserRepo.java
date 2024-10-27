@@ -1,6 +1,7 @@
 package maco.habit_backend.repositories;
 
 import maco.habit_backend.dtos.UserHabitDTO;
+import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,7 @@ public interface UserRepo extends JpaRepository<User, Integer> {
             "JOIN u.userHabits h " +
             "WHERE u.id = :userId")
     List<UserHabitDTO> findHabitsByUserId(@Param("userId") Long userId);
+
+
 
 }

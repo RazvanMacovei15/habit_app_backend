@@ -36,12 +36,7 @@ public class HabitServiceI implements HabitService {
     }
 
     @Override
-    public void updateHabit(Habit habit) {
-
-    }
-
-    @Override
-    public List<Habit> getHabitsByUserId(int userId) {
-        return null;
+    public Habit updateHabit(Habit habit) {
+        return habitRepo.save(habit);
     }
 }

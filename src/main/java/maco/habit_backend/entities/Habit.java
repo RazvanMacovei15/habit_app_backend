@@ -37,6 +37,9 @@ public class Habit {
     @Column(name = "type")
     private Type type;
 
+    @Column(name = "is_completed")
+    private boolean isCompleted;
+
     @Column(name = "current_streak")
     private int currentStreak;
 

@@ -3,6 +3,7 @@ package maco.habit_backend.controllers;
 import lombok.AllArgsConstructor;
 import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.dtos.UserDTO;
+import maco.habit_backend.dtos.UserHabitDTO;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.mapper.HabitMapper;
@@ -40,20 +41,22 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/habits")
-    public List<UserHabit> getHabitsByUserId(@PathVariable Long id){
+    @GetMapping("/{userId}/habits")
+    public List<UserHabit> getHabitsByUserId(@PathVariable Long userId){
         return userService
-                .findHabitsByUserId(id)
+                .findHabitsByUserId(userId)
                 .stream()
                 .map(
                         userHabitDTO -> new UserHabit(
                                 userHabitDTO.getUsername(),
                                 userHabitDTO.getEmail(),
+                                userHabitDTO.getHabitId(),
                                 userHabitDTO.getHabitName(),
                                 userHabitDTO.getCurrentStreak()
                         )
                 )
                 .collect(Collectors.toList());
     }
+
 
 }

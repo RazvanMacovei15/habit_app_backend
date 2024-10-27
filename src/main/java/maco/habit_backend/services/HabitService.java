@@ -11,8 +11,6 @@ public interface HabitService {
     Habit getById(int id);
 
     void deleteById(int id);
+    Habit updateHabit(Habit habit);
 
-    void updateHabit(Habit habit);
-
-    List<Habit> getHabitsByUserId(int userId);
 }
