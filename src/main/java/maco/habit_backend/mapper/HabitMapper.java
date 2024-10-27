@@ -3,6 +3,7 @@ package maco.habit_backend.mapper;
 
 import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
+import maco.habit_backend.entities.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class HabitMapper {
                 .build();
     }
 
-    public Habit createNewHabit(HabitDTO habitDTO) {
+    public Habit createNewHabit(HabitDTO habitDTO, User user) {
         int currentStreak = 0;
         int bestStreak = 0;
         int totalCount = 0;
@@ -47,6 +48,6 @@ public class HabitMapper {
                 .totalCount(totalCount)
                 .dateCreated(dateCreated)
                 .lastUpdated(lastUpdated)
-                .user(habitDTO.getUserDTO().getId()).build();
+                .user(user).build();
     }
 }

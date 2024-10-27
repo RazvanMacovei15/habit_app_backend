@@ -1,9 +1,12 @@
 package maco.habit_backend.controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
+import maco.habit_backend.entities.User;
 import maco.habit_backend.mapper.HabitMapper;
+import maco.habit_backend.repositories.UserRepo;
 import maco.habit_backend.services.HabitService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +21,16 @@ public class HabitController {
     private HabitMapper habitMapper;
 
     private final HabitService habitService;
+    private final UserRepo userRepo;
 
     @PostMapping("/create")
     public HabitDTO createHabit(@RequestBody HabitDTO habitDTO){
-        Habit habit = habitMapper.createNewHabit(habitDTO);
+
+        // Retrieve the User entity based on userId from HabitDTO
+        User user = userRepo.findById(habitDTO.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + habitDTO.getUserId()));
+
+        Habit habit = habitMapper.createNewHabit(habitDTO, user);
         Habit savedHabit = habitService.save(habit);
         return habitMapper.mapTo(savedHabit);
     }
