@@ -5,8 +5,11 @@ import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class HabitMapper {
+
 
     public HabitDTO mapTo(Habit habit) {
         return HabitDTO.builder()
@@ -26,5 +29,24 @@ public class HabitMapper {
                 .occurrence(habitDto.getOccurrence())
                 .type(habitDto.getType())
                 .build();
+    }
+
+    public Habit createNewHabit(HabitDTO habitDTO) {
+        int currentStreak = 0;
+        int bestStreak = 0;
+        int totalCount = 0;
+        LocalDateTime dateCreated = LocalDateTime.now();
+        LocalDateTime lastUpdated = LocalDateTime.now();
+        return Habit.builder()
+                .name(habitDTO.getName())
+                .description(habitDTO.getDescription())
+                .occurrence(habitDTO.getOccurrence())
+                .type(habitDTO.getType())
+                .currentStreak(currentStreak)
+                .bestStreak(bestStreak)
+                .totalCount(totalCount)
+                .dateCreated(dateCreated)
+                .lastUpdated(lastUpdated)
+                .user(habitDTO.getUserDTO().getId()).build();
     }
 }

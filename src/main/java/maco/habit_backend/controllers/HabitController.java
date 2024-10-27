@@ -21,7 +21,7 @@ public class HabitController {
 
     @PostMapping("/create")
     public HabitDTO createHabit(@RequestBody HabitDTO habitDTO){
-        Habit habit = habitMapper.mapFrom(habitDTO);
+        Habit habit = habitMapper.createNewHabit(habitDTO);
         Habit savedHabit = habitService.save(habit);
         return habitMapper.mapTo(savedHabit);
     }
