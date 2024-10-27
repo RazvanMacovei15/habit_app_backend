@@ -50,4 +50,20 @@ public class HabitMapper {
                 .lastUpdated(lastUpdated)
                 .user(user).build();
     }
+
+    public HabitDTO mapToNewHabitDTO(Habit habit) {
+        return HabitDTO.builder()
+                .id(habit.getId())
+                .name(habit.getName())
+                .description(habit.getDescription())
+                .occurrence(habit.getOccurrence())
+                .type(habit.getType())
+                .currentStreak(habit.getCurrentStreak())
+                .bestStreak(habit.getBestStreak())
+                .totalCount(habit.getTotalCount())
+                .dateCreated(habit.getDateCreated())
+                .lastUpdated(habit.getLastUpdated())
+                .userId(habit.getUser().getId())
+                .build();
+    }
 }

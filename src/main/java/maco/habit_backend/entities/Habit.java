@@ -13,6 +13,7 @@ import java.util.Set;
 @Builder
 @Setter
 @Getter
+@ToString
 
 @Entity
 @Table(name = "habits")

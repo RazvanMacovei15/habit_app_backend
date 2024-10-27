@@ -32,8 +32,8 @@ public class HabitController {
 
         Habit habit = habitMapper.createNewHabit(habitDTO, user);
         Habit savedHabit = habitService.save(habit);
-        System.out.println("Habit saved: " + savedHabit);
-        return habitMapper.mapTo(savedHabit);
+        System.out.println("Habit saved: " + savedHabit.toString());
+        return habitMapper.mapToNewHabitDTO(savedHabit);
     }
 
     @GetMapping("/all")
