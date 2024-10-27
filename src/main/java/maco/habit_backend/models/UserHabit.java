@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @Builder
 public class UserHabit {
+    private int userHabitId;
     private String username;
     private String email;
     private int habitId;
