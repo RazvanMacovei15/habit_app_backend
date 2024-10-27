@@ -49,9 +49,8 @@ public class UserController {
                 .stream()
                 .map(
                         userHabitDTO -> new UserHabit(
-                                userHabitDTO.getUserHabitId(),
                                 userHabitDTO.getUsername(),
-                                userHabitDTO.getEmail(),
+                                userHabitDTO.getUserId(),
                                 userHabitDTO.getHabitId(),
                                 userHabitDTO.getHabitName(),
                                 userHabitDTO.isHabitCompleted(),

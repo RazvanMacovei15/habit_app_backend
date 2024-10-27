@@ -8,9 +8,9 @@ import lombok.*;
 @Setter
 @Builder
 public class UserHabitDTO {
-    private int userHabitId;
+
     private String username;
-    private String email;
+    private int userId;
     private int habitId;
     private String habitName;
     private boolean isHabitCompleted;
