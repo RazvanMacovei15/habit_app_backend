@@ -28,4 +28,19 @@ public class HabitServiceI implements HabitService {
     public Habit getById(int id) {
         return habitRepo.findById(id).orElse(null);
     }
+
+    @Override
+    public void deleteById(int id) {
+        habitRepo.deleteById(id);
+    }
+
+    @Override
+    public void updateHabit(Habit habit) {
+
+    }
+
+    @Override
+    public List<Habit> getHabitsByUserId(int userId) {
+        return null;
+    }
 }

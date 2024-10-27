@@ -9,4 +9,10 @@ public interface HabitService {
     Habit save(Habit habit);
     List<Habit> getAll();
     Habit getById(int id);
+
+    void deleteById(int id);
+
+    void updateHabit(Habit habit);
+
+    List<Habit> getHabitsByUserId(int userId);
 }

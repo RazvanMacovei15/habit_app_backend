@@ -16,10 +16,6 @@ public class DailyProgressEntry {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "daily_progress_id_seq")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_habit_id")
-    private UserHabit userHabit;
-
     @Column(name = "date")
     private String date;
 

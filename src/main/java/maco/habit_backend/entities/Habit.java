@@ -34,6 +34,8 @@ public class Habit {
     @Column(name = "type")
     private Type type;
 
-    @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL)
-    private Set<UserHabit> userHabits;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }
