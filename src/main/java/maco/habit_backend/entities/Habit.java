@@ -45,7 +45,7 @@ public class Habit {
     @Column(name = "total_count")
     private int totalCount;
 
-    @Column(name = "completed")
+    @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
     @Column(name = "last_updated")
