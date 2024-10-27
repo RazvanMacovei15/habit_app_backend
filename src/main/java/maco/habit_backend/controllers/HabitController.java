@@ -50,4 +50,10 @@ public class HabitController {
         Habit habit = habitService.getById(id);
         return habitMapper.mapTo(habit);
     }
+
+    @PostMapping("/{habitId}/update")
+    public HabitDTO updateHabitStatus(@PathVariable int habitId){
+        Habit updatedHabit = habitService.updateHabitStatus(habitId);
+        return habitMapper.mapTo(updatedHabit);
+    }
 }

@@ -8,14 +8,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepo extends JpaRepository<User, Integer> {
     //query to retrieve
-    @Query("SELECT new maco.habit_backend.dtos.UserHabitDTO(u.username, u.email, h.name, h.currentStreak) " +
+    @Query("SELECT new maco.habit_backend.dtos.UserHabitDTO(u.username, u.email,h.id, h.name, h.currentStreak) " +
             "FROM User u " +
             "JOIN u.userHabits h " +
             "WHERE u.id = :userId")
     List<UserHabitDTO> findHabitsByUserId(@Param("userId") Long userId);
+
 
 
 

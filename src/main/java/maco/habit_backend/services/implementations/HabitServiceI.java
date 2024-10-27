@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 
 @Service
@@ -36,7 +38,20 @@ public class HabitServiceI implements HabitService {
     }
 
     @Override
-    public Habit updateHabit(Habit habit) {
-        return habitRepo.save(habit);
+    public Habit updateHabitStatus(int habitId) {
+        Optional<Habit> habitOptional = habitRepo.findById(habitId);
+        if (habitOptional.isPresent()) {
+            Habit habitToUpdate = habitOptional.get();
+            if(!habitToUpdate.isCompleted()){
+                habitToUpdate.setCompleted(true);
+            } else {
+                habitToUpdate.setCompleted(false);
+            }
+            habitToUpdate.setLastUpdated(LocalDateTime.now());
+            return habitRepo.save(habitToUpdate);
+        }
+        return null;
     }
+
+
 }

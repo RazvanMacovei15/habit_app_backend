@@ -24,6 +24,7 @@ public class UserController {
     private UserMapper userMapper;
 
     private final UserService userService;
+    private final HabitService habitService;
 
     @PostMapping("/create")
     public UserDTO createUser(@RequestBody UserDTO userDTO){
@@ -57,6 +58,4 @@ public class UserController {
                 )
                 .collect(Collectors.toList());
     }
-
-
 }
