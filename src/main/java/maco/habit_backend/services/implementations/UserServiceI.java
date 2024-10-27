@@ -2,6 +2,7 @@ package maco.habit_backend.services.implementations;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import maco.habit_backend.dtos.UserHabitDTO;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.repositories.UserRepo;
 import maco.habit_backend.services.UserService;
@@ -20,5 +21,10 @@ public class UserServiceI implements UserService {
     @Override
     public List<User> getAll() {
         return userRepo.findAll();
+    }
+
+    @Override
+    public List<UserHabitDTO> findHabitsByUserId(Long userId) {
+        return userRepo.findHabitsByUserId(userId);
     }
 }

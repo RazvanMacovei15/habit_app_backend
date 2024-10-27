@@ -7,6 +7,7 @@ import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.mapper.HabitMapper;
 import maco.habit_backend.mapper.UserMapper;
+import maco.habit_backend.models.UserHabit;
 import maco.habit_backend.services.HabitService;
 import maco.habit_backend.services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,22 @@ public class UserController {
                 .getAll()
                 .stream()
                 .map(userMapper::mapTo)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}/habits")
+    public List<UserHabit> getHabitsByUserId(@PathVariable Long id){
+        return userService
+                .findHabitsByUserId(id)
+                .stream()
+                .map(
+                        userHabitDTO -> new UserHabit(
+                                userHabitDTO.getUsername(),
+                                userHabitDTO.getEmail(),
+                                userHabitDTO.getHabitName(),
+                                userHabitDTO.getCurrentStreak()
+                        )
+                )
                 .collect(Collectors.toList());
     }
 }
