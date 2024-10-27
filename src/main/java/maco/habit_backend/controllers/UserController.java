@@ -53,6 +53,7 @@ public class UserController {
                                 userHabitDTO.getEmail(),
                                 userHabitDTO.getHabitId(),
                                 userHabitDTO.getHabitName(),
+                                userHabitDTO.isHabitCompleted(),
                                 userHabitDTO.getCurrentStreak()
                         )
                 )
