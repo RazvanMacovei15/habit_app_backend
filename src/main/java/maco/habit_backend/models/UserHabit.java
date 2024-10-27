@@ -15,4 +15,5 @@ public class UserHabit {
     private String habitName;
     private boolean isHabitCompleted;
     private int currentStreak;
+
 }

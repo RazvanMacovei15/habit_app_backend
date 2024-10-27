@@ -20,8 +20,9 @@ public class DailyCheckEntry {
     private String date;
 
     @ManyToOne
+    @JoinColumn(name = "habit_id")
     private Habit habit;
 
-    @Column(name = "completed")
-    private boolean completed;
+    @Column(name = "is_completed")
+    private boolean isCompleted;
 }
