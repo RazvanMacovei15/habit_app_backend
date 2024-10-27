@@ -33,6 +33,7 @@ public class HabitMapper {
     }
 
     public Habit createNewHabit(HabitDTO habitDTO, User user) {
+        boolean isCompleted = false;
         int currentStreak = 0;
         int bestStreak = 0;
         int totalCount = 0;
@@ -43,6 +44,7 @@ public class HabitMapper {
                 .description(habitDTO.getDescription())
                 .occurrence(habitDTO.getOccurrence())
                 .type(habitDTO.getType())
+                .isCompleted(isCompleted)
                 .currentStreak(currentStreak)
                 .bestStreak(bestStreak)
                 .totalCount(totalCount)
@@ -58,6 +60,7 @@ public class HabitMapper {
                 .description(habit.getDescription())
                 .occurrence(habit.getOccurrence())
                 .type(habit.getType())
+                .isCompleted(habit.isCompleted())
                 .currentStreak(habit.getCurrentStreak())
                 .bestStreak(habit.getBestStreak())
                 .totalCount(habit.getTotalCount())
