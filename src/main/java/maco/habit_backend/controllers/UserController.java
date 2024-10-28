@@ -11,6 +11,7 @@ import maco.habit_backend.mapper.UserMapper;
 import maco.habit_backend.models.UserHabit;
 import maco.habit_backend.services.HabitService;
 import maco.habit_backend.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,13 +31,28 @@ public class UserController {
     private final HabitService habitService;
 
     @GetMapping("/me")
-    public ResponseEntity<User> authenticatedUser() {
+    public ResponseEntity<?> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User currentUser = (User) authentication.getPrincipal();
+        // Log the authentication details
+        System.out.println("Authentication: " + authentication);
 
-        return ResponseEntity.ok(currentUser);
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated");
+        }
+
+        Object principal = authentication.getPrincipal();
+        System.out.println("Principal: " + principal);
+
+        if (principal instanceof User) {
+            User currentUser = (User) principal;
+            System.out.println("Current User: " + currentUser);
+            return ResponseEntity.ok(currentUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authenticated user not found");
+        }
     }
+
 
     @GetMapping("/")
     public ResponseEntity<List<User>> allUsers() {
