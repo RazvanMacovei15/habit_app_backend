@@ -31,27 +31,14 @@ public class UserController {
     private final HabitService habitService;
 
     @GetMapping("/me")
-    public ResponseEntity<?> authenticatedUser() {
+    public ResponseEntity<User> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Log the authentication details
-        System.out.println("Authentication: " + authentication);
+        User currentUser = (User) authentication.getPrincipal();
 
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated");
-        }
-
-        Object principal = authentication.getPrincipal();
-        System.out.println("Principal: " + principal);
-
-        if (principal instanceof User) {
-            User currentUser = (User) principal;
-            System.out.println("Current User: " + currentUser);
-            return ResponseEntity.ok(currentUser);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authenticated user not found");
-        }
+        return ResponseEntity.ok(currentUser);
     }
+
 
 
     @GetMapping("/")
