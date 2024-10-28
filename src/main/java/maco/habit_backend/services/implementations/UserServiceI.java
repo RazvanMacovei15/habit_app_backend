@@ -11,6 +11,7 @@ import maco.habit_backend.services.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
@@ -32,5 +33,12 @@ public class UserServiceI implements UserService {
         return userRepo.findHabitsByUserId(userId);
     }
 
+    public List<User> allUsers() {
+        List<User> users = new ArrayList<>();
+
+        userRepo.findAll().forEach(users::add);
+
+        return users;
+    }
 
 }
