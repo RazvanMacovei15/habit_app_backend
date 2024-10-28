@@ -48,8 +48,8 @@ public class HabitMapper {
                 .currentStreak(currentStreak)
                 .bestStreak(bestStreak)
                 .totalCount(totalCount)
-                .dateCreated(dateCreated)
-                .lastUpdated(lastUpdated)
+                .createdAt(dateCreated)
+                .updatedAt(lastUpdated)
                 .user(user).build();
     }
 
@@ -64,8 +64,8 @@ public class HabitMapper {
                 .currentStreak(habit.getCurrentStreak())
                 .bestStreak(habit.getBestStreak())
                 .totalCount(habit.getTotalCount())
-                .dateCreated(habit.getDateCreated())
-                .lastUpdated(habit.getLastUpdated())
+                .dateCreated(habit.getCreatedAt())
+                .lastUpdated(habit.getUpdatedAt())
                 .userId(habit.getUser().getId())
                 .build();
     }

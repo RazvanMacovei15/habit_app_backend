@@ -47,7 +47,7 @@ public class HabitServiceI implements HabitService {
             } else {
                 habitToUpdate.setCompleted(false);
             }
-            habitToUpdate.setLastUpdated(LocalDateTime.now());
+            habitToUpdate.setUpdatedAt(LocalDateTime.now());
             return habitRepo.save(habitToUpdate);
         }
         return null;
