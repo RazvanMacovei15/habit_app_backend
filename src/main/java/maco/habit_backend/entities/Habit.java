@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.enums.Type;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -49,11 +51,13 @@ public class Habit {
     @Column(name = "total_count")
     private int totalCount;
 
-    @Column(name = "date_created")
-    private LocalDateTime dateCreated;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @Column(name = "last_updated")
-    private  LocalDateTime lastUpdated;
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private  LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

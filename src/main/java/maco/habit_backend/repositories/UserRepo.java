@@ -6,10 +6,12 @@ import maco.habit_backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
     //query to retrieve
     @Query("SELECT new maco.habit_backend.dtos.UserHabitDTO(u.username, u.id,h.id, h.name,h.isCompleted, h.currentStreak) " +
@@ -18,7 +20,5 @@ public interface UserRepo extends JpaRepository<User, Integer> {
             "WHERE u.id = :userId")
     List<UserHabitDTO> findHabitsByUserId(@Param("userId") Long userId);
 
-
-
-
+    Optional<User> findByEmail(String email);
 }
