@@ -42,31 +42,7 @@ public class UserController {
 
 
 
-    @GetMapping("/")
-    public ResponseEntity<List<UserDTO>> allUsers() {
-        List <UserDTO> users = userService.getAll()
-                .stream()
-                .map(userMapper::mapTo)
-                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(users);
-    }
-
-    @PostMapping("/create")
-    public UserDTO createUser(@RequestBody UserDTO userDTO){
-        User user = userMapper.mapFrom(userDTO);
-        User savedUser = userService.save(user);
-        return userMapper.mapTo(savedUser);
-    }
-
-    @GetMapping("/all")
-    public List<UserDTO> getAll(){
-        return userService
-                .getAll()
-                .stream()
-                .map(userMapper::mapTo)
-                .collect(Collectors.toList());
-    }
 
     @GetMapping("/{userId}/habits")
     public List<UserHabit> getHabitsByUserId(@PathVariable Long userId){

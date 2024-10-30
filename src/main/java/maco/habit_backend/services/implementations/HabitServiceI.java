@@ -2,6 +2,7 @@ package maco.habit_backend.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import maco.habit_backend.entities.Habit;
+import maco.habit_backend.exceptions.ResourceNotFoundException;
 import maco.habit_backend.repositories.HabitRepo;
 import maco.habit_backend.services.HabitService;
 import org.springframework.stereotype.Service;
@@ -39,18 +40,14 @@ public class HabitServiceI implements HabitService {
 
     @Override
     public Habit updateHabitStatus(int habitId) {
-        Optional<Habit> habitOptional = habitRepo.findById(habitId);
-        if (habitOptional.isPresent()) {
-            Habit habitToUpdate = habitOptional.get();
-            if(!habitToUpdate.isCompleted()){
-                habitToUpdate.setCompleted(true);
-            } else {
-                habitToUpdate.setCompleted(false);
-            }
-            habitToUpdate.setUpdatedAt(LocalDateTime.now());
-            return habitRepo.save(habitToUpdate);
-        }
-        return null;
+        Habit habitToUpdate = habitRepo.findById(habitId)
+                .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
+
+        habitToUpdate.setCompleted(!habitToUpdate.isCompleted());
+        habitToUpdate.setUpdatedAt(LocalDateTime.now());
+
+        return habitRepo.save(habitToUpdate);
+
     }
 
 
