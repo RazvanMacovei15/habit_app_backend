@@ -28,15 +28,16 @@ public class UserController {
     private UserMapper userMapper;
 
     private final UserService userService;
-    private final HabitService habitService;
+
 
     @GetMapping("/me")
-    public ResponseEntity<User> authenticatedUser() {
+    public ResponseEntity<UserDTO> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User currentUser = (User) authentication.getPrincipal();
+        UserDTO currentUserDTO = userMapper.mapTo(currentUser);
 
-        return ResponseEntity.ok(currentUser);
+        return ResponseEntity.ok(currentUserDTO);
     }
 
 
