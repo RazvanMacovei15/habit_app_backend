@@ -37,5 +37,4 @@ public class HabitDTO {
 
     private LocalDateTime lastUpdated;
 
-    private int userId;
 }

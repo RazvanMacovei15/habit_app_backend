@@ -7,6 +7,7 @@ import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.mapper.HabitMapper;
 import maco.habit_backend.repositories.UserRepo;
+import maco.habit_backend.security.services.JwtService;
 import maco.habit_backend.services.HabitService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,16 +20,20 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:3000")
 public class HabitController {
     private HabitMapper habitMapper;
-
+    private JwtService jwtService;
     private final HabitService habitService;
     private final UserRepo userRepo;
 
     @PostMapping("/create")
-    public HabitDTO createHabit(@RequestBody HabitDTO habitDTO){
+    public HabitDTO createHabit(@RequestBody HabitDTO habitDTO,@RequestHeader("Authorization") String authHeader){
+        // Extract the token from the Authorization header
+        String token = authHeader.substring(7);
+
+        String currentUsersEmail = jwtService.extractUsername(token);
 
         // Retrieve the User entity based on userId from HabitDTO
-        User user = userRepo.findById(habitDTO.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + habitDTO.getUserId()));
+        User user = userRepo.findByEmail(currentUsersEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with EMAIL: " + currentUsersEmail));
 
         Habit habit = habitMapper.createNewHabit(habitDTO, user);
         Habit savedHabit = habitService.save(habit);

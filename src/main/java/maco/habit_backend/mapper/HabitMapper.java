@@ -66,7 +66,6 @@ public class HabitMapper {
                 .totalCount(habit.getTotalCount())
                 .dateCreated(habit.getCreatedAt())
                 .lastUpdated(habit.getUpdatedAt())
-                .userId(habit.getUser().getId())
                 .build();
     }
 }

@@ -65,4 +65,5 @@ public class AuthenticationController {
         // Returns the LoginResponse with HTTP status 200 (OK)
         return ResponseEntity.ok(loginResponse);
     }
+
 }
