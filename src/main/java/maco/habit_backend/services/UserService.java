@@ -12,4 +12,5 @@ public interface UserService {
     List<User> getAll();
     List<UserHabitDTO> findHabitsByUserId(Long userId);
     List<User> allUsers();
+
 }

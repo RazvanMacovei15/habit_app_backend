@@ -84,5 +84,11 @@ public class HabitController {
         return habitOptional.map(habit -> ResponseEntity.ok(habitMapper.mapTo(habit))).orElse(ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity<String> deleteAll(){
+        habitService.deleteAll();
+        return ResponseEntity.ok("All habits deleted");
+    }
+
 
 }

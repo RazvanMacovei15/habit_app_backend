@@ -53,5 +53,10 @@ public class HabitServiceI implements HabitService {
 
     }
 
+    @Override
+    public void deleteAll() {
+        habitRepo.deleteAll();
+    }
+
 
 }
