@@ -36,6 +36,7 @@ public class HabitServiceI implements HabitService {
 
     @Override
     public void deleteById(int id) {
+        System.out.println("Deleting habit with ID: " + id);
         habitRepo.deleteById(id);
     }
 
