@@ -19,6 +19,12 @@ public class HabitMapper {
                 .description(habit.getDescription())
                 .occurrence(habit.getOccurrence())
                 .type(habit.getType())
+                .isCompleted(habit.isCompleted())
+                .currentStreak(habit.getCurrentStreak())
+                .bestStreak(habit.getBestStreak())
+                .totalCount(habit.getTotalCount())
+                .dateCreated(habit.getCreatedAt())
+                .lastUpdated(habit.getUpdatedAt())
                 .build();
     }
 
@@ -29,6 +35,12 @@ public class HabitMapper {
                 .description(habitDto.getDescription())
                 .occurrence(habitDto.getOccurrence())
                 .type(habitDto.getType())
+                .isCompleted(habitDto.isCompleted())
+                .currentStreak(habitDto.getCurrentStreak())
+                .bestStreak(habitDto.getBestStreak())
+                .totalCount(habitDto.getTotalCount())
+                .createdAt(habitDto.getDateCreated())
+                .updatedAt(habitDto.getLastUpdated())
                 .build();
     }
 
