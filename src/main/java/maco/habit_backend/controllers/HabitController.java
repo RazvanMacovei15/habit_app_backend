@@ -59,6 +59,7 @@ public class HabitController {
     @DeleteMapping("/{habitId}/delete")
     public ResponseEntity<String> deleteHabit(@PathVariable("habitId") int habitId){
         Optional<Habit> habitOptional = habitService.getById(habitId);
+        System.out.println("Habit optional: " + habitOptional.toString());
         if(habitOptional.isPresent()){
             habitService.deleteById(habitId);
             return ResponseEntity.ok("Habit deleted with ID: " + habitId);

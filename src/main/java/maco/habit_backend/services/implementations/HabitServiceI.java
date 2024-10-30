@@ -1,5 +1,6 @@
 package maco.habit_backend.services.implementations;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.exceptions.ResourceNotFoundException;
@@ -33,11 +34,11 @@ public class HabitServiceI implements HabitService {
         //return Habit optional
         return habitRepo.findById(id);
     }
-
+    @Transactional
     @Override
     public void deleteById(int id) {
         System.out.println("Deleting habit with ID: " + id);
-        habitRepo.deleteById(id);
+        habitRepo.deleteHabit(id);
     }
 
     @Override
