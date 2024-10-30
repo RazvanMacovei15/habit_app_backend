@@ -34,7 +34,6 @@ public class HabitServiceI implements HabitService {
         //return Habit optional
         return habitRepo.findById(id);
     }
-    @Transactional
     @Override
     public void deleteById(int id) {
         System.out.println("Deleting habit with ID: " + id);
