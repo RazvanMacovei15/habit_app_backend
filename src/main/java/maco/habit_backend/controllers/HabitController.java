@@ -9,6 +9,7 @@ import maco.habit_backend.mapper.HabitMapper;
 import maco.habit_backend.repositories.UserRepo;
 import maco.habit_backend.security.services.JwtService;
 import maco.habit_backend.services.HabitService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,22 +38,38 @@ public class HabitController {
     }
 
     @PostMapping("/create")
-    public HabitDTO createHabit(@RequestBody HabitDTO habitDTO,@RequestHeader("Authorization") String authHeader){
-        User user =getUserFromToken(authHeader);
+    public ResponseEntity<HabitDTO> createHabit(@RequestBody HabitDTO habitDTO,@RequestHeader("Authorization") String authHeader){
+        User user = getUserFromToken(authHeader);
 
         Habit habit = habitMapper.createNewHabit(habitDTO, user);
         Habit savedHabit = habitService.save(habit);
         System.out.println("Habit saved: " + savedHabit.toString());
-        return habitMapper.mapToNewHabitDTO(savedHabit);
+        HabitDTO savedHabitDTO = habitMapper.mapToNewHabitDTO(savedHabit);
+        return ResponseEntity.ok(savedHabitDTO);
+    }
+
+    @PatchMapping("/{habitId}/update")
+    public ResponseEntity<HabitDTO> updateHabitStatus(@PathVariable int habitId){
+        Habit updatedHabit = habitService.updateHabitStatus(habitId);
+        HabitDTO updatedHabitDTO = habitMapper.mapToNewHabitDTO(updatedHabit);
+        return ResponseEntity.ok(updatedHabitDTO);
+    }
+
+    @DeleteMapping("/{habitId}/delete")
+    public ResponseEntity<String> deleteHabit(@PathVariable int habitId){
+        habitService.deleteById(habitId);
+        return ResponseEntity.ok("Habit deleted with ID: " + habitId);
     }
 
     @GetMapping("/all")
-    public List<HabitDTO> getAll(){
-        return habitService
+    public ResponseEntity<List<HabitDTO>> getAll(){
+        List<HabitDTO> habits =  habitService
                 .getAll()
                 .stream()
                 .map(habitMapper::mapTo)
                 .collect(Collectors.toList());
+
+        return ResponseEntity.ok(habits);
     }
 
     @GetMapping("/{id}")
@@ -61,9 +78,5 @@ public class HabitController {
         return habitMapper.mapTo(habit);
     }
 
-    @PatchMapping("/{habitId}/update")
-    public HabitDTO updateHabitStatus(@PathVariable int habitId){
-        Habit updatedHabit = habitService.updateHabitStatus(habitId);
-        return habitMapper.mapToNewHabitDTO(updatedHabit);
-    }
+
 }
