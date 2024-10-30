@@ -43,8 +43,11 @@ public class UserController {
 
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> allUsers() {
-        List <User> users = userService.allUsers();
+    public ResponseEntity<List<UserDTO>> allUsers() {
+        List <UserDTO> users = userService.getAll()
+                .stream()
+                .map(userMapper::mapTo)
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok(users);
     }
