@@ -15,4 +15,10 @@ public interface HabitRepo extends JpaRepository<Habit, Integer> {
     @Transactional
     @Query("DELETE FROM Habit h WHERE h.id = :habitId")
     void deleteHabit(@Param("habitId") int habitId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Habit")
+    void deleteAllHabits();
+
 }
