@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -56,9 +57,13 @@ public class HabitController {
     }
 
     @DeleteMapping("/{habitId}/delete")
-    public ResponseEntity<String> deleteHabit(@PathVariable int habitId){
-        habitService.deleteById(habitId);
-        return ResponseEntity.ok("Habit deleted with ID: " + habitId);
+    public ResponseEntity<String> deleteHabit(@PathVariable("habitId") int habitId){
+        Optional<Habit> habitOptional = habitService.getById(habitId);
+        if(habitOptional.isPresent()){
+            habitService.deleteById(habitId);
+            return ResponseEntity.ok("Habit deleted with ID: " + habitId);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/all")
@@ -73,9 +78,9 @@ public class HabitController {
     }
 
     @GetMapping("/{id}")
-    public HabitDTO getHabitById(@PathVariable int id){
-        Habit habit = habitService.getById(id);
-        return habitMapper.mapTo(habit);
+    public ResponseEntity<HabitDTO> getHabitById(@PathVariable int id){
+        Optional<Habit> habitOptional = habitService.getById(id);
+        return habitOptional.map(habit -> ResponseEntity.ok(habitMapper.mapTo(habit))).orElse(ResponseEntity.notFound().build());
     }
 
 

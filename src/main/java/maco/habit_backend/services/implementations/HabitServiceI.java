@@ -29,8 +29,9 @@ public class HabitServiceI implements HabitService {
     }
 
     @Override
-    public Habit getById(int id) {
-        return habitRepo.findById(id).orElse(null);
+    public Optional<Habit> getById(int id) {
+        //return Habit optional
+        return habitRepo.findById(id);
     }
 
     @Override
