@@ -57,4 +57,9 @@ public class HabitServiceI implements HabitService {
         habitRepo.deleteAllHabits();
     }
 
+    @Override
+    public List<Habit> getAllHabitsByUserId(int userId) {
+        return habitRepo.findAllByUserId(userId);
+    }
+
 }

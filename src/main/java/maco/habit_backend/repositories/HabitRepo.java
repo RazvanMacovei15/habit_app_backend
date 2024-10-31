@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface HabitRepo extends JpaRepository<Habit, Integer> {
@@ -20,5 +21,7 @@ public interface HabitRepo extends JpaRepository<Habit, Integer> {
     @Transactional
     @Query("DELETE FROM Habit")
     void deleteAllHabits();
+
+    List<Habit> findAllByUserId(int userId);
 
 }

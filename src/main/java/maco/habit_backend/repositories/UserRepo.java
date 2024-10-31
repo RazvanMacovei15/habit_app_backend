@@ -21,4 +21,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     List<UserHabitDTO> findHabitsByUserId(@Param("userId") Long userId);
 
     Optional<User> findByEmail(String email);
+
+
 }

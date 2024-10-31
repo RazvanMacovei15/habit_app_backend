@@ -68,9 +68,11 @@ public class HabitController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<HabitDTO>> getAll(){
+    public ResponseEntity<List<HabitDTO>> getAll(@RequestHeader("Authorization") String authHeader){
+        User user = getUserFromToken(authHeader);
+
         List<HabitDTO> habits =  habitService
-                .getAll()
+                .getAllHabitsByUserId(user.getId())
                 .stream()
                 .map(habitMapper::mapTo)
                 .collect(Collectors.toList());
