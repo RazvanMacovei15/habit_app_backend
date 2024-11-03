@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
+import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.mapper.HabitMapper;
 import maco.habit_backend.repositories.UserRepo;
 import maco.habit_backend.security.services.JwtService;
@@ -90,6 +91,24 @@ public class HabitController {
     public ResponseEntity<String> deleteAll(){
         habitService.deleteAll();
         return ResponseEntity.ok("All habits deleted");
+    }
+
+    @PatchMapping("/{habitId}/updateDetails")
+    public ResponseEntity<HabitDTO> updateHabitDetails(@PathVariable int habitId, @RequestBody HabitDTO habitDTO){
+        Habit updatedHabit = habitService.updateHabitDetails(habitId, habitDTO);
+        HabitDTO updatedHabitDTO = habitMapper.mapToNewHabitDTO(updatedHabit);
+        return ResponseEntity.ok(updatedHabitDTO);
+    }
+
+    @GetMapping("/allByOccurrence/{occurrence}")
+    public ResponseEntity<List<HabitDTO>> getAllByOccurrence(@PathVariable Occurrence occurrence){
+        List<HabitDTO> habits =  habitService
+                .getAllHabitsByOccurrence(occurrence)
+                .stream()
+                .map(habitMapper::mapTo)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(habits);
     }
 
 

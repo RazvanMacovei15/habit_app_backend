@@ -2,6 +2,7 @@ package maco.habit_backend.repositories;
 
 import jakarta.transaction.Transactional;
 import maco.habit_backend.entities.Habit;
+import maco.habit_backend.enums.Occurrence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,5 +24,7 @@ public interface HabitRepo extends JpaRepository<Habit, Integer> {
     void deleteAllHabits();
 
     List<Habit> findAllByUserId(int userId);
+
+    List<Habit> findAllByOccurrence(Occurrence occurrence);
 
 }
