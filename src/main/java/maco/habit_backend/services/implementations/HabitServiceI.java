@@ -3,13 +3,18 @@ package maco.habit_backend.services.implementations;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import maco.habit_backend.dtos.HabitDTO;
+import maco.habit_backend.entities.DailyLog;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.exceptions.ResourceNotFoundException;
+import maco.habit_backend.repositories.DailyLogRepo;
 import maco.habit_backend.repositories.HabitRepo;
 import maco.habit_backend.services.HabitService;
+import maco.habit_backend.strategies.habitlogs.LogStrategy;
+import maco.habit_backend.strategies.habitlogs.factory.LogStrategyFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +26,14 @@ public class HabitServiceI implements HabitService {
 
     private final HabitRepo habitRepo;
 
+    private final LogStrategyFactory logStrategyFactory;
+
     @Override
     public Habit save(Habit habit) {
-        return habitRepo.save(habit);
+        Habit savedHabit = habitRepo.save(habit);
+        LogStrategy logStrategy = logStrategyFactory.getStrategy(habit.getOccurrence());
+        logStrategy.createLog(savedHabit);
+        return savedHabit;
     }
 
     @Override

@@ -1,17 +1,11 @@
 package maco.habit_backend.controllers;
 
 import lombok.AllArgsConstructor;
-import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.dtos.UserDTO;
 import maco.habit_backend.dtos.UserHabitDTO;
-import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
-import maco.habit_backend.mapper.HabitMapper;
 import maco.habit_backend.mapper.UserMapper;
-import maco.habit_backend.models.UserHabit;
-import maco.habit_backend.services.HabitService;
 import maco.habit_backend.services.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,12 +39,12 @@ public class UserController {
 
 
     @GetMapping("/{userId}/habits")
-    public List<UserHabit> getHabitsByUserId(@PathVariable Long userId){
+    public List<UserHabitDTO> getHabitsByUserId(@PathVariable Long userId){
         return userService
                 .findHabitsByUserId(userId)
                 .stream()
                 .map(
-                        userHabitDTO -> new UserHabit(
+                        userHabitDTO -> new UserHabitDTO(
                                 userHabitDTO.getUsername(),
                                 userHabitDTO.getUserId(),
                                 userHabitDTO.getHabitId(),
