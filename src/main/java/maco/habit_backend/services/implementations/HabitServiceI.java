@@ -31,8 +31,10 @@ public class HabitServiceI implements HabitService {
     @Override
     public Habit save(Habit habit) {
         Habit savedHabit = habitRepo.save(habit);
+
         LogStrategy logStrategy = logStrategyFactory.getStrategy(habit.getOccurrence());
         logStrategy.createLog(savedHabit);
+
         return savedHabit;
     }
 
@@ -46,6 +48,7 @@ public class HabitServiceI implements HabitService {
         //return Habit optional
         return habitRepo.findById(id);
     }
+
     @Override
     public void deleteById(int id) {
         System.out.println("Deleting habit with ID: " + id);
@@ -61,7 +64,6 @@ public class HabitServiceI implements HabitService {
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
 
         return habitRepo.save(habitToUpdate);
-
     }
 
     public void deleteAll() {
@@ -91,5 +93,4 @@ public class HabitServiceI implements HabitService {
     public List<Habit> getAllHabitsByOccurrence(Occurrence occurrence) {
         return habitRepo.findAllByOccurrence(occurrence);
     }
-
 }
