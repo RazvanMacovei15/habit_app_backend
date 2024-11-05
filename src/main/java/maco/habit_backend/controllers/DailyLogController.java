@@ -44,9 +44,9 @@ public class DailyLogController {
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<DailyLogDTO>> getAll() {
+    public ResponseEntity<List<DailyLogDTO>> getAll(@RequestHeader("Authorization") String authHeader) {
         List<DailyLog> dailyLogs = dailyLogService.getAll();
-
+        User user = getUserFromToken(authHeader);
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
                 .stream()
                 .map(dailyLogMapper::mapTo)
@@ -69,7 +69,7 @@ public class DailyLogController {
         return ResponseEntity.ok(dailyLogService.deleteById(dailyLogId));
     }
 
-    @GetMapping("/date/{date}")
+    @PostMapping("/date/{date}")
     public ResponseEntity<List<DailyLogDTO>> createDailyLogsOnGivenDate(@PathVariable LocalDate date, @RequestHeader("Authorization") String authHeader) {
         User user = getUserFromToken(authHeader);
         List<DailyLog> dailyLogs = dailyLogService.createDailyLogsOnGivenDate(date, user);
