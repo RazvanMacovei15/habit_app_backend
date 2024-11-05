@@ -3,16 +3,18 @@ package maco.habit_backend.dtos;
 import lombok.*;
 import maco.habit_backend.entities.Habit;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter
 @Builder
-public class DailyCheckDTO {
+public class DailyLogDTO {
 
     private int id;
-    private String date;
-    private Habit habit;
+    private LocalDate date;
+    private HabitDTO habitDTO;
     private boolean completed;
 
 }
