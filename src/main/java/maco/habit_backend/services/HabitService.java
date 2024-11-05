@@ -2,6 +2,7 @@ package maco.habit_backend.services;
 
 import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
+import maco.habit_backend.entities.User;
 import maco.habit_backend.enums.Occurrence;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public interface HabitService {
     Optional<Habit> getById(int id);
     void deleteById(int id);
     Habit updateHabitStatus(int habitId);
-    void deleteAll();
+    void deleteAllForUser(User user);
     List<Habit> getAllHabitsByUserId(int userId);
 
     Habit updateHabitDetails(int habitId, HabitDTO habitDTO);
-    List<Habit> getAllHabitsByOccurrence(Occurrence occurrence);
+    List<Habit> getAllHabitsByOccurrenceAndUser(Occurrence occurrence, User user);
 }

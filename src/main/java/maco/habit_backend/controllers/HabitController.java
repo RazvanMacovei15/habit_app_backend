@@ -3,10 +3,12 @@ package maco.habit_backend.controllers;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import maco.habit_backend.dtos.HabitDTO;
+import maco.habit_backend.dtos.UserDTO;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.mapper.HabitMapper;
+import maco.habit_backend.mapper.UserMapper;
 import maco.habit_backend.repositories.UserRepo;
 import maco.habit_backend.security.services.JwtService;
 import maco.habit_backend.services.HabitService;
@@ -27,6 +29,7 @@ public class HabitController {
     private JwtService jwtService;
     private final HabitService habitService;
     private final UserRepo userRepo;
+    private final UserMapper userMapper;
 
     private User getUserFromToken(String authHeader){
         // Extract the token from the Authorization header
@@ -88,8 +91,10 @@ public class HabitController {
     }
 
     @DeleteMapping("/deleteAll")
-    public ResponseEntity<String> deleteAll(){
-        habitService.deleteAll();
+    public ResponseEntity<String> deleteAll(@RequestHeader("Authorization") String authHeader){
+        User user = getUserFromToken(authHeader);
+
+        habitService.deleteAllForUser(user);
         return ResponseEntity.ok("All habits deleted");
     }
 
@@ -101,9 +106,11 @@ public class HabitController {
     }
 
     @GetMapping("/allByOccurrence/{occurrence}")
-    public ResponseEntity<List<HabitDTO>> getAllByOccurrence(@PathVariable Occurrence occurrence){
+    public ResponseEntity<List<HabitDTO>> getAllByOccurrence(@PathVariable Occurrence occurrence,@RequestHeader("Authorization") String authHeader){
+        User user = getUserFromToken(authHeader);
+
         List<HabitDTO> habits =  habitService
-                .getAllHabitsByOccurrence(occurrence)
+                .getAllHabitsByOccurrenceAndUser(occurrence, user)
                 .stream()
                 .map(habitMapper::mapTo)
                 .collect(Collectors.toList());

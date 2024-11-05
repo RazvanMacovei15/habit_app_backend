@@ -26,6 +26,8 @@ public class JwtService {
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
 
+
+
     /**
      * Extracts the username (subject) from the JWT token.
      *
