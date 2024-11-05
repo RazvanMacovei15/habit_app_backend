@@ -13,31 +13,36 @@ public class DailyLogServiceI implements DailyLogService {
     private final DailyLogRepo dailyLogRepo;
     @Override
     public DailyLog save(DailyLog dailyLog) {
-        return null;
+        return dailyLogRepo.save(dailyLog);
     }
 
     @Override
     public DailyLog getById(int id) {
-        return null;
+        return dailyLogRepo.findById(id).orElse(null);
     }
 
     @Override
     public int deleteById(int id) {
-        return 0;
+        return dailyLogRepo.deleteById(id);
     }
 
-    @Override
-    public DailyLog update(DailyLog dailyLog) {
-        return null;
-    }
-
-    @Override
-    public DailyLog updateById(int dailyLogId) {
-        return null;
-    }
+//    @Override
+//    public DailyLog update(DailyLog dailyLog) {
+//        return dailyLogRepo.update(dailyLog);
+//    }
+//
+//    @Override
+//    public DailyLog updateById(int dailyLogId) {
+//        return dailyLogRepo.updateById(dailyLogId);
+//    }
 
     @Override
     public List<DailyLog> getAll() {
         return dailyLogRepo.findAll();
+    }
+
+    @Override
+    public DailyLog updateStatus(DailyLog dailyLog) {
+        return dailyLogRepo.save(dailyLog);
     }
 }

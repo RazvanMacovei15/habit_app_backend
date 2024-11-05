@@ -8,7 +8,8 @@ public interface DailyLogService {
     DailyLog save(DailyLog dailyLog);
     DailyLog getById(int id);
     int deleteById(int id);
-    DailyLog update(DailyLog dailyLog);
-    DailyLog updateById(int dailyLogId);
+//    DailyLog update(DailyLog dailyLog);
+//    DailyLog updateById(int dailyLogId);
     List<DailyLog> getAll();
+    DailyLog updateStatus(DailyLog dailyLog);
 }

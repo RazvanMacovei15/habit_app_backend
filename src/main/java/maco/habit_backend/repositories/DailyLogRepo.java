@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DailyLogRepo extends JpaRepository<DailyLog, Integer> {
+
+    int deleteById(int id);
 }

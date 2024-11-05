@@ -5,6 +5,7 @@ import maco.habit_backend.dtos.DailyLogDTO;
 import maco.habit_backend.entities.DailyLog;
 import maco.habit_backend.mapper.DailyLogMapper;
 import maco.habit_backend.services.DailyLogService;
+import maco.habit_backend.services.HabitService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,8 @@ public class DailyLogController {
 
     private final DailyLogMapper dailyLogMapper;
 
+    private final HabitService habitService;
+
     @GetMapping("/getAll")
     public ResponseEntity<List<DailyLogDTO>> getAll() {
         List<DailyLog> dailyLogs = dailyLogService.getAll();
@@ -32,14 +35,16 @@ public class DailyLogController {
     }
 
     @PatchMapping("/{dailyLogId}/update")
-    public ResponseEntity<DailyLogDTO> updateDailyLogStatus(int dailyLogId) {
-        DailyLog updatedDailyLog = dailyLogService.updateById(dailyLogId);
+    public ResponseEntity<DailyLogDTO> updateDailyLogStatus(@PathVariable int dailyLogId) {
+        DailyLog dailyLogToUpdate = dailyLogService.getById(dailyLogId);
+        dailyLogToUpdate.setCompleted(!dailyLogToUpdate.isCompleted());
+        DailyLog updatedDailyLog = dailyLogService.updateStatus(dailyLogToUpdate);
         DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
         return ResponseEntity.ok(updatedDailyLogDTO);
     }
 
     @DeleteMapping("/{dailyLogId}/delete")
-    public ResponseEntity<Integer> deleteDailyLog(int dailyLogId) {
+    public ResponseEntity<Integer> deleteDailyLog(@PathVariable int dailyLogId) {
         return ResponseEntity.ok(dailyLogService.deleteById(dailyLogId));
     }
 

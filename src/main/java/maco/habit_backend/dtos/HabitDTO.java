@@ -24,8 +24,6 @@ public class HabitDTO {
 
     private Type type;
 
-    private boolean isCompleted;
-
     private int currentStreak;
 
     private int bestStreak;
