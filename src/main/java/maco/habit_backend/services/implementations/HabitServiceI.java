@@ -30,7 +30,7 @@ public class HabitServiceI implements HabitService {
         Habit savedHabit = habitRepo.save(habit);
 
         LogStrategy logStrategy = logStrategyFactory.getStrategy(habit.getOccurrence());
-        logStrategy.createLog(savedHabit);
+        logStrategy.createLog(savedHabit, savedHabit.getUser());
 
         return savedHabit;
     }
