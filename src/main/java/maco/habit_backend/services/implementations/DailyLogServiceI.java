@@ -24,13 +24,13 @@ public class DailyLogServiceI implements DailyLogService {
     }
 
     @Override
-    public DailyLog getById(int id) {
+    public DailyLog getByIdAndUser(int id, User user) {
         return dailyLogRepo.findById(id).orElse(null);
     }
 
     @Override
-    public int deleteById(int id) {
-        return dailyLogRepo.deleteById(id);
+    public void deleteById(int id) {
+        dailyLogRepo.deleteById(id);
     }
 
     @Override

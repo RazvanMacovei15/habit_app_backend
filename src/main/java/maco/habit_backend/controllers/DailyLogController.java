@@ -7,12 +7,9 @@ import maco.habit_backend.entities.DailyLog;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.mapper.DailyLogMapper;
 import maco.habit_backend.repositories.UserRepo;
-import maco.habit_backend.security.services.JwtService;
 import maco.habit_backend.services.DailyLogService;
-import maco.habit_backend.services.HabitService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -31,7 +28,7 @@ public class DailyLogController {
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<DailyLogDTO>> getAll( @AuthenticationPrincipal User user) {
+    public ResponseEntity<List<DailyLogDTO>> getAll(@AuthenticationPrincipal User user) {
 
         List<DailyLog> dailyLogs = dailyLogService.getAllForUser(user);
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
@@ -43,8 +40,11 @@ public class DailyLogController {
     }
 
     @PatchMapping("/{dailyLogId}/update")
-    public ResponseEntity<DailyLogDTO> updateDailyLogStatus(@PathVariable int dailyLogId) {
-        DailyLog dailyLogToUpdate = dailyLogService.getById(dailyLogId);
+    public ResponseEntity<DailyLogDTO> updateDailyLogStatus(@PathVariable int dailyLogId, @AuthenticationPrincipal User user) {
+        DailyLog dailyLogToUpdate = dailyLogService.getByIdAndUser(dailyLogId, user);
+        if (dailyLogToUpdate == null) {
+            throw new EntityNotFoundException("Daily log with id " + dailyLogId + " not found");
+        }
         dailyLogToUpdate.setCompleted(!dailyLogToUpdate.isCompleted());
         DailyLog updatedDailyLog = dailyLogService.updateStatus(dailyLogToUpdate);
         DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
@@ -52,8 +52,8 @@ public class DailyLogController {
     }
 
     @DeleteMapping("/{dailyLogId}/delete")
-    public ResponseEntity<Integer> deleteDailyLog(@PathVariable int dailyLogId) {
-        return ResponseEntity.ok(dailyLogService.deleteById(dailyLogId));
+    public void deleteDailyLog(@PathVariable int dailyLogId) {
+         dailyLogService.deleteById(dailyLogId);
     }
 
     @PostMapping("/date/{date}")
@@ -65,6 +65,4 @@ public class DailyLogController {
                 .toList();
         return ResponseEntity.ok(dailyLogDTOS);
     }
-
-
 }

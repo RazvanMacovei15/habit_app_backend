@@ -15,9 +15,11 @@ import java.util.List;
 @Repository
 public interface DailyLogRepo extends JpaRepository<DailyLog, Integer> {
 
-    int deleteById(int id);
+    int deleteDailyLogByDailyLogId(int id);
 
     List<DailyLog> findAllByDate(LocalDate date);
 
     List<DailyLog> findAllByUser(User user);
+
+    DailyLog findDailyLogByDailyLogIdAndUser(int id, User user);
 }
