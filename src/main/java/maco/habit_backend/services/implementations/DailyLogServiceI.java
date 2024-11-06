@@ -22,7 +22,7 @@ import java.util.Optional;
 public class DailyLogServiceI implements DailyLogService {
     private final DailyLogRepo dailyLogRepo;
     private final HabitRepo habitRepo;
-    private HabitService habitService;
+    private final HabitService habitService;
     @Override
     public DailyLog save(DailyLog dailyLog) {
         return dailyLogRepo.save(dailyLog);
