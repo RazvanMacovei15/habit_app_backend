@@ -23,8 +23,8 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-    @Column(nullable = false, updatable = false)
-    private int id;
+    @Column(nullable = false, updatable = false, name = "user_id")
+    private int userId;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Habit> userHabits;
 
     @Override

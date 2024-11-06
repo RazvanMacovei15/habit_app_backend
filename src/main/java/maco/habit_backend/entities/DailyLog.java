@@ -19,10 +19,11 @@ import java.util.Set;
 public class DailyLog {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "daily_log_id_seq")
-    private int id;
+    @Column(name = "daily_log_id")
+    private int dailyLogId;
 
     @ManyToOne
-    @JoinColumn(name = "habitId")
+    @JoinColumn(name = "habit_id")
     private Habit habit;
 
     @Column(name = "date")

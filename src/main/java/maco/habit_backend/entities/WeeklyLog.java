@@ -17,10 +17,11 @@ public class WeeklyLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "monthly_log_id_seq")
-    private int id;
+    @Column(name = "weekly_log_id")
+    private int weeklyLogId;
 
     @ManyToOne
-    @JoinColumn(name = "habitId")
+    @JoinColumn(name = "habit_id")
     private Habit habit;
 
     @Column(name = "year_week")

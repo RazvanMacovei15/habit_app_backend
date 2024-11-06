@@ -24,7 +24,8 @@ public class Habit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habit_id_seq")
-    private int id;
+    @Column(name = "habit_id")
+    private int habitId;
 
     @Column(name = "name")
     private String name;

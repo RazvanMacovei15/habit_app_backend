@@ -18,10 +18,11 @@ import java.time.Year;
 public class MonthlyLog {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "monthly_log_id_seq")
-    private int id;
+    @Column(name = "monthly_log_id")
+    private int monthlyLogId;
 
     @ManyToOne
-    @JoinColumn(name = "habitId")
+    @JoinColumn(name = "habit_id")
     private Habit habit;
 
     @Column(name = "year")
