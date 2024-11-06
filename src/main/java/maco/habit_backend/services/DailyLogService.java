@@ -14,4 +14,5 @@ public interface DailyLogService {
     DailyLog updateStatus(DailyLog dailyLog);
     List<DailyLog> createDailyLogsOnGivenDate(LocalDate date, User user);
     List<DailyLog> getAllForUser(User user);
+    DailyLog getDailyLogByDateAndUser(LocalDate date, User user);
 }

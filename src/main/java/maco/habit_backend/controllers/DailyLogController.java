@@ -65,4 +65,11 @@ public class DailyLogController {
                 .toList();
         return ResponseEntity.ok(dailyLogDTOS);
     }
+
+    @GetMapping("/date/{date}")
+    public ResponseEntity<DailyLogDTO> getDailyLogByDate(@PathVariable LocalDate date, @AuthenticationPrincipal User user) {
+        DailyLog dailyLog = dailyLogService.getDailyLogByDateAndUser(date, user);
+        DailyLogDTO dailyLogDTO = dailyLogMapper.mapTo(dailyLog);
+        return ResponseEntity.ok(dailyLogDTO);
+    }
 }

@@ -64,4 +64,11 @@ public class DailyLogServiceI implements DailyLogService {
     public List<DailyLog> getAllForUser(User user) {
         return dailyLogRepo.findAllByUser(user);
     }
+
+    @Override
+    public DailyLog getDailyLogByDateAndUser(LocalDate date, User user) {
+        return dailyLogRepo.findDailyLogByDateAndUser(date, user);
+    }
+
+
 }
