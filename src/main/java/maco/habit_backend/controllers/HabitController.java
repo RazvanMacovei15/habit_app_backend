@@ -13,6 +13,7 @@ import maco.habit_backend.repositories.UserRepo;
 import maco.habit_backend.security.services.JwtService;
 import maco.habit_backend.services.HabitService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,8 +44,7 @@ public class HabitController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<HabitDTO> createHabit(@RequestBody HabitDTO habitDTO,@RequestHeader("Authorization") String authHeader){
-        User user = getUserFromToken(authHeader);
+    public ResponseEntity<HabitDTO> createHabit(@RequestBody HabitDTO habitDTO, @AuthenticationPrincipal User user){
         System.out.println("User in create habit controller: " + user.getEmail());
 
         Habit habit = habitMapper.createNewHabit(habitDTO, user);
