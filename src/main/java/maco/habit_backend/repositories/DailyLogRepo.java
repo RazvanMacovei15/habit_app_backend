@@ -23,5 +23,5 @@ public interface DailyLogRepo extends JpaRepository<DailyLog, Integer> {
 
     DailyLog findDailyLogByDailyLogIdAndUser(int id, User user);
 
-    DailyLog findDailyLogByDateAndUser(LocalDate date, User user);
+    List<DailyLog> findAllByDateAndUser(LocalDate date, User user);
 }

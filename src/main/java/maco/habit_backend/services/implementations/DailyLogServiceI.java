@@ -66,8 +66,8 @@ public class DailyLogServiceI implements DailyLogService {
     }
 
     @Override
-    public DailyLog getDailyLogByDateAndUser(LocalDate date, User user) {
-        return dailyLogRepo.findDailyLogByDateAndUser(date, user);
+    public List<DailyLog> getDailyLogByDateAndUser(LocalDate date, User user) {
+        return dailyLogRepo.findAllByDateAndUser(date, user);
     }
 
 
