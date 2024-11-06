@@ -8,6 +8,8 @@ import maco.habit_backend.repositories.WeeklyLogRepo;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
 
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 
 @AllArgsConstructor
 public class WeeklyLogStrategy implements LogStrategy {
@@ -16,10 +18,20 @@ public class WeeklyLogStrategy implements LogStrategy {
     @Override
     public void createLog(Habit habit, User user) {
         WeeklyLog weeklyLog = new WeeklyLog();
+
+        // Get current date to calculate the week
+        LocalDate today = LocalDate.now();
+
+        // Calculate the week start and end dates
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        LocalDate weekStartDay = today.with(weekFields.dayOfWeek(), 1); // Start of the week (Monday)
+        LocalDate weekEndDay = today.with(weekFields.dayOfWeek(), 7);   // End of the week (Sunday)
+
         weeklyLog.setHabit(habit);
         weeklyLog.setUser(user);
-        weeklyLog.setWeekStartDay(LocalDate.now());
-        weeklyLog.setWeekEndDay(LocalDate.now().plusWeeks(1).minusDays(1)); // Ends after 1 week
+        weeklyLog.setCurrentCount(0);
+        weeklyLog.setWeekStartDay(weekStartDay);
+        weeklyLog.setWeekEndDay(weekEndDay);
         weeklyLog.setCompleted(false);
 
         // Default initial state

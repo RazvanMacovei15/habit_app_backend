@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HabitService {
-    Habit save(Habit habit);
+    Habit save(Habit habit, User user);
     List<Habit> getAll();
     Optional<Habit> getById(int id);
     void deleteById(int id);

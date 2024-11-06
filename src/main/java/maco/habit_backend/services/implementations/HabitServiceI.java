@@ -26,11 +26,11 @@ public class HabitServiceI implements HabitService {
     private final LogStrategyFactory logStrategyFactory;
 
     @Override
-    public Habit save(Habit habit) {
+    public Habit save(Habit habit, User user) {
         Habit savedHabit = habitRepo.save(habit);
 
         LogStrategy logStrategy = logStrategyFactory.getStrategy(habit.getOccurrence());
-        logStrategy.createLog(savedHabit, savedHabit.getUser());
+        logStrategy.createLog(savedHabit, user);
 
         return savedHabit;
     }

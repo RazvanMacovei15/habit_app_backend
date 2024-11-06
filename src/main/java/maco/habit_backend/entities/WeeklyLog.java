@@ -31,7 +31,7 @@ public class WeeklyLog {
     private LocalDate weekStartDay;
 
     @Column(name = "week_end_day")
-    private LocalDate weekEndDay;
+    private LocalDate weekEndDay ;
 
     @Column(name = "current_count")
     private int currentCount;

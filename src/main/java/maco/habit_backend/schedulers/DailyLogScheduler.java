@@ -27,7 +27,7 @@ public class DailyLogScheduler {
     private static final int BATCH_SIZE = 5; // Define your batch size here
 
     // Schedule to run every day at 13:00
-    @Scheduled(cron = "0 0 13 * * *") // Every day at midnight
+    @Scheduled(cron = "0 0 0 * * *") // Every day at midnight
     @Transactional // Ensure the operation is within a single transaction
     public void createDailyLogs() {
         LocalDate today = LocalDate.now();
