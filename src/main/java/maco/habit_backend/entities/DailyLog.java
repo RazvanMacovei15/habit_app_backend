@@ -31,13 +31,6 @@ public class DailyLog {
     @Column(name = "is_completed")
     private boolean isCompleted;
 
-    // New many-to-many relationship with User
-    @ManyToMany
-    @JoinTable(
-            name = "user_daily_logs",
-            joinColumns = @JoinColumn(name = "daily_log_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> users;
+
 
 }

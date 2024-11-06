@@ -14,4 +14,6 @@ public interface DailyLogService {
     DailyLog updateStatus(DailyLog dailyLog);
     //create a daily for every habit with occurrence=DAILY and a given date
     List<DailyLog> createDailyLogsOnGivenDate(LocalDate date, User user);
+
+    List<DailyLog> getAllForUser(int id);
 }

@@ -11,6 +11,8 @@ import maco.habit_backend.security.services.JwtService;
 import maco.habit_backend.services.DailyLogService;
 import maco.habit_backend.services.HabitService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -44,9 +46,11 @@ public class DailyLogController {
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<DailyLogDTO>> getAll(@RequestHeader("Authorization") String authHeader) {
-        List<DailyLog> dailyLogs = dailyLogService.getAll();
-        User user = getUserFromToken(authHeader);
+    public ResponseEntity<List<DailyLogDTO>> getAll(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepo.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        List<DailyLog> dailyLogs = dailyLogService.getAllForUser(user.getId());
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
                 .stream()
                 .map(dailyLogMapper::mapTo)

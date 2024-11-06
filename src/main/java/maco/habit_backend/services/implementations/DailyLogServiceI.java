@@ -58,4 +58,9 @@ public class DailyLogServiceI implements DailyLogService {
 
         return dailyLogRepo.findAllByDate(date);
     }
+
+    @Override
+    public List<DailyLog> getAllForUser(int id) {
+        return null;
+    }
 }

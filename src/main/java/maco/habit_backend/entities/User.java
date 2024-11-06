@@ -46,10 +46,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Habit> userHabits;
 
-
-    @ManyToMany(mappedBy = "users")
-    private Set<DailyLog> dailyLogs;
-
     @Override
     public String getUsername() {
         return email;
