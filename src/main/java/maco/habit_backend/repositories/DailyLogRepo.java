@@ -18,4 +18,6 @@ public interface DailyLogRepo extends JpaRepository<DailyLog, Integer> {
     int deleteById(int id);
 
     List<DailyLog> findAllByDate(LocalDate date);
+
+    List<DailyLog> findAllByUser(User user);
 }

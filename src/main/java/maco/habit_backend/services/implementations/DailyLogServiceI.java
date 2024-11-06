@@ -61,7 +61,7 @@ public class DailyLogServiceI implements DailyLogService {
     }
 
     @Override
-    public List<DailyLog> getAllForUser(int id) {
-        return null;
+    public List<DailyLog> getAllForUser(User user) {
+        return dailyLogRepo.findAllByUser(user);
     }
 }

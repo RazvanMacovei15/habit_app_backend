@@ -33,7 +33,7 @@ public class DailyLogController {
     @GetMapping("/getAll")
     public ResponseEntity<List<DailyLogDTO>> getAll( @AuthenticationPrincipal User user) {
 
-        List<DailyLog> dailyLogs = dailyLogService.getAllForUser(user.getUserId());
+        List<DailyLog> dailyLogs = dailyLogService.getAllForUser(user);
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
                 .stream()
                 .map(dailyLogMapper::mapTo)
