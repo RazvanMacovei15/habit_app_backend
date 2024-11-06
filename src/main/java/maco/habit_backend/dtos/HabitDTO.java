@@ -30,6 +30,8 @@ public class HabitDTO {
 
     private int totalCount;
 
+    private int targetCount;
+
     private LocalDateTime dateCreated;
 
     private LocalDateTime lastUpdated;

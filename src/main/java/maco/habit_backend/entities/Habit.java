@@ -50,6 +50,9 @@ public class Habit {
     @Column(name = "total_count")
     private int totalCount;
 
+    @Column(name = "target_count")
+    private int targetCount;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

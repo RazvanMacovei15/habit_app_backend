@@ -24,6 +24,7 @@ public class HabitMapper {
                 .currentStreak(habit.getCurrentStreak())
                 .bestStreak(habit.getBestStreak())
                 .totalCount(habit.getTotalCount())
+                .targetCount(habit.getTargetCount())
                 .dateCreated(habit.getCreatedAt())
                 .lastUpdated(habit.getUpdatedAt())
                 .build();
@@ -39,6 +40,7 @@ public class HabitMapper {
                 .currentStreak(habitDto.getCurrentStreak())
                 .bestStreak(habitDto.getBestStreak())
                 .totalCount(habitDto.getTotalCount())
+                .targetCount(habitDto.getTargetCount())
                 .createdAt(habitDto.getDateCreated())
                 .updatedAt(habitDto.getLastUpdated())
                 .build();
@@ -55,6 +57,7 @@ public class HabitMapper {
                 .description(habitDTO.getDescription())
                 .occurrence(habitDTO.getOccurrence())
                 .type(habitDTO.getType())
+                .targetCount(habitDTO.getTargetCount())
                 .currentStreak(currentStreak)
                 .bestStreak(bestStreak)
                 .totalCount(totalCount)
@@ -73,6 +76,7 @@ public class HabitMapper {
                 .currentStreak(habit.getCurrentStreak())
                 .bestStreak(habit.getBestStreak())
                 .totalCount(habit.getTotalCount())
+                .targetCount(habit.getTargetCount())
                 .dateCreated(habit.getCreatedAt())
                 .lastUpdated(habit.getUpdatedAt())
                 .build();
