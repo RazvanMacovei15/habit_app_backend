@@ -50,6 +50,7 @@ public class DailyLogServiceI implements DailyLogService {
             DailyLog dailyLog = DailyLog.builder()
                     .habit(habit)
                     .date(date)
+                    .user(user)
                     .isCompleted(false)
                     .build();
 
