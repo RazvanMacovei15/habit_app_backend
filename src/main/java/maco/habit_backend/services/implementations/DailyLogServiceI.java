@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class DailyLogServiceI implements DailyLogService {
@@ -68,6 +70,12 @@ public class DailyLogServiceI implements DailyLogService {
     @Override
     public List<DailyLog> getDailyLogByDateAndUser(LocalDate date, User user) {
         return dailyLogRepo.findAllByDateAndUser(date, user);
+    }
+
+    @Override
+    public DailyLog getDailyLogByHabitAndDate(int habitId, LocalDate date) {
+        Optional<Habit> habit = habitRepo.findById(habitId);
+        return habit.map(value -> dailyLogRepo.getDailyLogByHabitAndDate(value, date)).orElse(null);
     }
 
 
