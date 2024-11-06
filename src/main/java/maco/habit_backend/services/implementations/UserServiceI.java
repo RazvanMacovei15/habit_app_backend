@@ -29,8 +29,8 @@ public class UserServiceI implements UserService {
     }
 
     @Override
-    public List<UserHabitDTO> findHabitsByUserId(Long userId) {
-        return userRepo.findHabitsByUserId(userId);
+    public List<UserHabitDTO> findHabitsByUser(User user) {
+        return userRepo.findHabitsByUser(user);
     }
 
     public List<User> allUsers() {

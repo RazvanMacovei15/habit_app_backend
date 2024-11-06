@@ -8,6 +8,7 @@ import maco.habit_backend.mapper.UserMapper;
 import maco.habit_backend.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,14 +35,10 @@ public class UserController {
         return ResponseEntity.ok(currentUserDTO);
     }
 
-
-
-
-
     @GetMapping("/{userId}/habits")
-    public List<UserHabitDTO> getHabitsByUserId(@PathVariable Long userId){
+    public List<UserHabitDTO> getHabitsByUserId( @AuthenticationPrincipal User user){
         return userService
-                .findHabitsByUserId(userId)
+                .findHabitsByUser(user)
                 .stream()
                 .map(
                         userHabitDTO -> new UserHabitDTO(
@@ -49,7 +46,6 @@ public class UserController {
                                 userHabitDTO.getUserId(),
                                 userHabitDTO.getHabitId(),
                                 userHabitDTO.getHabitName(),
-                                userHabitDTO.isHabitCompleted(),
                                 userHabitDTO.getCurrentStreak()
                         )
                 )

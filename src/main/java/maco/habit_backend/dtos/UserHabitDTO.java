@@ -13,6 +13,5 @@ public class UserHabitDTO {
     private int userId;
     private int habitId;
     private String habitName;
-    private boolean isHabitCompleted;
     private int currentStreak;
 }

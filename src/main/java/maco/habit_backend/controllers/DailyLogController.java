@@ -27,28 +27,11 @@ public class DailyLogController {
 
     private final DailyLogMapper dailyLogMapper;
 
-    private final HabitService habitService;
-
-    private JwtService jwtService;
-
     private final UserRepo userRepo;
-
-    private User getUserFromToken(String authHeader){
-        // Extract the token from the Authorization header
-        String token = authHeader.substring(7);
-
-        String currentUsersEmail = jwtService.extractUsername(token);
-
-        // Retrieve the User entity based on userId from HabitDTO
-        return userRepo.findByEmail(currentUsersEmail)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with EMAIL: " + currentUsersEmail));
-    }
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<DailyLogDTO>> getAll(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userRepo.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+    public ResponseEntity<List<DailyLogDTO>> getAll( @AuthenticationPrincipal User user) {
 
         List<DailyLog> dailyLogs = dailyLogService.getAllForUser(user.getUserId());
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
@@ -74,8 +57,7 @@ public class DailyLogController {
     }
 
     @PostMapping("/date/{date}")
-    public ResponseEntity<List<DailyLogDTO>> createDailyLogsOnGivenDate(@PathVariable LocalDate date, @RequestHeader("Authorization") String authHeader) {
-        User user = getUserFromToken(authHeader);
+    public ResponseEntity<List<DailyLogDTO>> createDailyLogsOnGivenDate(@PathVariable LocalDate date,  @AuthenticationPrincipal User user) {
         List<DailyLog> dailyLogs = dailyLogService.createDailyLogsOnGivenDate(date, user);
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
                 .stream()

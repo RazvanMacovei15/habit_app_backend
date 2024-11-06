@@ -27,21 +27,7 @@ import java.util.stream.Collectors;
 public class HabitController {
 
     private HabitMapper habitMapper;
-    private JwtService jwtService;
     private final HabitService habitService;
-    private final UserRepo userRepo;
-    private final UserMapper userMapper;
-
-    private User getUserFromToken(String authHeader){
-        // Extract the token from the Authorization header
-        String token = authHeader.substring(7);
-
-        String currentUsersEmail = jwtService.extractUsername(token);
-
-        // Retrieve the User entity based on userId from HabitDTO
-        return userRepo.findByEmail(currentUsersEmail)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with EMAIL: " + currentUsersEmail));
-    }
 
     @PostMapping("/create")
     public ResponseEntity<HabitDTO> createHabit(@RequestBody HabitDTO habitDTO, @AuthenticationPrincipal User user){
@@ -73,8 +59,7 @@ public class HabitController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<HabitDTO>> getAll(@RequestHeader("Authorization") String authHeader){
-        User user = getUserFromToken(authHeader);
+    public ResponseEntity<List<HabitDTO>> getAll( @AuthenticationPrincipal User user){
 
         List<HabitDTO> habits =  habitService
                 .getAllHabitsByUserId(user.getUserId())
@@ -92,8 +77,7 @@ public class HabitController {
     }
 
     @DeleteMapping("/deleteAll")
-    public ResponseEntity<String> deleteAll(@RequestHeader("Authorization") String authHeader){
-        User user = getUserFromToken(authHeader);
+    public ResponseEntity<String> deleteAll( @AuthenticationPrincipal User user){
 
         habitService.deleteAllForUser(user);
         return ResponseEntity.ok("All habits deleted");
@@ -107,8 +91,7 @@ public class HabitController {
     }
 
     @GetMapping("/allByOccurrence/{occurrence}")
-    public ResponseEntity<List<HabitDTO>> getAllByOccurrence(@PathVariable Occurrence occurrence,@RequestHeader("Authorization") String authHeader){
-        User user = getUserFromToken(authHeader);
+    public ResponseEntity<List<HabitDTO>> getAllByOccurrence(@PathVariable Occurrence occurrence, @AuthenticationPrincipal User user){
 
         List<HabitDTO> habits =  habitService
                 .getAllHabitsByOccurrenceAndUser(occurrence, user)

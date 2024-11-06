@@ -14,11 +14,11 @@ import java.util.Optional;
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
     //query to retrieve
-    @Query("SELECT new maco.habit_backend.dtos.UserHabitDTO(u.username, u.id,h.id, h.name,h.isCompleted, h.currentStreak) " +
+    @Query("SELECT new maco.habit_backend.dtos.UserHabitDTO(u.username, u.userId,h.habitId, h.name, h.currentStreak) " +
             "FROM User u " +
             "JOIN u.userHabits h " +
-            "WHERE u.id = :userId")
-    List<UserHabitDTO> findHabitsByUserId(@Param("userId") Long userId);
+            "WHERE u.userId = :userId")
+    List<UserHabitDTO> findHabitsByUser(User user);
 
     Optional<User> findByEmail(String email);
 
