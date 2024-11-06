@@ -42,7 +42,7 @@ public class DailyLogController {
         if (dailyLogToUpdate == null) {
             throw new EntityNotFoundException("Daily log with id " + dailyLogId + " not found");
         }
-        dailyLogToUpdate.setCompleted(!dailyLogToUpdate.isCompleted());
+//        dailyLogToUpdate.setCompleted(!dailyLogToUpdate.isCompleted());
         DailyLog updatedDailyLog = dailyLogService.updateStatus(dailyLogToUpdate);
         DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
         return ResponseEntity.ok(updatedDailyLogDTO);
