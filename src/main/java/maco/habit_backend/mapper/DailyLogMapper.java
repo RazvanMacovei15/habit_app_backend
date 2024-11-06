@@ -10,20 +10,18 @@ import org.springframework.stereotype.Component;
 public class DailyLogMapper {
 
     private final HabitService habitService;
+    private final HabitMapper habitMapper;
 
     public DailyLogDTO mapTo(DailyLog dailyLog) {
         return DailyLogDTO.builder()
                 .id(dailyLog.getDailyLogId())
                 .date(dailyLog.getDate())
+                .habitDTO(habitMapper.mapTo(dailyLog.getHabit()))
                 .completed(dailyLog.isCompleted())
                 .build();
     }
 
     public DailyLog mapFrom(DailyLogDTO dailyLogDTO) {
-        return DailyLog.builder()
-                .dailyLogId(dailyLogDTO.getId())
-                .date(dailyLogDTO.getDate())
-                .isCompleted(dailyLogDTO.isCompleted())
-                .build();
+        return null;
     }
 }

@@ -16,7 +16,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
     @Override
     public WeeklyLog createNewWeeklyLog(WeeklyLog weeklyLog) {
-        return null;
+        return weeklyLogRepo.save(weeklyLog);
     }
 
     @Override
