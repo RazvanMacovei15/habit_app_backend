@@ -76,7 +76,7 @@ public class HabitController {
         User user = getUserFromToken(authHeader);
 
         List<HabitDTO> habits =  habitService
-                .getAllHabitsByUserId(user.getId())
+                .getAllHabitsByUserId(user.getUserId())
                 .stream()
                 .map(habitMapper::mapTo)
                 .collect(Collectors.toList());

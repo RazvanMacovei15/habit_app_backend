@@ -50,7 +50,7 @@ public class DailyLogController {
         User user = userRepo.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        List<DailyLog> dailyLogs = dailyLogService.getAllForUser(user.getId());
+        List<DailyLog> dailyLogs = dailyLogService.getAllForUser(user.getUserId());
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
                 .stream()
                 .map(dailyLogMapper::mapTo)

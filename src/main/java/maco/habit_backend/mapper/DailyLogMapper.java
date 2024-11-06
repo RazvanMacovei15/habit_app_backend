@@ -8,19 +8,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class DailyLogMapper {
     private final HabitMapper habitMapper;
+    private final UserMapper userMapper;
 
     public DailyLogDTO mapTo(DailyLog dailyLog) {
         return DailyLogDTO.builder()
-                .id(dailyLog.getId())
+                .id(dailyLog.getDailyLogId())
                 .date(dailyLog.getDate())
                 .habitDTO(habitMapper.mapTo(dailyLog.getHabit()))
+                .userDTO(userMapper.mapTo(dailyLog.getUser()))
                 .completed(dailyLog.isCompleted())
                 .build();
     }
 
     public DailyLog mapFrom(DailyLogDTO dailyLogDTO) {
         return DailyLog.builder()
-                .id(dailyLogDTO.getId())
+                .dailyLogId(dailyLogDTO.getId())
                 .date(dailyLogDTO.getDate())
                 .habit(habitMapper.mapFrom(dailyLogDTO.getHabitDTO()))
                 .isCompleted(dailyLogDTO.isCompleted())

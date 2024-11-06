@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
     public UserDTO mapTo(User user) {
         return UserDTO.builder()
-                .id(user.getId())
+                .id(user.getUserId())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .build();
@@ -16,7 +16,7 @@ public class UserMapper {
 
     public User mapFrom(UserDTO userDto) {
         return User.builder()
-                .id(userDto.getId())
+                .userId(userDto.getId())
                 .username(userDto.getUsername())
                 .email(userDto.getEmail())
                 .build();

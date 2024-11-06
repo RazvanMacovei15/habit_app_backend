@@ -25,7 +25,7 @@ public interface HabitRepo extends JpaRepository<Habit, Integer> {
     @Query("DELETE FROM Habit h WHERE h.user = :user")
     void deleteAllHabitsForUser(User user);
 
-    List<Habit> findAllByUserId(int userId);
+    List<Habit> findAllByUserUserId(int userId);
 
     List<Habit> findAllByOccurrenceAndUser(Occurrence occurrence, User user);
     List<Habit> findAllByOccurrence(Occurrence occurrence);

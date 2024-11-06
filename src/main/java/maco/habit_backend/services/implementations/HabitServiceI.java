@@ -70,7 +70,7 @@ public class HabitServiceI implements HabitService {
 
     @Override
     public List<Habit> getAllHabitsByUserId(int userId) {
-        return habitRepo.findAllByUserId(userId);
+        return habitRepo.findAllByUserUserId(userId);
     }
 
     @Override
