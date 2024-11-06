@@ -2,6 +2,7 @@ package maco.habit_backend.strategies.habitlogs.implementations;
 
 import lombok.AllArgsConstructor;
 import maco.habit_backend.entities.Habit;
+import maco.habit_backend.entities.User;
 import maco.habit_backend.entities.WeeklyLog;
 import maco.habit_backend.repositories.WeeklyLogRepo;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
@@ -13,9 +14,10 @@ public class WeeklyLogStrategy implements LogStrategy {
     private final WeeklyLogRepo weeklyLogRepository;
 
     @Override
-    public void createLog(Habit habit) {
+    public void createLog(Habit habit, User user) {
         WeeklyLog weeklyLog = new WeeklyLog();
         weeklyLog.setHabit(habit);
+        weeklyLog.s(user);
         weeklyLog.setWeekStartDay(LocalDate.now());
         weeklyLog.setWeekEndDay(LocalDate.now().plusWeeks(1).minusDays(1)); // Ends after 1 week
         weeklyLog.setCompleted(false);

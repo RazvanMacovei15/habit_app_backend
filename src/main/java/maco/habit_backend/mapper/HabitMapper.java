@@ -2,8 +2,10 @@ package maco.habit_backend.mapper;
 
 
 import maco.habit_backend.dtos.HabitDTO;
+import maco.habit_backend.dtos.UserDTO;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -43,7 +45,6 @@ public class HabitMapper {
     }
 
     public Habit createNewHabit(HabitDTO habitDTO, User user) {
-        boolean isCompleted = false;
         int currentStreak = 0;
         int bestStreak = 0;
         int totalCount = 0;
@@ -54,7 +55,6 @@ public class HabitMapper {
                 .description(habitDTO.getDescription())
                 .occurrence(habitDTO.getOccurrence())
                 .type(habitDTO.getType())
-                .isCompleted(isCompleted)
                 .currentStreak(currentStreak)
                 .bestStreak(bestStreak)
                 .totalCount(totalCount)

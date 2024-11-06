@@ -41,4 +41,8 @@ public class WeeklyLog {
 
     @Column(name = "is_completed")
     private boolean isCompleted;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

@@ -28,11 +28,10 @@ public class HabitController {
 
     private HabitMapper habitMapper;
     private final HabitService habitService;
+    private UserMapper userMapper;
 
     @PostMapping("/create")
     public ResponseEntity<HabitDTO> createHabit(@RequestBody HabitDTO habitDTO, @AuthenticationPrincipal User user){
-        System.out.println("User in create habit controller: " + user.getEmail());
-
         Habit habit = habitMapper.createNewHabit(habitDTO, user);
         Habit savedHabit = habitService.save(habit);
         System.out.println("Habit saved: " + savedHabit.toString());

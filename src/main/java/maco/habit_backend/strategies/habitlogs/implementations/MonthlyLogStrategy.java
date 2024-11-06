@@ -2,6 +2,7 @@ package maco.habit_backend.strategies.habitlogs.implementations;
 
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.MonthlyLog;
+import maco.habit_backend.entities.User;
 import maco.habit_backend.repositories.MonthlyLogRepo;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
 
@@ -16,7 +17,7 @@ public class MonthlyLogStrategy implements LogStrategy {
     }
 
     @Override
-    public void createLog(Habit habit) {
+    public void createLog(Habit habit, User user) {
         MonthlyLog monthlyLog = new MonthlyLog();
         monthlyLog.setHabit(habit);
         monthlyLog.setMonth(LocalDate.now().getMonthValue());

@@ -16,7 +16,6 @@ public interface HabitService {
     Habit updateHabitStatus(int habitId);
     void deleteAllForUser(User user);
     List<Habit> getAllHabitsByUserId(int userId);
-
     Habit updateHabitDetails(int habitId, HabitDTO habitDTO);
     List<Habit> getAllHabitsByOccurrenceAndUser(Occurrence occurrence, User user);
 }

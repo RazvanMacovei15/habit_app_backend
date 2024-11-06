@@ -57,7 +57,6 @@ public class HabitServiceI implements HabitService {
         Habit habitToUpdate = habitRepo.findById(habitId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
 
-        habitToUpdate.setCompleted(!habitToUpdate.isCompleted());
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
 
         return habitRepo.save(habitToUpdate);
