@@ -17,6 +17,7 @@ public class DailyLogStrategy implements LogStrategy {
     public void createLog(Habit habit, User user) {
         DailyLog dailyLog = new DailyLog();
         dailyLog.setHabit(habit);
+        dailyLog.setUser(user);
         dailyLog.setDate(LocalDate.now());
         dailyLog.setCompleted(false); // Default initial state
         dailyLogRepository.save(dailyLog);

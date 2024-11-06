@@ -20,6 +20,7 @@ public class MonthlyLogStrategy implements LogStrategy {
     public void createLog(Habit habit, User user) {
         MonthlyLog monthlyLog = new MonthlyLog();
         monthlyLog.setHabit(habit);
+        monthlyLog.setUser(user);
         monthlyLog.setMonth(LocalDate.now().getMonthValue());
         monthlyLog.setYear(LocalDate.now().getYear());
         monthlyLog.setCompleted(false); // Default initial state

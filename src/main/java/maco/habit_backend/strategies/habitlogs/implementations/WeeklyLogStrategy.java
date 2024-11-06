@@ -17,7 +17,7 @@ public class WeeklyLogStrategy implements LogStrategy {
     public void createLog(Habit habit, User user) {
         WeeklyLog weeklyLog = new WeeklyLog();
         weeklyLog.setHabit(habit);
-        weeklyLog.s(user);
+        weeklyLog.setUser(user);
         weeklyLog.setWeekStartDay(LocalDate.now());
         weeklyLog.setWeekEndDay(LocalDate.now().plusWeeks(1).minusDays(1)); // Ends after 1 week
         weeklyLog.setCompleted(false);
