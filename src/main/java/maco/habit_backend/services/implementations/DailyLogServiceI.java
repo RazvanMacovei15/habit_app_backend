@@ -1,5 +1,6 @@
 package maco.habit_backend.services.implementations;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import maco.habit_backend.entities.DailyLog;
 import maco.habit_backend.entities.Habit;
@@ -8,6 +9,7 @@ import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.repositories.DailyLogRepo;
 import maco.habit_backend.repositories.HabitRepo;
 import maco.habit_backend.services.DailyLogService;
+import maco.habit_backend.services.HabitService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class DailyLogServiceI implements DailyLogService {
     private final DailyLogRepo dailyLogRepo;
     private final HabitRepo habitRepo;
+    private HabitService habitService;
     @Override
     public DailyLog save(DailyLog dailyLog) {
         return dailyLogRepo.save(dailyLog);
@@ -39,9 +42,17 @@ public class DailyLogServiceI implements DailyLogService {
     public List<DailyLog> getAll() {
         return dailyLogRepo.findAll();
     }
-
+    @Transactional
     @Override
     public DailyLog updateStatus(DailyLog dailyLog) {
+        Habit habit = dailyLog.getHabit();
+        if(dailyLog.isCompleted()){
+            dailyLog.setCompleted(false);
+            habitService.updateHabitFromTrueToFalse(habit.getHabitId());
+        } else {
+            dailyLog.setCompleted(true);
+            habitService.updateHabitFromFalseToTrue(habit.getHabitId());
+        }
         return dailyLogRepo.save(dailyLog);
     }
 

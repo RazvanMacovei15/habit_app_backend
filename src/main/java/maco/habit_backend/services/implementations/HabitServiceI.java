@@ -88,4 +88,30 @@ public class HabitServiceI implements HabitService {
     public List<Habit> getAllHabitsByOccurrenceAndUser(Occurrence occurrence, User user) {
         return habitRepo.findAllByOccurrenceAndUser(occurrence, user);
     }
+
+    @Override
+    public Habit updateHabitFromTrueToFalse(int habitId) {
+        Habit habitToUpdate = habitRepo.findById(habitId)
+                .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
+        habitToUpdate.setUpdatedAt(LocalDateTime.now());
+        if(habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak()){
+            habitToUpdate.setBestStreak(habitToUpdate.getBestStreak() - 1);
+        }
+        habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() - 1);
+        habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() - 1);
+        return habitRepo.save(habitToUpdate);
+    }
+
+    @Override
+    public Habit updateHabitFromFalseToTrue(int habitId) {
+        Habit habitToUpdate = habitRepo.findById(habitId)
+                .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
+        habitToUpdate.setUpdatedAt(LocalDateTime.now());
+        habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() + 1);
+        habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() + 1);
+        if(habitToUpdate.getCurrentStreak() > habitToUpdate.getBestStreak()){
+            habitToUpdate.setBestStreak(habitToUpdate.getCurrentStreak());
+        }
+        return habitRepo.save(habitToUpdate);
+    }
 }

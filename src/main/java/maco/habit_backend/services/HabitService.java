@@ -18,4 +18,6 @@ public interface HabitService {
     List<Habit> getAllHabitsByUserId(int userId);
     Habit updateHabitDetails(int habitId, HabitDTO habitDTO);
     List<Habit> getAllHabitsByOccurrenceAndUser(Occurrence occurrence, User user);
+    Habit updateHabitFromTrueToFalse(int habitId);
+    Habit updateHabitFromFalseToTrue(int habitId);
 }
