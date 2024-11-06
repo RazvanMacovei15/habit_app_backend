@@ -8,6 +8,8 @@ import maco.habit_backend.repositories.DailyLogRepo;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @AllArgsConstructor
 
 public class DailyLogStrategy implements LogStrategy {
@@ -20,6 +22,10 @@ public class DailyLogStrategy implements LogStrategy {
         dailyLog.setUser(user);
         dailyLog.setDate(LocalDate.now());
         dailyLog.setCompleted(false); // Default initial state
+
+        List<DailyLog> userDailyLogs = user.getDailyLogs();
+        userDailyLogs.add(dailyLog);
+
         dailyLogRepository.save(dailyLog);
     }
 }

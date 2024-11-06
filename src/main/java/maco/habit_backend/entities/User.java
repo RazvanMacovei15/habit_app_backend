@@ -47,13 +47,13 @@ public class User implements UserDetails {
     private Set<Habit> userHabits;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<DailyLog> dailyLogs;
+    private List<DailyLog> dailyLogs;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<WeeklyLog> weeklyLogs;
+    private List<WeeklyLog> weeklyLogs;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<MonthlyLog> monthlyLogs;
+    private List<MonthlyLog> monthlyLogs;
 
     @Override
     public String getUsername() {
