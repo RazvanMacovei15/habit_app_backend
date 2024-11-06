@@ -1,5 +1,6 @@
 package maco.habit_backend.services.implementations;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-
 @Service
 public class HabitServiceI implements HabitService {
 
