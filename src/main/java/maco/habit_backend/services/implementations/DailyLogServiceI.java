@@ -21,7 +21,7 @@ import java.util.Optional;
 @Service
 public class DailyLogServiceI implements DailyLogService {
     private final DailyLogRepo dailyLogRepo;
-    private final HabitRepo habitRepo;
+
     private final HabitService habitService;
     @Override
     public DailyLog save(DailyLog dailyLog) {
@@ -58,7 +58,7 @@ public class DailyLogServiceI implements DailyLogService {
 
     @Override
     public List<DailyLog> createDailyLogsOnGivenDate(LocalDate date, User user) {
-        List<Habit> habits = habitRepo.findAllByOccurrenceAndUser(Occurrence.DAILY, user);
+        List<Habit> habits = habitService.getAllHabitsByOccurrenceAndUser(Occurrence.DAILY, user);
         for (Habit habit : habits) {
             DailyLog dailyLog = DailyLog.builder()
                     .habit(habit)
@@ -85,7 +85,7 @@ public class DailyLogServiceI implements DailyLogService {
 
     @Override
     public DailyLog getDailyLogByHabitAndDate(int habitId, LocalDate date) {
-        Optional<Habit> habit = habitRepo.findById(habitId);
+        Optional<Habit> habit = habitService.getById(habitId);
         return habit.map(value -> dailyLogRepo.getDailyLogByHabitAndDate(value, date)).orElse(null);
     }
 
