@@ -54,6 +54,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = habit.getTargetCount();
         boolean isCompleted = weeklyLogToUpdate.isCompleted();
+
         if(isCompleted){
             currentCount++;
         }
@@ -61,6 +62,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
             currentCount++;
             if(currentCount == targetCount){
                 weeklyLogToUpdate.setCompleted(true);
+                habitService.updateHabitFromFalseToTrue(habit.getHabitId());
             }
         }
         weeklyLogToUpdate.setCurrentCount(currentCount);
@@ -69,6 +71,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
     @Override
     public WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate) {
+        Habit habit = weeklyLogToUpdate.getHabit();
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = weeklyLogToUpdate.getHabit().getTargetCount();
         boolean isCompleted = weeklyLogToUpdate.isCompleted();
@@ -81,6 +84,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         if (isCompleted) {
             if (currentCount < targetCount) {
                 weeklyLogToUpdate.setCompleted(false);
+                habitService.updateHabitFromTrueToFalse(habit.getHabitId());
             }
         }
 
