@@ -39,10 +39,11 @@ public class DailyLogController {
     @PatchMapping("/{dailyLogId}/update")
     public ResponseEntity<DailyLogDTO> updateDailyLogStatus(@PathVariable int dailyLogId, @AuthenticationPrincipal User user) {
         DailyLog dailyLogToUpdate = dailyLogService.getByIdAndUser(dailyLogId, user);
+
         if (dailyLogToUpdate == null) {
             throw new EntityNotFoundException("Daily log with id " + dailyLogId + " not found");
         }
-//        dailyLogToUpdate.setCompleted(!dailyLogToUpdate.isCompleted());
+
         DailyLog updatedDailyLog = dailyLogService.updateStatus(dailyLogToUpdate);
         DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
         return ResponseEntity.ok(updatedDailyLogDTO);

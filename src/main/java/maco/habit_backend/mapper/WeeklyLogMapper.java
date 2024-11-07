@@ -17,8 +17,7 @@ public class WeeklyLogMapper {
                 .yearWeek(weeklyLog.getYearWeek())
                 .weekStartDay(weeklyLog.getWeekStartDay())
                 .weekEndDay(weeklyLog.getWeekEndDay())
-                .currentCount(weeklyLog.getCurrentCount())
-                .targetCount(weeklyLog.getTargetCount())
+                .currentWeekCount(weeklyLog.getCurrentCount())
                 .isCompleted(weeklyLog.isCompleted())
                 .build();
     }
@@ -30,8 +29,7 @@ public class WeeklyLogMapper {
                 .yearWeek(weeklyLogDTO.getYearWeek())
                 .weekStartDay(weeklyLogDTO.getWeekStartDay())
                 .weekEndDay(weeklyLogDTO.getWeekEndDay())
-                .currentCount(weeklyLogDTO.getCurrentCount())
-                .targetCount(weeklyLogDTO.getTargetCount())
+                .currentCount(weeklyLogDTO.getCurrentWeekCount())
                 .isCompleted(weeklyLogDTO.isCompleted())
                 .build();
     }
