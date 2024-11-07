@@ -83,7 +83,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
     }
 
     @Override
-    public WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate) {
+    public WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate)   {
         Habit habit = weeklyLogToUpdate.getHabit();
         User user = weeklyLogToUpdate.getUser();
 
