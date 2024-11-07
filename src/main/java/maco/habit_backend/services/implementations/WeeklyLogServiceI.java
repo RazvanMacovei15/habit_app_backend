@@ -93,6 +93,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         int yearWeek = weeklyLogToUpdate.getYearWeek();
 
         WeeklyLog weekBeforeWeekLog = weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
+
         boolean isStreakAlive;
         if(weekBeforeWeekLog == null){
             isStreakAlive = false;

@@ -98,8 +98,10 @@ public class HabitServiceI implements HabitService {
         if (habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak()) {
             habitToUpdate.setBestStreak(habitToUpdate.getBestStreak() - 1);
         }
-        habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() - 1);
-        habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() - 1);
+        if(habitToUpdate.getCurrentStreak() > 0 && habitToUpdate.getTotalCount() > 0){
+            habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() - 1);
+            habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() - 1);
+        }
         return habitRepo.save(habitToUpdate);
     }
 
