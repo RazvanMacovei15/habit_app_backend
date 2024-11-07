@@ -72,7 +72,9 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = weeklyLogToUpdate.getHabit().getTargetCount();
         boolean isCompleted = weeklyLogToUpdate.isCompleted();
-
+        System.out.println("Current count: " + currentCount);
+        System.out.println("Target count: " + targetCount);
+        System.out.println("Is completed: " + isCompleted);
         if(isCompleted){
             currentCount--;
             if(currentCount < targetCount){
