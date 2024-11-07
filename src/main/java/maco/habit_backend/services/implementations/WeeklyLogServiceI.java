@@ -72,22 +72,21 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = weeklyLogToUpdate.getHabit().getTargetCount();
         boolean isCompleted = weeklyLogToUpdate.isCompleted();
-        System.out.println("Current count: " + currentCount);
-        System.out.println("Target count: " + targetCount);
-        System.out.println("Is completed: " + isCompleted);
-        if(isCompleted){
-            currentCount--;
-            if(currentCount < targetCount){
+
+        if (currentCount <= 0) {
+            throw new IllegalArgumentException("Current count cannot be less than 0");
+        }
+
+        currentCount--;
+        if (isCompleted) {
+            if (currentCount < targetCount) {
                 weeklyLogToUpdate.setCompleted(false);
             }
         }
-        if(!isCompleted && (currentCount > 0)){
-            currentCount--;
-        }else{
-            throw new IllegalArgumentException("Current count cannot be less than 0");
-        }
+
         weeklyLogToUpdate.setCurrentCount(currentCount);
         return weeklyLogRepo.save(weeklyLogToUpdate);
     }
+
 
 }
