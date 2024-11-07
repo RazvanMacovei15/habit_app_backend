@@ -7,6 +7,7 @@ import maco.habit_backend.entities.WeeklyLog;
 import maco.habit_backend.repositories.WeeklyLogRepo;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
@@ -21,13 +22,15 @@ public class WeeklyLogStrategy implements LogStrategy {
 
         // Get current date to calculate the week
         LocalDate today = LocalDate.now();
+        int year = today.getYear();
+
+        // Define WeekFields with Monday as the first day of the week
+        WeekFields weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
 
         // Calculate the week start and end dates
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
         LocalDate weekStartDay = today.with(weekFields.dayOfWeek(), 1); // Start of the week (Monday)
         LocalDate weekEndDay = today.with(weekFields.dayOfWeek(), 7);   // End of the week (Sunday)
-        int yearWeek = weekStartDay.get(weekFields.weekOfWeekBasedYear());
-        System.out.println("yearweek: " + yearWeek);
+        int yearWeek = year * 100 + (weekStartDay.get(weekFields.weekOfWeekBasedYear()));
 
         // Set the weekly log properties
         weeklyLog.setYearWeek(yearWeek);

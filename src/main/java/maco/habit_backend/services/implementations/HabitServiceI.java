@@ -61,6 +61,7 @@ public class HabitServiceI implements HabitService {
 
         return habitRepo.save(habitToUpdate);
     }
+
     @Override
     public void deleteAllForUser(User user) {
         System.out.println("Deleting all habits");
@@ -94,7 +95,7 @@ public class HabitServiceI implements HabitService {
         Habit habitToUpdate = habitRepo.findById(habitId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
-        if(habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak()){
+        if (habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak()) {
             habitToUpdate.setBestStreak(habitToUpdate.getBestStreak() - 1);
         }
         habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() - 1);
@@ -109,9 +110,37 @@ public class HabitServiceI implements HabitService {
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
         habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() + 1);
         habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() + 1);
-        if(habitToUpdate.getCurrentStreak() > habitToUpdate.getBestStreak()){
+        if (habitToUpdate.getCurrentStreak() > habitToUpdate.getBestStreak()) {
             habitToUpdate.setBestStreak(habitToUpdate.getCurrentStreak());
         }
         return habitRepo.save(habitToUpdate);
+    }
+
+    @Override
+    public void weeklyHabitStreakLogic(Habit habit, boolean isPreviousWeekCompleted) {
+        if (isPreviousWeekCompleted) {
+            habit.setCurrentStreak(habit.getCurrentStreak() + 1);
+            habit.setTotalCount(habit.getTotalCount() + 1);
+            if (habit.getCurrentStreak() > habit.getBestStreak()) {
+                habit.setBestStreak(habit.getCurrentStreak());
+            }
+        } else {
+            habit.setCurrentStreak(0);
+        }
+
+    }
+
+    @Override
+    public void dailyHabitStreakLogic(Habit habit, boolean isPreviousDayCompleted) {
+        if (isPreviousDayCompleted) {
+            habit.setCurrentStreak(habit.getCurrentStreak() + 1);
+            habit.setTotalCount(habit.getTotalCount() + 1);
+            if (habit.getCurrentStreak() > habit.getBestStreak()) {
+                habit.setBestStreak(habit.getCurrentStreak());
+            }
+        } else {
+            habit.setCurrentStreak(0);
+        }
+
     }
 }

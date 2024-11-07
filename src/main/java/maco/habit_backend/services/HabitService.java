@@ -20,4 +20,6 @@ public interface HabitService {
     List<Habit> getAllHabitsByOccurrenceAndUser(Occurrence occurrence, User user);
     Habit updateHabitFromTrueToFalse(int habitId);
     Habit updateHabitFromFalseToTrue(int habitId);
+    void weeklyHabitStreakLogic(Habit habit, boolean isPreviousWeekCompleted);
+    void dailyHabitStreakLogic(Habit habit, boolean isPreviousDayCompleted);
 }
