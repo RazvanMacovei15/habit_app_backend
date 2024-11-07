@@ -51,9 +51,17 @@ public class WeeklyLogServiceI implements WeeklyLogService {
     @Override
     public WeeklyLog addUpdateStatus(WeeklyLog weeklyLogToUpdate) {
         Habit habit = weeklyLogToUpdate.getHabit();
+        User user = weeklyLogToUpdate.getUser();
+
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = habit.getTargetCount();
         boolean isCompleted = weeklyLogToUpdate.isCompleted();
+        int yearWeek = weeklyLogToUpdate.getYearWeek();
+
+        WeeklyLog weekBeforeWeekLog = weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
+
+        boolean isStreakAlive = weekBeforeWeekLog.isCompleted();
+        habitService.weeklyHabitStreakLogic(habit, isStreakAlive);
 
         if(isCompleted){
             currentCount++;
@@ -73,14 +81,16 @@ public class WeeklyLogServiceI implements WeeklyLogService {
     public WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate) {
         Habit habit = weeklyLogToUpdate.getHabit();
         User user = weeklyLogToUpdate.getUser();
+
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = weeklyLogToUpdate.getHabit().getTargetCount();
         boolean isCompleted = weeklyLogToUpdate.isCompleted();
         int yearWeek = weeklyLogToUpdate.getYearWeek();
+
         WeeklyLog weekBeforeWeekLog = weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
 
         boolean isStreakAlive = weekBeforeWeekLog.isCompleted();
-        habitService.dailyHabitStreakLogic(habit, isStreakAlive);
+        habitService.weeklyHabitStreakLogic(habit, isStreakAlive);
 
         if (currentCount <= 0) {
             throw new IllegalArgumentException("Current count cannot be less than 0");
