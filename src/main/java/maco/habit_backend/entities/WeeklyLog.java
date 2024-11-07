@@ -36,9 +36,6 @@ public class WeeklyLog {
     @Column(name = "current_count")
     private int currentCount;
 
-    @Column(name = "target_count")
-    private int targetCount;
-
     @Column(name = "is_completed")
     private boolean isCompleted;
 
