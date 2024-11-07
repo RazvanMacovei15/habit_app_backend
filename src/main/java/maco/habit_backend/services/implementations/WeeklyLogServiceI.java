@@ -60,7 +60,12 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
         WeeklyLog weekBeforeWeekLog = weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
 
-        boolean isStreakAlive = weekBeforeWeekLog.isCompleted();
+        boolean isStreakAlive;
+        if(weekBeforeWeekLog == null){
+            isStreakAlive = false;
+        } else {
+            isStreakAlive = weekBeforeWeekLog.isCompleted();
+        }
         habitService.weeklyHabitStreakLogic(habit, isStreakAlive);
 
         if(isCompleted){
@@ -88,8 +93,12 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         int yearWeek = weeklyLogToUpdate.getYearWeek();
 
         WeeklyLog weekBeforeWeekLog = weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
-
-        boolean isStreakAlive = weekBeforeWeekLog.isCompleted();
+        boolean isStreakAlive;
+        if(weekBeforeWeekLog == null){
+            isStreakAlive = false;
+        } else {
+            isStreakAlive = weekBeforeWeekLog.isCompleted();
+        }
         habitService.weeklyHabitStreakLogic(habit, isStreakAlive);
 
         if (currentCount <= 0) {
