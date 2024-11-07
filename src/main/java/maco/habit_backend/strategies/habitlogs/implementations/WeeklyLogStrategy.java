@@ -28,6 +28,9 @@ public class WeeklyLogStrategy implements LogStrategy {
         LocalDate weekEndDay = today.with(weekFields.dayOfWeek(), 7);   // End of the week (Sunday)
         int yearWeek = weekStartDay.get(weekFields.weekOfWeekBasedYear());
         System.out.println("yearweek: " + yearWeek);
+
+        // Set the weekly log properties
+        weeklyLog.setYearWeek(yearWeek);
         weeklyLog.setHabit(habit);
         weeklyLog.setUser(user);
         weeklyLog.setCurrentCount(0);
