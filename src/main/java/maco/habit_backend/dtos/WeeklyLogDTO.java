@@ -18,4 +18,5 @@ public class WeeklyLogDTO {
     private LocalDate weekEndDay;
     private int currentWeekCount;
     private boolean isCompleted;
+    private boolean isPreviousWeekCompleted;
 }

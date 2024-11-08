@@ -19,7 +19,7 @@ public interface HabitService {
     Habit updateHabitDetails(int habitId, HabitDTO habitDTO);
     List<Habit> getAllHabitsByOccurrenceAndUser(Occurrence occurrence, User user);
     Habit updateHabitFromTrueToFalse(int habitId);
-    Habit updateHabitFromFalseToTrue(int habitId);
-    void weeklyHabitStreakLogic(Habit habit, boolean isPreviousWeekCompleted);
-    void dailyHabitStreakLogic(Habit habit, boolean isPreviousDayCompleted);
+    Habit updateHabitFromFalseToTrue(int habitId, boolean isPreviousHabitLogCompleted, int previousStreak);
+    void deleteAllHabitsForUser(User user);
+    Habit setHabitStreak(Habit habit, boolean isPreviousHabitLogCompleted, int previousStreak);
 }

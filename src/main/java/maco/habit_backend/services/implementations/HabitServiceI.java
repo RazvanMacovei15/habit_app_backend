@@ -95,6 +95,7 @@ public class HabitServiceI implements HabitService {
         Habit habitToUpdate = habitRepo.findById(habitId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
+
         if (habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak()) {
             habitToUpdate.setBestStreak(habitToUpdate.getBestStreak() - 1);
         }
@@ -106,43 +107,39 @@ public class HabitServiceI implements HabitService {
     }
 
     @Override
-    public Habit updateHabitFromFalseToTrue(int habitId) {
+    public Habit updateHabitFromFalseToTrue(int habitId, boolean isPreviousHabitLogCompleted, int previousStreak) {
         Habit habitToUpdate = habitRepo.findById(habitId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
-        habitToUpdate.setUpdatedAt(LocalDateTime.now());
-        habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() + 1);
-        habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() + 1);
-        if (habitToUpdate.getCurrentStreak() > habitToUpdate.getBestStreak()) {
-            habitToUpdate.setBestStreak(habitToUpdate.getCurrentStreak());
+
+        if(isPreviousHabitLogCompleted){
+            habitToUpdate.setCurrentStreak(previousStreak + 1);
+            if (habitToUpdate.getCurrentStreak() > habitToUpdate.getBestStreak()) {
+                habitToUpdate.setBestStreak(habitToUpdate.getCurrentStreak());
+            }
+        }else{
+            habitToUpdate.setCurrentStreak(1);
         }
+        habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() + 1);
+        habitToUpdate.setUpdatedAt(LocalDateTime.now());
         return habitRepo.save(habitToUpdate);
     }
 
     @Override
-    public void weeklyHabitStreakLogic(Habit habit, boolean isPreviousWeekCompleted) {
-        if (isPreviousWeekCompleted) {
-            habit.setCurrentStreak(habit.getCurrentStreak() + 1);
-            habit.setTotalCount(habit.getTotalCount() + 1);
-            if (habit.getCurrentStreak() > habit.getBestStreak()) {
-                habit.setBestStreak(habit.getCurrentStreak());
-            }
-        } else {
-            habit.setCurrentStreak(0);
-        }
+    public void deleteAllHabitsForUser(User user) {
 
     }
 
     @Override
-    public void dailyHabitStreakLogic(Habit habit, boolean isPreviousDayCompleted) {
-        if (isPreviousDayCompleted) {
-            habit.setCurrentStreak(habit.getCurrentStreak() + 1);
-            habit.setTotalCount(habit.getTotalCount() + 1);
-            if (habit.getCurrentStreak() > habit.getBestStreak()) {
-                habit.setBestStreak(habit.getCurrentStreak());
-            }
-        } else {
+    public Habit setHabitStreak(Habit habit, boolean isPreviousHabitLogCompleted, int previousStreak) {
+        if(!isPreviousHabitLogCompleted){
             habit.setCurrentStreak(0);
+            return habit;
         }
-
+        habit.setCurrentStreak(previousStreak + 1);
+        if (habit.getCurrentStreak() > habit.getBestStreak()) {
+            habit.setBestStreak(habit.getCurrentStreak());
+        }
+        return habit;
     }
+
 }

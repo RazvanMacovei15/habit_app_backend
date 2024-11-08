@@ -19,6 +19,7 @@ public class WeeklyLogMapper {
                 .weekEndDay(weeklyLog.getWeekEndDay())
                 .currentWeekCount(weeklyLog.getCurrentCount())
                 .isCompleted(weeklyLog.isCompleted())
+                .isPreviousWeekCompleted(weeklyLog.isPreviousWeekCompleted())
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class WeeklyLogMapper {
                 .weekEndDay(weeklyLogDTO.getWeekEndDay())
                 .currentCount(weeklyLogDTO.getCurrentWeekCount())
                 .isCompleted(weeklyLogDTO.isCompleted())
+                .isPreviousWeekCompleted(weeklyLogDTO.isPreviousWeekCompleted())
                 .build();
     }
 }

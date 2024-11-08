@@ -5,6 +5,7 @@ import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.entities.WeeklyLog;
 import maco.habit_backend.repositories.WeeklyLogRepo;
+import maco.habit_backend.services.HabitService;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
 
 import java.time.DayOfWeek;
@@ -37,11 +38,11 @@ public class WeeklyLogStrategy implements LogStrategy {
         weeklyLog.setHabit(habit);
         weeklyLog.setUser(user);
         weeklyLog.setCurrentCount(0);
+        weeklyLog.setCompleted(false);
+        weeklyLog.setPreviousWeekCompleted(false);
         weeklyLog.setWeekStartDay(weekStartDay);
         weeklyLog.setWeekEndDay(weekEndDay);
-        weeklyLog.setCompleted(false);
 
-        // Default initial state
         weeklyLogRepository.save(weeklyLog);
     }
 }

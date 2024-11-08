@@ -4,6 +4,7 @@ import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.MonthlyLog;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.repositories.MonthlyLogRepo;
+import maco.habit_backend.services.HabitService;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
 
 import java.time.LocalDate;

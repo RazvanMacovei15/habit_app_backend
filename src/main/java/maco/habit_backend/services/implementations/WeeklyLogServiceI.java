@@ -50,40 +50,29 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
     @Override
     public WeeklyLog addUpdateStatus(WeeklyLog weeklyLogToUpdate) {
+
         Habit habit = weeklyLogToUpdate.getHabit();
-        User user = weeklyLogToUpdate.getUser();
 
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = habit.getTargetCount();
-        boolean isCompleted = weeklyLogToUpdate.isCompleted();
-        int yearWeek = weeklyLogToUpdate.getYearWeek();
+        boolean isPreviousWeekCompleted = weeklyLogToUpdate.isPreviousWeekCompleted();
 
-        WeeklyLog weekBeforeWeekLog = weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
-
-        boolean isStreakAlive;
-        if(weekBeforeWeekLog == null){
-            isStreakAlive = false;
-        } else {
-            isStreakAlive = weekBeforeWeekLog.isCompleted();
-        }
-        habitService.weeklyHabitStreakLogic(habit, isStreakAlive);
-
-        if(isCompleted){
-            currentCount++;
-        }
-        if(!isCompleted && (currentCount < targetCount)){
-            currentCount++;
-            if(currentCount == targetCount){
-                weeklyLogToUpdate.setCompleted(true);
-                habitService.updateHabitFromFalseToTrue(habit.getHabitId());
+        currentCount++;
+        if (currentCount == targetCount) {
+            weeklyLogToUpdate.setCompleted(true);
+            habit.setTotalCount(habit.getTotalCount() + 1);
+            if (isPreviousWeekCompleted) {
+                habit.setCurrentStreak(habit.getCurrentStreak() + 1);
+                if (habit.getCurrentStreak() > habit.getBestStreak()) {
+                    habit.setBestStreak(habit.getCurrentStreak());
+                }
             }
         }
-        weeklyLogToUpdate.setCurrentCount(currentCount);
         return weeklyLogRepo.save(weeklyLogToUpdate);
     }
 
     @Override
-    public WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate)   {
+    public WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate) {
         Habit habit = weeklyLogToUpdate.getHabit();
         User user = weeklyLogToUpdate.getUser();
 
@@ -92,30 +81,12 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         boolean isCompleted = weeklyLogToUpdate.isCompleted();
         int yearWeek = weeklyLogToUpdate.getYearWeek();
 
-        WeeklyLog weekBeforeWeekLog = weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
 
-        boolean isStreakAlive;
-        if(weekBeforeWeekLog == null){
-            isStreakAlive = false;
-        } else {
-            isStreakAlive = weekBeforeWeekLog.isCompleted();
-        }
-        habitService.weeklyHabitStreakLogic(habit, isStreakAlive);
-
-        if (currentCount <= 0) {
-            throw new IllegalArgumentException("Current count cannot be less than 0");
-        }
-
-        currentCount--;
-        if (isCompleted) {
-            if (currentCount < targetCount) {
-                weeklyLogToUpdate.setCompleted(false);
-                habitService.updateHabitFromTrueToFalse(habit.getHabitId());
-            }
-        }
-
-        weeklyLogToUpdate.setCurrentCount(currentCount);
         return weeklyLogRepo.save(weeklyLogToUpdate);
+    }
+
+    private WeeklyLog getPreviousWeekLog(Habit habit, int yearWeek, User user) {
+        return weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
     }
 
 
