@@ -18,7 +18,7 @@ public class MonthlyLogStrategy implements LogStrategy {
     }
 
     @Override
-    public void createLog(Habit habit, User user) {
+    public void createNewHabitLog(Habit habit, User user) {
         MonthlyLog monthlyLog = new MonthlyLog();
         monthlyLog.setHabit(habit);
         monthlyLog.setUser(user);

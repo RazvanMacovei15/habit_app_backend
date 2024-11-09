@@ -19,7 +19,7 @@ public class DailyLogStrategy implements LogStrategy {
     private final DailyLogRepo dailyLogRepository;
     @Transactional
     @Override
-    public void createLog(Habit habit, User user) {
+    public void createNewHabitLog(Habit habit, User user) {
         DailyLog dailyLog = DailyLog.builder()
                         .habit(habit)
                         .date(LocalDate.now())

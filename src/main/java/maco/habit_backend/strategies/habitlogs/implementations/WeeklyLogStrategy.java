@@ -18,7 +18,7 @@ public class WeeklyLogStrategy implements LogStrategy {
     private final WeeklyLogRepo weeklyLogRepository;
 
     @Override
-    public void createLog(Habit habit, User user) {
+    public void createNewHabitLog(Habit habit, User user) {
         WeeklyLog weeklyLog = new WeeklyLog();
 
         // Get current date to calculate the week
@@ -45,4 +45,6 @@ public class WeeklyLogStrategy implements LogStrategy {
 
         weeklyLogRepository.save(weeklyLog);
     }
+
+
 }

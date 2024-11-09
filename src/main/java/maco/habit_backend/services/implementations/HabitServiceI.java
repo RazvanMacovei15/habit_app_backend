@@ -1,6 +1,5 @@
 package maco.habit_backend.services.implementations;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
@@ -30,7 +29,7 @@ public class HabitServiceI implements HabitService {
         Habit savedHabit = habitRepo.save(habit);
 
         LogStrategy logStrategy = logStrategyFactory.getStrategy(habit.getOccurrence());
-        logStrategy.createLog(savedHabit, user);
+        logStrategy.createNewHabitLog(savedHabit, user);
 
         return savedHabit;
     }
@@ -129,17 +128,5 @@ public class HabitServiceI implements HabitService {
 
     }
 
-    @Override
-    public Habit setHabitStreak(Habit habit, boolean isPreviousHabitLogCompleted, int previousStreak) {
-        if(!isPreviousHabitLogCompleted){
-            habit.setCurrentStreak(0);
-            return habit;
-        }
-        habit.setCurrentStreak(previousStreak + 1);
-        if (habit.getCurrentStreak() > habit.getBestStreak()) {
-            habit.setBestStreak(habit.getCurrentStreak());
-        }
-        return habit;
-    }
 
 }

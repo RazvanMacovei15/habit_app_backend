@@ -21,5 +21,4 @@ public interface HabitService {
     Habit updateHabitFromTrueToFalse(int habitId);
     Habit updateHabitFromFalseToTrue(int habitId, boolean isPreviousHabitLogCompleted, int previousStreak);
     void deleteAllHabitsForUser(User user);
-    Habit setHabitStreak(Habit habit, boolean isPreviousHabitLogCompleted, int previousStreak);
 }

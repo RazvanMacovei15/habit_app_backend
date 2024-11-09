@@ -1,5 +1,6 @@
 package maco.habit_backend.services.implementations;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
@@ -47,7 +48,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
     public WeeklyLog getById(int weeklyLogId) {
         return weeklyLogRepo.findById(weeklyLogId).orElse(null);
     }
-
+    @Transactional
     @Override
     public WeeklyLog addUpdateStatus(WeeklyLog weeklyLogToUpdate) {
 
@@ -60,20 +61,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         currentCount++;
         if (currentCount == targetCount) {
             weeklyLogToUpdate.setCompleted(true);
-            habit.setTotalCount(habit.getTotalCount() + 1);
-            if (isPreviousWeekCompleted) {
-                habit.setCurrentStreak(habit.getCurrentStreak() + 1);
-                if (habit.getCurrentStreak() > habit.getBestStreak()) {
-                    habit.setBestStreak(habit.getCurrentStreak());
-                }
-            } else if(!isPreviousWeekCompleted && habit.getCurrentStreak() == 0) {
-                habit.setCurrentStreak(1);
-                if(habit.getBestStreak() == 0){
-                    habit.setBestStreak(1);
-                }
-            } else {
-                habit.setCurrentStreak(0);
-            }
+            habitService.updateHabitFromFalseToTrue(habit.getHabitId(), isPreviousWeekCompleted, habit.getCurrentStreak());
         }
         weeklyLogToUpdate.setCurrentCount(currentCount);
         return weeklyLogRepo.save(weeklyLogToUpdate);
