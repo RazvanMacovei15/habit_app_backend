@@ -8,6 +8,7 @@ import maco.habit_backend.entities.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -23,6 +24,7 @@ public class HabitMapper {
                 .type(habit.getType())
                 .currentStreak(habit.getCurrentStreak())
                 .bestStreak(habit.getBestStreak())
+                .dayOfBestStreak(habit.getDayOfBestStreak())
                 .totalCount(habit.getTotalCount())
                 .targetCount(habit.getTargetCount())
                 .dateCreated(habit.getCreatedAt())
@@ -39,6 +41,7 @@ public class HabitMapper {
                 .type(habitDto.getType())
                 .currentStreak(habitDto.getCurrentStreak())
                 .bestStreak(habitDto.getBestStreak())
+                .dayOfBestStreak(habitDto.getDayOfBestStreak())
                 .totalCount(habitDto.getTotalCount())
                 .targetCount(habitDto.getTargetCount())
                 .createdAt(habitDto.getDateCreated())
@@ -50,6 +53,7 @@ public class HabitMapper {
         int currentStreak = 0;
         int bestStreak = 0;
         int totalCount = 0;
+        LocalDate dayOfBestStreak = LocalDate.now();
         LocalDateTime dateCreated = LocalDateTime.now();
         LocalDateTime lastUpdated = LocalDateTime.now();
         return Habit.builder()
@@ -60,6 +64,7 @@ public class HabitMapper {
                 .targetCount(habitDTO.getTargetCount())
                 .currentStreak(currentStreak)
                 .bestStreak(bestStreak)
+                .dayOfBestStreak(dayOfBestStreak)
                 .totalCount(totalCount)
                 .createdAt(dateCreated)
                 .updatedAt(lastUpdated)
@@ -75,6 +80,7 @@ public class HabitMapper {
                 .type(habit.getType())
                 .currentStreak(habit.getCurrentStreak())
                 .bestStreak(habit.getBestStreak())
+                .dayOfBestStreak(habit.getDayOfBestStreak())
                 .totalCount(habit.getTotalCount())
                 .targetCount(habit.getTargetCount())
                 .dateCreated(habit.getCreatedAt())

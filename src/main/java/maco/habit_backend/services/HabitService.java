@@ -18,7 +18,7 @@ public interface HabitService {
     List<Habit> getAllHabitsByUserId(int userId);
     Habit updateHabitDetails(int habitId, HabitDTO habitDTO);
     List<Habit> getAllHabitsByOccurrenceAndUser(Occurrence occurrence, User user);
-    Habit updateHabitFromTrueToFalse(int habitId);
+    Habit updateHabitFromTrueToFalse(int habitId, boolean shouldDecrementTotalCount);
     Habit updateHabitFromFalseToTrue(int habitId, boolean isPreviousHabitLogCompleted, int previousStreak);
     void deleteAllHabitsForUser(User user);
 }

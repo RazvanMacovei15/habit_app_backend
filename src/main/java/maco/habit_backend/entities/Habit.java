@@ -7,6 +7,7 @@ import maco.habit_backend.enums.Type;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -46,6 +47,9 @@ public class Habit {
 
     @Column(name = "best_streak")
     private int bestStreak;
+
+    @Column(name = "day_of_best_streak")
+    private LocalDate dayOfBestStreak;
 
     @Column(name = "total_count")
     private int totalCount;

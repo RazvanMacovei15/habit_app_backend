@@ -48,7 +48,7 @@ public class DailyLogServiceI implements DailyLogService {
         Habit habit = dailyLog.getHabit();
         if(dailyLog.isCompleted()){
             dailyLog.setCompleted(false);
-            habitService.updateHabitFromTrueToFalse(habit.getHabitId());
+            habitService.updateHabitFromTrueToFalse(habit.getHabitId(), true);
         } else {
             dailyLog.setCompleted(true);
         }

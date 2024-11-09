@@ -12,6 +12,7 @@ import maco.habit_backend.strategies.habitlogs.LogStrategy;
 import maco.habit_backend.strategies.habitlogs.factory.LogStrategyFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -90,19 +91,27 @@ public class HabitServiceI implements HabitService {
     }
 
     @Override
-    public Habit updateHabitFromTrueToFalse(int habitId) {
+    public Habit updateHabitFromTrueToFalse(int habitId, boolean shouldDecrementTotalCount) {
         Habit habitToUpdate = habitRepo.findById(habitId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
 
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
 
-        if (habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak() && habitToUpdate.getBestStreak() != 0) {
+        if (habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak()
+                && habitToUpdate.getBestStreak() != 0
+                && habitToUpdate.getDayOfBestStreak().equals(LocalDate.now())
+                && shouldDecrementTotalCount){
             habitToUpdate.setBestStreak(habitToUpdate.getBestStreak() - 1);
         }
-        if (habitToUpdate.getCurrentStreak() > 0 && habitToUpdate.getTotalCount() > 0) {
+        if (shouldDecrementTotalCount && habitToUpdate.getCurrentStreak() > 0) {
             habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() - 1);
+        }
+
+        // Only decrement totalCount if shouldDecrementTotalCount is true
+        if (shouldDecrementTotalCount && habitToUpdate.getTotalCount() > 0) {
             habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() - 1);
         }
+
         return habitRepo.save(habitToUpdate);
     }
 

@@ -74,15 +74,23 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = habit.getTargetCount();
+        boolean wasCompleted = weeklyLogToUpdate.isCompleted(); // Check if it was previously completed
+
+        System.out.println("was completed: " + wasCompleted);
 
         currentCount--;
-        if (currentCount < 0){
+        if (currentCount < 0) {
             throw new IllegalArgumentException("Current count cannot be less than 0! You can't decrement anymore");
         }
-        if(currentCount < targetCount){
-            habitService.updateHabitFromTrueToFalse(habit.getHabitId());
+
+        // Update completion status based on current count vs target count
+        if (currentCount < targetCount) {
             weeklyLogToUpdate.setCompleted(false);
+
+            // Only decrement totalCount if it was previously completed
+            habitService.updateHabitFromTrueToFalse(habit.getHabitId(), wasCompleted);
         }
+
         weeklyLogToUpdate.setCurrentCount(currentCount);
         return weeklyLogRepo.save(weeklyLogToUpdate);
     }
