@@ -79,6 +79,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         currentCount--;
         if(currentCount < targetCount){
             habitService.updateHabitFromTrueToFalse(habit.getHabitId());
+            weeklyLogToUpdate.setCompleted(false);
         }
         weeklyLogToUpdate.setCurrentCount(currentCount);
         return weeklyLogRepo.save(weeklyLogToUpdate);
