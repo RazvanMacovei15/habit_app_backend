@@ -117,6 +117,9 @@ public class HabitServiceI implements HabitService {
             }
         }else{
             habitToUpdate.setCurrentStreak(1);
+            if(habitToUpdate.getCurrentStreak() > habitToUpdate.getBestStreak()){
+                habitToUpdate.setBestStreak(habitToUpdate.getCurrentStreak());
+            }
         }
         habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() + 1);
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
