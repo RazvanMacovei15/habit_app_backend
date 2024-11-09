@@ -74,7 +74,6 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = habit.getTargetCount();
-        boolean isPreviousWeekCompleted = weeklyLogToUpdate.isPreviousWeekCompleted();
 
         currentCount--;
         if(currentCount < targetCount){

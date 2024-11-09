@@ -96,10 +96,10 @@ public class HabitServiceI implements HabitService {
 
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
 
-        if (habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak()) {
+        if (habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak() && habitToUpdate.getBestStreak() != 0) {
             habitToUpdate.setBestStreak(habitToUpdate.getBestStreak() - 1);
         }
-        if(habitToUpdate.getCurrentStreak() > 0 && habitToUpdate.getTotalCount() > 0){
+        if (habitToUpdate.getCurrentStreak() > 0 && habitToUpdate.getTotalCount() > 0) {
             habitToUpdate.setCurrentStreak(habitToUpdate.getCurrentStreak() - 1);
             habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() - 1);
         }
