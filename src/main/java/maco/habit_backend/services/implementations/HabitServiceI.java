@@ -93,6 +93,7 @@ public class HabitServiceI implements HabitService {
     public Habit updateHabitFromTrueToFalse(int habitId) {
         Habit habitToUpdate = habitRepo.findById(habitId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
+
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
 
         if (habitToUpdate.getCurrentStreak() == habitToUpdate.getBestStreak()) {
@@ -106,25 +107,25 @@ public class HabitServiceI implements HabitService {
     }
 
     @Override
-    public Habit updateHabitFromFalseToTrue(int habitId, boolean isPreviousHabitLogCompleted, int previousStreak) {
+    public Habit updateHabitFromFalseToTrue(int habitId, boolean previousLogCompleted, int previousStreak) {
         Habit habitToUpdate = habitRepo.findById(habitId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habit not found with ID: " + habitId));
 
-        if(isPreviousHabitLogCompleted){
-            habitToUpdate.setCurrentStreak(previousStreak + 1);
-            if (habitToUpdate.getCurrentStreak() > habitToUpdate.getBestStreak()) {
-                habitToUpdate.setBestStreak(habitToUpdate.getCurrentStreak());
-            }
-        }else{
-            habitToUpdate.setCurrentStreak(1);
-            if(habitToUpdate.getCurrentStreak() > habitToUpdate.getBestStreak()){
-                habitToUpdate.setBestStreak(habitToUpdate.getCurrentStreak());
-            }
+        int newStreak = previousLogCompleted ? previousStreak + 1 : 1;
+        habitToUpdate.setCurrentStreak(newStreak);
+
+        // Update best streak if current streak exceeds it
+        if (newStreak > habitToUpdate.getBestStreak()) {
+            habitToUpdate.setBestStreak(newStreak);
         }
+
+        // Increment total count and update last modified timestamp
         habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() + 1);
         habitToUpdate.setUpdatedAt(LocalDateTime.now());
+
         return habitRepo.save(habitToUpdate);
     }
+
 
     @Override
     public void deleteAllHabitsForUser(User user) {

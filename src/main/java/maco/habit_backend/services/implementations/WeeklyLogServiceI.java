@@ -48,6 +48,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
     public WeeklyLog getById(int weeklyLogId) {
         return weeklyLogRepo.findById(weeklyLogId).orElse(null);
     }
+
     @Transactional
     @Override
     public WeeklyLog addUpdateStatus(WeeklyLog weeklyLogToUpdate) {
@@ -69,6 +70,16 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
     @Override
     public WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate) {
-              return weeklyLogRepo.save(weeklyLogToUpdate);
+        Habit habit = weeklyLogToUpdate.getHabit();
+
+        int currentCount = weeklyLogToUpdate.getCurrentCount();
+        int targetCount = habit.getTargetCount();
+        boolean isPreviousWeekCompleted = weeklyLogToUpdate.isPreviousWeekCompleted();
+
+        currentCount--;
+        if(currentCount < targetCount){
+            habitService.updateHabitFromTrueToFalse(habit.getHabitId());
+        }
+        return weeklyLogRepo.save(weeklyLogToUpdate);
     }
 }
