@@ -76,6 +76,9 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         int targetCount = habit.getTargetCount();
 
         currentCount--;
+        if (currentCount < 0){
+            throw new IllegalArgumentException("Current count cannot be less than 0! You can't decrement anymore");
+        }
         if(currentCount < targetCount){
             habitService.updateHabitFromTrueToFalse(habit.getHabitId());
             weeklyLogToUpdate.setCompleted(false);
