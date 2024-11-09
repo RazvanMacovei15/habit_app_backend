@@ -5,13 +5,11 @@ import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.entities.WeeklyLog;
 import maco.habit_backend.repositories.WeeklyLogRepo;
-import maco.habit_backend.services.HabitService;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
-import java.util.Locale;
 
 @AllArgsConstructor
 public class WeeklyLogStrategy implements LogStrategy {
@@ -19,6 +17,11 @@ public class WeeklyLogStrategy implements LogStrategy {
 
     @Override
     public void createNewHabitLog(Habit habit, User user) {
+
+        //TODO: Implement a checker to see if the weekly log already exists
+        //      for the current week and habit. If it does, do not create a new one.
+        //      If it does not, create a new weekly log.
+
         WeeklyLog weeklyLog = new WeeklyLog();
 
         // Get current date to calculate the week

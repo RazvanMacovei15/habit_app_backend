@@ -82,5 +82,16 @@ public class WeeklyLogController {
         }
     }
 
+    @PostMapping("/createWeeklyLogsOnGivenWeek/{yearWeek}")
+    public ResponseEntity<List<WeeklyLogDTO>> createWeeklyLogsOnGivenWeek(@PathVariable int yearWeek, @AuthenticationPrincipal User user) {
+        List<WeeklyLog> weeklyLogs = weeklyLogService.createWeeklyLogsOnGivenWeek(yearWeek, user);
+        List<WeeklyLogDTO> weeklyLogDTOS = weeklyLogs
+                .stream()
+                .map(weeklyLogMapper::mapTo)
+                .toList();
+
+        return ResponseEntity.ok(weeklyLogDTOS);
+    }
+
 
 }
