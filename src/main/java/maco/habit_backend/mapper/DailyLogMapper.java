@@ -17,7 +17,8 @@ public class DailyLogMapper {
                 .id(dailyLog.getDailyLogId())
                 .date(dailyLog.getDate())
                 .habitDTO(habitMapper.mapTo(dailyLog.getHabit()))
-                .completed(dailyLog.isCompleted())
+                .isCompleted(dailyLog.isCompleted())
+                .isPreviousDayCompleted(dailyLog.isPreviousDayCompleted())
                 .build();
     }
 

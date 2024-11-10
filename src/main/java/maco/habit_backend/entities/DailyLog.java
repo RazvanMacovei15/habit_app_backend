@@ -32,6 +32,9 @@ public class DailyLog {
     @Column(name = "is_completed")
     private boolean isCompleted;
 
+    @Column(name = "is_previous_day_completed")
+    private boolean isPreviousDayCompleted;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

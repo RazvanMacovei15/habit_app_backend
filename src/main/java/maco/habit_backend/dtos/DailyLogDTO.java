@@ -15,6 +15,7 @@ public class DailyLogDTO {
     private int id;
     private LocalDate date;
     private HabitDTO habitDTO;
-    private boolean completed;
+    private boolean isCompleted;
+    private boolean isPreviousDayCompleted;
 
 }
