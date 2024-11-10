@@ -18,10 +18,6 @@ public class WeeklyLogStrategy implements LogStrategy {
     @Override
     public void createNewHabitLog(Habit habit, User user) {
 
-        //TODO: Implement a checker to see if the weekly log already exists
-        //      for the current week and habit. If it does, do not create a new one.
-        //      If it does not, create a new weekly log.
-
         WeeklyLog weeklyLog = new WeeklyLog();
 
         // Get current date to calculate the week

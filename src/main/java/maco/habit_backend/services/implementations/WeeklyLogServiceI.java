@@ -35,11 +35,6 @@ public class WeeklyLogServiceI implements WeeklyLogService {
     }
 
     @Override
-    public WeeklyLog updateWeeklyLog(WeeklyLog weeklyLog) {
-        return null;
-    }
-
-    @Override
     public WeeklyLog getById(int weeklyLogId) {
         return weeklyLogRepo.findById(weeklyLogId).orElse(null);
     }
@@ -95,8 +90,14 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         List<Habit> habits = habitService.getAllHabitsByOccurrenceAndUser(Occurrence.WEEKLY, user);
 
         for (Habit habit : habits) {
+            boolean isPreviousWeekCompleted;
             WeeklyLog previousWeekLog = weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek - 1, user);
-            boolean isPreviousWeekCompleted = previousWeekLog.isCompleted();
+
+            if(previousWeekLog == null){
+                isPreviousWeekCompleted = false;
+            } else {
+                isPreviousWeekCompleted = previousWeekLog.isCompleted();
+            }
 
             // Convert the integer to a string
             String yearWeekStr = String.valueOf(yearWeek);
