@@ -68,4 +68,8 @@ public class Habit {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<DailyLog> dailyLogs;
+
 }
