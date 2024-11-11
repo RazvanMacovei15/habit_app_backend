@@ -1,11 +1,13 @@
 package maco.habit_backend.services.implementations;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import maco.habit_backend.dtos.HabitDTO;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.exceptions.ResourceNotFoundException;
+import maco.habit_backend.repositories.DailyLogRepo;
 import maco.habit_backend.repositories.HabitRepo;
 import maco.habit_backend.services.HabitService;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
@@ -23,7 +25,10 @@ public class HabitServiceI implements HabitService {
 
     private final HabitRepo habitRepo;
 
+    private final DailyLogRepo dailyLogRepository;
+
     private final LogStrategyFactory logStrategyFactory;
+
 
     @Override
     public Habit save(Habit habit, User user) {
@@ -33,6 +38,14 @@ public class HabitServiceI implements HabitService {
         logStrategy.createNewHabitLog(savedHabit, user);
 
         return savedHabit;
+    }
+
+    @Transactional
+    public void deleteHabitAndLogs(int habitId) {
+        // First, delete all DailyLog entries associated with this habit
+        dailyLogRepository.deleteByHabit_HabitId(habitId);
+        // Then, delete the habit itself
+        habitRepo.deleteById(habitId);
     }
 
     @Override

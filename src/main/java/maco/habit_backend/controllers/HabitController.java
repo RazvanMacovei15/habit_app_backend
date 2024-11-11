@@ -51,7 +51,7 @@ public class HabitController {
         Optional<Habit> habitOptional = habitService.getById(habitId);
         System.out.println("Habit optional: " + habitOptional.toString());
         if(habitOptional.isPresent()){
-            habitService.deleteById(habitId);
+            habitService.deleteHabitAndLogs(habitId);
             return ResponseEntity.ok("Habit deleted with ID: " + habitId);
         }
         return ResponseEntity.notFound().build();
