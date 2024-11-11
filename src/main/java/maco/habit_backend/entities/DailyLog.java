@@ -12,7 +12,7 @@ import java.util.Set;
 @Builder
 @Setter
 @Getter
-@ToString
+@ToString(exclude = "habit")
 
 @Entity
 @Table(name = "daily_logs")
