@@ -93,5 +93,16 @@ public class WeeklyLogController {
         return ResponseEntity.ok(weeklyLogDTOS);
     }
 
+    @GetMapping("/getWeeklyLogsByYearWeek/{yearWeek}")
+    public ResponseEntity<List<WeeklyLogDTO>> getWeeklyLogsByYearWeek(@PathVariable int yearWeek, @AuthenticationPrincipal User user) {
+        List<WeeklyLog> weeklyLogs = weeklyLogService.findAllByYearWeekAndUser(yearWeek, user);
+        List<WeeklyLogDTO> weeklyLogDTOS = weeklyLogs
+                .stream()
+                .map(weeklyLogMapper::mapTo)
+                .toList();
+
+        return ResponseEntity.ok(weeklyLogDTOS);
+    }
+
 
 }

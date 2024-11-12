@@ -9,6 +9,7 @@ import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.exceptions.ResourceNotFoundException;
 import maco.habit_backend.repositories.DailyLogRepo;
 import maco.habit_backend.repositories.HabitRepo;
+import maco.habit_backend.repositories.WeeklyLogRepo;
 import maco.habit_backend.services.HabitService;
 import maco.habit_backend.strategies.habitlogs.LogStrategy;
 import maco.habit_backend.strategies.habitlogs.factory.LogStrategyFactory;
@@ -26,6 +27,7 @@ public class HabitServiceI implements HabitService {
     private final HabitRepo habitRepo;
 
     private final DailyLogRepo dailyLogRepository;
+    private final WeeklyLogRepo weeklyLogRepo;
 
     private final LogStrategyFactory logStrategyFactory;
 
@@ -44,6 +46,7 @@ public class HabitServiceI implements HabitService {
     public void deleteHabitAndLogs(int habitId) {
         // First, delete all DailyLog entries associated with this habit
         dailyLogRepository.deleteByHabit_HabitId(habitId);
+        weeklyLogRepo.deleteByHabit_HabitId(habitId);
         // Then, delete the habit itself
         habitRepo.deleteById(habitId);
     }

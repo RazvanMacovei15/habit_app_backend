@@ -30,6 +30,11 @@ public class WeeklyLogServiceI implements WeeklyLogService {
     }
 
     @Override
+    public List<WeeklyLog> findAllByYearWeekAndUser(int yearWeek, User user) {
+        return weeklyLogRepo.findAllByYearWeekAndUser(yearWeek, user);
+    }
+
+    @Override
     public WeeklyLog createNewWeeklyLog(WeeklyLog weeklyLog) {
         return weeklyLogRepo.save(weeklyLog);
     }
@@ -130,6 +135,6 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
             weeklyLogRepo.save(weeklyLog);
         }
-        return weeklyLogRepo.findAllByYearWeek(yearWeek);
+        return weeklyLogRepo.findAllByYearWeekAndUser(yearWeek, user);
     }
 }

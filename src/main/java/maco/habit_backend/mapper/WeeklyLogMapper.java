@@ -12,12 +12,12 @@ public class WeeklyLogMapper {
 
     public WeeklyLogDTO mapTo(WeeklyLog weeklyLog) {
         return WeeklyLogDTO.builder()
-                .weeklyLogDTOId(weeklyLog.getWeeklyLogId())
+                .id(weeklyLog.getWeeklyLogId())
                 .habitDTO(habitMapper.mapTo(weeklyLog.getHabit()))
                 .yearWeek(weeklyLog.getYearWeek())
                 .weekStartDay(weeklyLog.getWeekStartDay())
                 .weekEndDay(weeklyLog.getWeekEndDay())
-                .currentWeekCount(weeklyLog.getCurrentCount())
+                .currentCount(weeklyLog.getCurrentCount())
                 .isCompleted(weeklyLog.isCompleted())
                 .isPreviousWeekCompleted(weeklyLog.isPreviousWeekCompleted())
                 .build();
@@ -25,12 +25,12 @@ public class WeeklyLogMapper {
 
     public WeeklyLog mapFrom(WeeklyLogDTO weeklyLogDTO) {
         return WeeklyLog.builder()
-                .weeklyLogId(weeklyLogDTO.getWeeklyLogDTOId())
+                .weeklyLogId(weeklyLogDTO.getId())
                 .habit(habitMapper.mapFrom(weeklyLogDTO.getHabitDTO()))
                 .yearWeek(weeklyLogDTO.getYearWeek())
                 .weekStartDay(weeklyLogDTO.getWeekStartDay())
                 .weekEndDay(weeklyLogDTO.getWeekEndDay())
-                .currentCount(weeklyLogDTO.getCurrentWeekCount())
+                .currentCount(weeklyLogDTO.getCurrentCount())
                 .isCompleted(weeklyLogDTO.isCompleted())
                 .isPreviousWeekCompleted(weeklyLogDTO.isPreviousWeekCompleted())
                 .build();

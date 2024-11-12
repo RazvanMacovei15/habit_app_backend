@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Builder
 @Setter
 @Getter
-@ToString
+@ToString(exclude = "habit")
 
 @Entity
 @Table(name = "weekly_logs")

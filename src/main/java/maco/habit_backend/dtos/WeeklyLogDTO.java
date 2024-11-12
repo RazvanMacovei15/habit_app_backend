@@ -11,12 +11,12 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class WeeklyLogDTO {
-    private int weeklyLogDTOId;
+    private int id;
     private HabitDTO habitDTO;
     private int yearWeek;
     private LocalDate weekStartDay;
     private LocalDate weekEndDay;
-    private int currentWeekCount;
+    private int currentCount;
     private boolean isCompleted;
     private boolean isPreviousWeekCompleted;
 }
