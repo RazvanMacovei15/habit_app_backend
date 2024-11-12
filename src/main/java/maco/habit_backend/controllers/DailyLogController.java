@@ -44,7 +44,7 @@ public class DailyLogController {
             throw new EntityNotFoundException("Daily log with id " + dailyLogId + " not found");
         }
 
-        DailyLog updatedDailyLog = dailyLogService.updateStatus(dailyLogToUpdate);
+        DailyLog updatedDailyLog = dailyLogService.updateSingleTargetStatus(dailyLogToUpdate);
         DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
         return ResponseEntity.ok(updatedDailyLogDTO);
     }

@@ -39,8 +39,8 @@ public class WeeklyLog {
     @Column(name = "is_completed")
     private boolean isCompleted;
 
-    @Column(name = "is_previous_week_completed")
-    private boolean isPreviousWeekCompleted;
+    @Column(name = "previous_completed")
+    private boolean previousCompleted;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

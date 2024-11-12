@@ -35,11 +35,6 @@ public class WeeklyLogServiceI implements WeeklyLogService {
     }
 
     @Override
-    public WeeklyLog createNewWeeklyLog(WeeklyLog weeklyLog) {
-        return weeklyLogRepo.save(weeklyLog);
-    }
-
-    @Override
     public WeeklyLog getById(int weeklyLogId) {
         return weeklyLogRepo.findById(weeklyLogId).orElse(null);
     }
@@ -52,7 +47,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
         int currentCount = weeklyLogToUpdate.getCurrentCount();
         int targetCount = habit.getTargetCount();
-        boolean isPreviousWeekCompleted = weeklyLogToUpdate.isPreviousWeekCompleted();
+        boolean isPreviousWeekCompleted = weeklyLogToUpdate.isPreviousCompleted();
 
         currentCount++;
         if (currentCount == targetCount) {
@@ -130,7 +125,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
                     .weekEndDay(lastDayOfWeek)
                     .currentCount(0)
                     .isCompleted(false)
-                    .isPreviousWeekCompleted(isPreviousWeekCompleted)
+                    .previousCompleted(isPreviousWeekCompleted)
                     .build();
 
             weeklyLogRepo.save(weeklyLog);

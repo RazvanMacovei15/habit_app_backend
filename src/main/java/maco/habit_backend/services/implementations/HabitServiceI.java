@@ -154,7 +154,7 @@ public class HabitServiceI implements HabitService {
 
     @Override
     public void deleteAllHabitsForUser(User user) {
-
+        //TODO: Implement this method
     }
 
 

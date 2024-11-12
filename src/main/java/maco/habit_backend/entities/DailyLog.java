@@ -29,11 +29,14 @@ public class DailyLog {
     @Column(name = "date")
     private LocalDate date;
 
+    @Column(name = "current_count")
+    private int currentCount;
+
     @Column(name = "is_completed")
     private boolean isCompleted;
 
-    @Column(name = "is_previous_day_completed")
-    private boolean isPreviousDayCompleted;
+    @Column(name = "previous_completed")
+    private boolean previousCompleted;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

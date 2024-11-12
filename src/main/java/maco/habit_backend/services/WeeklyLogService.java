@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface WeeklyLogService {
     List<WeeklyLog> findAll(User user);
-
     List<WeeklyLog> findAllByYearWeekAndUser(int yearWeek, User user);
-    WeeklyLog createNewWeeklyLog(WeeklyLog weeklyLog);
     WeeklyLog getById(int weeklyLogId);
     WeeklyLog addUpdateStatus(WeeklyLog weeklyLogToUpdate);
     WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate);
