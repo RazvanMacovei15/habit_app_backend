@@ -4,10 +4,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import maco.habit_backend.dtos.DailyLogDTO;
 import maco.habit_backend.entities.DailyLog;
+import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.mapper.DailyLogMapper;
 import maco.habit_backend.repositories.UserRepo;
 import maco.habit_backend.services.DailyLogService;
+import maco.habit_backend.services.HabitService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ public class DailyLogController {
 
     private final DailyLogMapper dailyLogMapper;
 
+    private final HabitService habitService;
+
     @GetMapping("/getAll")
     public ResponseEntity<List<DailyLogDTO>> getAll(@AuthenticationPrincipal User user) {
 
@@ -36,26 +40,64 @@ public class DailyLogController {
         return ResponseEntity.ok(dailyLogDTOS);
     }
 
-    @PatchMapping("/{dailyLogId}/update")
-    public ResponseEntity<DailyLogDTO> updateDailyLogStatus(@PathVariable int dailyLogId, @AuthenticationPrincipal User user) {
-        DailyLog dailyLogToUpdate = dailyLogService.getByIdAndUser(dailyLogId, user);
+    @PatchMapping("/{dailyLogId}/addUpdate")
+    public ResponseEntity<DailyLogDTO> addUpdateDailyLog(@PathVariable int dailyLogId, @AuthenticationPrincipal User user) {
 
-        if (dailyLogToUpdate == null) {
-            throw new EntityNotFoundException("Daily log with id " + dailyLogId + " not found");
+        try {
+            DailyLog dailyLogToUpdate = dailyLogService.getById(dailyLogId);
+
+            // Check if daily log exists
+            if (dailyLogToUpdate == null) {
+                throw new EntityNotFoundException("Daily log with id " + dailyLogId + " not found");
+            }
+
+            // Check if the daily log belongs to the user
+            if (dailyLogToUpdate.getUser().getUserId() != user.getUserId()) {
+                throw new EntityNotFoundException("This daily log does not belong to the user");
+            }
+
+            // Save the updated log
+            DailyLog updatedDailyLog = dailyLogService.addUpdateStatus(dailyLogToUpdate);
+
+            // Map to DTO
+            DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
+
+            return ResponseEntity.ok(updatedDailyLogDTO);
+
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
-
-        DailyLog updatedDailyLog = dailyLogService.updateSingleTargetStatus(dailyLogToUpdate);
-        DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
-        return ResponseEntity.ok(updatedDailyLogDTO);
     }
 
-    @DeleteMapping("/{dailyLogId}/delete")
-    public void deleteDailyLog(@PathVariable int dailyLogId) {
-         dailyLogService.deleteById(dailyLogId);
+
+    @PatchMapping("/{dailyLogId}/decrementCount")
+    public ResponseEntity<DailyLogDTO> decrementDailyLog(@PathVariable int dailyLogId, @AuthenticationPrincipal User user) {
+
+        try {
+            DailyLog dailyLogToUpdate = dailyLogService.getById(dailyLogId);
+
+            if (dailyLogToUpdate == null) {
+                throw new EntityNotFoundException("Daily log with id " + dailyLogId + " not found");
+            }
+
+            if (dailyLogToUpdate.getUser().getUserId() != user.getUserId()) {
+                throw new EntityNotFoundException("This daily log does not belong to the user");
+            }
+
+            DailyLog updatedDailyLog = dailyLogService.decrementUpdateStatus(dailyLogToUpdate);
+
+            DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
+
+            return ResponseEntity.ok(updatedDailyLogDTO);
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/date/{date}")
-    public ResponseEntity<List<DailyLogDTO>> createDailyLogsOnGivenDate(@PathVariable LocalDate date,  @AuthenticationPrincipal User user) {
+    public ResponseEntity<List<DailyLogDTO>> createDailyLogsOnGivenDate(@PathVariable LocalDate date, @AuthenticationPrincipal User user) {
         List<DailyLog> dailyLogs = dailyLogService.createDailyLogsOnGivenDate(date, user);
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
                 .stream()
@@ -65,8 +107,8 @@ public class DailyLogController {
     }
 
     @GetMapping("/date/{date}")
-    public ResponseEntity<List<DailyLogDTO>> getDailyLogByDate(@PathVariable LocalDate date, @AuthenticationPrincipal User user) {
-        List<DailyLog> dailyLogs = dailyLogService.getDailyLogByDateAndUser(date, user);
+    public ResponseEntity<List<DailyLogDTO>> getDailyLogsByDate(@PathVariable LocalDate date, @AuthenticationPrincipal User user) {
+        List<DailyLog> dailyLogs = dailyLogService.findAllByDateAndUser(date, user);
         List<DailyLogDTO> dailyLogDTOs = dailyLogs
                 .stream()
                 .map(dailyLogMapper::mapTo)
@@ -75,8 +117,10 @@ public class DailyLogController {
     }
 
     @GetMapping("/date/{date}/habit/{habitId}")
-    public ResponseEntity<DailyLogDTO> getDailyLogByHabitAndDate(@PathVariable LocalDate date, @PathVariable int habitId) {
-        DailyLog dailyLog = dailyLogService.getDailyLogByHabitAndDate(habitId, date);
+    public ResponseEntity<DailyLogDTO> getDailyLogByHabitAndDate(@PathVariable LocalDate date, @PathVariable int habitId, @AuthenticationPrincipal User user) {
+        Habit habit = habitService.getById(habitId).orElseThrow(() -> new EntityNotFoundException("Habit with id " + habitId + " not found"));
+
+        DailyLog dailyLog = dailyLogService.getDailyLogByHabitAndDateAndUser(habit, date, user);
         DailyLogDTO dailyLogDTO = dailyLogMapper.mapTo(dailyLog);
         return ResponseEntity.ok(dailyLogDTO);
     }

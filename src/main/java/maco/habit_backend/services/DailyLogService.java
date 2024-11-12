@@ -10,10 +10,11 @@ import java.util.List;
 public interface DailyLogService {
     DailyLog save(DailyLog dailyLog);
     DailyLog getByIdAndUser(int id, User user);
+    DailyLog getById(int id);
     void deleteById(int id);
     List<DailyLog> getAllForUser(User user);
-    List<DailyLog> getDailyLogByDateAndUser(LocalDate date, User user);
-    DailyLog getDailyLogByHabitAndDate(int habitId, LocalDate date);
+    List<DailyLog> findAllByDateAndUser(LocalDate date,User user);
+    DailyLog getDailyLogByHabitAndDateAndUser(Habit habit, LocalDate date, User user);
     //NEW SERVICES BASES ON NEW FORMAT
     DailyLog addUpdateStatus(DailyLog dailyLogToUpdate);
     DailyLog decrementUpdateStatus(DailyLog dailyLogToUpdate);

@@ -3,9 +3,11 @@ package maco.habit_backend.controllers;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import maco.habit_backend.dtos.WeeklyLogDTO;
+import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.entities.WeeklyLog;
 import maco.habit_backend.mapper.WeeklyLogMapper;
+import maco.habit_backend.services.HabitService;
 import maco.habit_backend.services.WeeklyLogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +22,7 @@ public class WeeklyLogController {
 
     private final WeeklyLogService weeklyLogService;
     private final WeeklyLogMapper weeklyLogMapper;
+    private final HabitService habitService;
 
     @GetMapping("/getAll")
         public ResponseEntity<List<WeeklyLogDTO>> getAll(@AuthenticationPrincipal User user) {
@@ -102,6 +105,15 @@ public class WeeklyLogController {
                 .toList();
 
         return ResponseEntity.ok(weeklyLogDTOS);
+    }
+
+    @GetMapping("/yearWeek/{yearWeek}/habit/{habitId}")
+    public ResponseEntity<WeeklyLogDTO> getWeeklyLogByHabitAndYearWeek(@PathVariable int yearWeek, @PathVariable int habitId, @AuthenticationPrincipal User user) {
+        Habit habit = habitService.getById(habitId).orElseThrow(() -> new EntityNotFoundException("Habit with id " + habitId + " not found"));
+
+        WeeklyLog weeklyLog = weeklyLogService.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek, user);
+        WeeklyLogDTO weeklyLogDTO = weeklyLogMapper.mapTo(weeklyLog);
+        return ResponseEntity.ok(weeklyLogDTO);
     }
 
 

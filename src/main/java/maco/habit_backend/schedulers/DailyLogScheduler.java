@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import maco.habit_backend.entities.DailyLog;
 import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
+import maco.habit_backend.entities.WeeklyLog;
 import maco.habit_backend.enums.Occurrence;
 import maco.habit_backend.repositories.DailyLogRepo;
 import maco.habit_backend.repositories.HabitRepo;
@@ -45,12 +46,24 @@ public class DailyLogScheduler {
 
             // Loop through each daily habit and create a new DailyLog
             for (Habit habit : dailyHabits) {
+
+                boolean isPreviousWeekCompleted;
+                DailyLog previousDailyLog = dailyLogRepository.getDailyLogByHabitAndDateAndUser(habit, today.minusDays(1), user);
+
+
+                if(previousDailyLog == null){
+                    isPreviousWeekCompleted = false;
+                } else {
+                    isPreviousWeekCompleted = previousDailyLog.isCompleted();
+                }
+
                 DailyLog dailyLog = new DailyLog();
                 dailyLog.setHabit(habit);
                 dailyLog.setUser(user);
-                dailyLog.setDate(today);
+                dailyLog.setCurrentCount(0); // Default initial count
                 dailyLog.setCompleted(false); // Default initial state
-
+                dailyLog.setPreviousCompleted(isPreviousWeekCompleted);
+                dailyLog.setDate(today);
                 // Add to the list for batch saving
                 dailyLogs.add(dailyLog);
 

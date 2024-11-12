@@ -38,7 +38,7 @@ public class WeeklyLogStrategy implements LogStrategy {
         weeklyLog.setUser(user);
         weeklyLog.setCurrentCount(0);
         weeklyLog.setCompleted(false);
-        weeklyLog.setPreviousWeekCompleted(false);
+        weeklyLog.setPreviousCompleted(false);
         weeklyLog.setWeekStartDay(weekStartDay);
         weeklyLog.setWeekEndDay(weekEndDay);
 

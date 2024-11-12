@@ -20,7 +20,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class WeeklyLogStrategy {
+public class WeeklyLogScheduler {
     private final WeeklyLogRepo weeklyLogRepo;
     private final HabitRepo habitRepo;
     private final UserRepo userRepo;
@@ -67,18 +67,12 @@ public class WeeklyLogStrategy {
                         .user(user)
                         .currentCount(0)
                         .isCompleted(false)
-                        .isPreviousWeekCompleted(isPreviousWeekCompleted)
+                        .previousCompleted(isPreviousWeekCompleted)
                         .weekStartDay(firstDayOfWeek)
                         .weekEndDay(lastDayOfWeek)
                         .build();
                 weeklyLogRepo.save(weeklyLog);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        LocalDate today = LocalDate.now();
-        int weekNumber = today.get(WeekFields.ISO.weekOfWeekBasedYear());
-        System.out.println(weekNumber);
     }
 }

@@ -34,25 +34,13 @@ public class DailyLogServiceI implements DailyLogService {
     }
 
     @Override
-    public void deleteById(int id) {
-        dailyLogRepo.deleteById(id);
+    public DailyLog getById(int id) {
+        return dailyLogRepo.findById(id).orElse(null);
     }
 
     @Override
-    public List<DailyLog> createDailyLogsOnGivenDate(LocalDate date, User user) {
-        List<Habit> habits = habitService.getAllHabitsByOccurrenceAndUser(Occurrence.DAILY, user);
-        for (Habit habit : habits) {
-            DailyLog dailyLog = DailyLog.builder()
-                    .habit(habit)
-                    .date(date)
-                    .user(user)
-                    .isCompleted(false)
-                    .build();
-
-            dailyLogRepo.save(dailyLog);
-        }
-
-        return dailyLogRepo.findAllByDate(date);
+    public void deleteById(int id) {
+        dailyLogRepo.deleteById(id);
     }
 
     @Override
@@ -66,14 +54,8 @@ public class DailyLogServiceI implements DailyLogService {
     }
 
     @Override
-    public List<DailyLog> getDailyLogByDateAndUser(LocalDate date, User user) {
+    public List<DailyLog> findAllByDateAndUser(LocalDate date, User user) {
         return dailyLogRepo.findAllByDateAndUser(date, user);
-    }
-
-    @Override
-    public DailyLog getDailyLogByHabitAndDate(int habitId, LocalDate date) {
-        Optional<Habit> habit = habitService.getById(habitId);
-        return habit.map(value -> dailyLogRepo.getDailyLogByHabitAndDate(value, date)).orElse(null);
     }
 
     @Override
@@ -82,14 +64,36 @@ public class DailyLogServiceI implements DailyLogService {
 
         int currentCount = dailyLogToUpdate.getCurrentCount();
         int targetCount = habit.getTargetCount();
-        boolean isPreviousWeekCompleted = dailyLogToUpdate.isPreviousCompleted();
+        boolean isPreviousDayCompleted = dailyLogToUpdate.isPreviousCompleted();
 
-        currentCount++;
-        if (currentCount == targetCount) {
-            dailyLogToUpdate.setCompleted(true);
-            habitService.updateHabitFromFalseToTrue(habit.getHabitId(), isPreviousWeekCompleted, habit.getCurrentStreak());
+        boolean wasCompleted = dailyLogToUpdate.isCompleted(); // Check if it was previously completed
+
+        System.out.println("was completed: " + wasCompleted);
+
+        int habitTargetCount = habit.getTargetCount();
+
+        if (habitTargetCount == 1) {
+            // Toggle completion based on the current state of the daily log
+            if (dailyLogToUpdate.isCompleted()) {
+                // If it's currently completed, set to incomplete and decrement the count
+                dailyLogToUpdate.setCompleted(false);
+                dailyLogToUpdate.setCurrentCount(0);
+                habitService.updateHabitFromTrueToFalse(habit.getHabitId(), wasCompleted);
+            } else {
+                // If it's currently incomplete, set to complete and increment the count
+                dailyLogToUpdate.setCompleted(true);
+                dailyLogToUpdate.setCurrentCount(1);
+                habitService.updateHabitFromFalseToTrue(habit.getHabitId(), wasCompleted, habit.getCurrentStreak());
+            }
+        } else {
+            currentCount++;
+            if (currentCount == targetCount) {
+                dailyLogToUpdate.setCompleted(true);
+                habitService.updateHabitFromFalseToTrue(habit.getHabitId(), isPreviousDayCompleted, habit.getCurrentStreak());
+            }
+            dailyLogToUpdate.setCurrentCount(currentCount);
         }
-        dailyLogToUpdate.setCurrentCount(currentCount);
+
         return dailyLogRepo.save(dailyLogToUpdate);    }
 
     @Override
@@ -119,5 +123,38 @@ public class DailyLogServiceI implements DailyLogService {
         return dailyLogRepo.save(dailyLogToUpdate);
     }
 
+    @Override
+    public List<DailyLog> createDailyLogsOnGivenDate(LocalDate date, User user) {
 
+        List<Habit> habits = habitService.getAllHabitsByOccurrenceAndUser(Occurrence.DAILY, user);
+
+        for (Habit habit : habits) {
+            boolean isPreviousWeekCompleted;
+            DailyLog previousDailyLog = dailyLogRepo.getDailyLogByHabitAndDateAndUser(habit, date.minusDays(1), user);
+
+
+            if(previousDailyLog == null){
+                isPreviousWeekCompleted = false;
+            } else {
+                isPreviousWeekCompleted = previousDailyLog.isCompleted();
+            }
+            DailyLog dailyLog = DailyLog.builder()
+                    .habit(habit)
+                    .date(date)
+                    .user(user)
+                    .isCompleted(false)
+                    .currentCount(0)
+                    .previousCompleted(isPreviousWeekCompleted)
+                    .build();
+
+            dailyLogRepo.save(dailyLog);
+        }
+
+        return dailyLogRepo.findAllByDate(date);
+    }
+
+    @Override
+    public DailyLog getDailyLogByHabitAndDateAndUser(Habit habit, LocalDate date, User user) {
+        return dailyLogRepo.getDailyLogByHabitAndDateAndUser(habit, date, user);
+    }
 }

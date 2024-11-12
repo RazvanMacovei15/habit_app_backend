@@ -1,5 +1,6 @@
 package maco.habit_backend.services;
 
+import maco.habit_backend.entities.Habit;
 import maco.habit_backend.entities.User;
 import maco.habit_backend.entities.WeeklyLog;
 
@@ -12,4 +13,5 @@ public interface WeeklyLogService {
     WeeklyLog addUpdateStatus(WeeklyLog weeklyLogToUpdate);
     WeeklyLog decrementUpdateStatus(WeeklyLog weeklyLogToUpdate);
     List<WeeklyLog> createWeeklyLogsOnGivenWeek(int yearWeek, User user);
+    WeeklyLog getWeeklyLogByHabitAndYearWeekAndUser(Habit habit, int yearWeek, User user);
 }

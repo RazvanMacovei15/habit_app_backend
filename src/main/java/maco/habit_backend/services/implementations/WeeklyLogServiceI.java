@@ -132,4 +132,9 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         }
         return weeklyLogRepo.findAllByYearWeekAndUser(yearWeek, user);
     }
+
+    @Override
+    public WeeklyLog getWeeklyLogByHabitAndYearWeekAndUser(Habit habit, int yearWeek, User user) {
+        return weeklyLogRepo.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek, user);
+    }
 }
