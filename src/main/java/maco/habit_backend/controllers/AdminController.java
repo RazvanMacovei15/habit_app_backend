@@ -17,16 +17,13 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
     private UserMapper userMapper;
-
     private final UserService userService;
-
     @GetMapping("/allUsers")
     public ResponseEntity<List<UserDTO>> allUsers() {
         List <UserDTO> users = userService.getAll()
                 .stream()
                 .map(userMapper::mapTo)
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(users);
     }
 

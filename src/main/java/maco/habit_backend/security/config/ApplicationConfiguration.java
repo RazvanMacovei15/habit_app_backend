@@ -13,21 +13,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class ApplicationConfiguration {
-
-    // Repository for accessing user data from the database
     private final UserRepo userRepository;
-
-    // Constructor to inject the UserRepo dependency
     public ApplicationConfiguration(UserRepo userRepository) {
         this.userRepository = userRepository;
     }
-
     /**
      * Defines the UserDetailsService bean, which loads user-specific data.
      * Finds users by their email (used as the username here).
      *
      * @return a UserDetailsService that fetches user details by email
      */
+
     @Bean
     UserDetailsService userDetailsService() {
         return email -> userRepository.findByEmail(email)
@@ -69,10 +65,8 @@ public class ApplicationConfiguration {
     @Bean
     AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(userDetailsService()); // Set the custom UserDetailsService
         authProvider.setPasswordEncoder(passwordEncoder());       // Set the BCrypt password encoder
-
         return authProvider;
     }
 }

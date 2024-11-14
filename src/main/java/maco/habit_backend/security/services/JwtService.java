@@ -17,16 +17,12 @@ import java.util.Map;
 
 @Service
 public class JwtService {
-
     // Secret key for signing the JWT, injected from application properties
     @Value("${security.jwt.secret-key}")
     private String secretKey;
-
     // JWT expiration time in milliseconds, injected from application properties
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
-
-
 
     /**
      * Extracts the username (subject) from the JWT token.
@@ -82,8 +78,7 @@ public class JwtService {
     }
 
     /**
-     * Builds a JWT token with specified claims, subject, and expiration.
-     *
+     * Builds a JWT token with specified claims, subject, and expiration time.
      * @param extraClaims additional claims to include in the token
      * @param userDetails the user details to include in the token
      * @param expiration the token's expiration time in milliseconds
@@ -106,7 +101,6 @@ public class JwtService {
 
     /**
      * Validates a token by checking if it's not expired and if it matches the user details.
-     *
      * @param token the JWT token to validate
      * @param userDetails the user details to match against the token
      * @return true if the token is valid, false otherwise
@@ -118,7 +112,6 @@ public class JwtService {
 
     /**
      * Checks if the token has expired.
-     *
      * @param token the JWT token to check
      * @return true if the token has expired, false otherwise
      */
@@ -128,7 +121,6 @@ public class JwtService {
 
     /**
      * Extracts the expiration date from the token.
-     *
      * @param token the JWT token from which to extract the expiration date
      * @return the expiration date of the token
      */
@@ -138,7 +130,6 @@ public class JwtService {
 
     /**
      * Parses the token and extracts all claims contained within it.
-     *
      * @param token the JWT token to parse
      * @return all claims from the token
      */
@@ -153,7 +144,6 @@ public class JwtService {
 
     /**
      * Decodes the secret key and returns it as a Key object.
-     *
      * @return the decoded secret key
      */
     private Key getSignInKey() {

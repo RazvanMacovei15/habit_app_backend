@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 
 @Component
 public class HabitMapper {
-
-
     public HabitDTO mapTo(Habit habit) {
         return HabitDTO.builder()
                 .id(habit.getId())

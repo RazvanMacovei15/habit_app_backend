@@ -21,17 +21,13 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private UserMapper userMapper;
-
     private final UserService userService;
-
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         User currentUser = (User) authentication.getPrincipal();
         UserDTO currentUserDTO = userMapper.mapTo(currentUser);
-
         return ResponseEntity.ok(currentUserDTO);
     }
 

@@ -11,16 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
-
     // Repository for interacting with the User entity in the database
     private final UserRepo userRepository;
-
     // Password encoder for securely storing and validating passwords
     private final PasswordEncoder passwordEncoder;
-
     // Manages authentication processes, using configured authentication providers
     private final AuthenticationManager authenticationManager;
-
     // Constructor for dependency injection of UserRepo, AuthenticationManager, and PasswordEncoder
     public AuthenticationService(
             UserRepo userRepository,
@@ -46,7 +42,6 @@ public class AuthenticationService {
                 .username(input.getUsername())
                 .password(passwordEncoder.encode(input.getPassword())) // Encrypts the password before saving
                 .build();
-
         // Saves the new user to the repository (database) and returns the saved user entity
         return userRepository.save(user);
     }

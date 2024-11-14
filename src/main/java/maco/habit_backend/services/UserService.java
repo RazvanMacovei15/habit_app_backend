@@ -11,6 +11,4 @@ public interface UserService {
     User save(User habit);
     List<User> getAll();
     List<UserHabitDTO> findHabitsByUser(User user);
-    List<User> allUsers();
-
 }

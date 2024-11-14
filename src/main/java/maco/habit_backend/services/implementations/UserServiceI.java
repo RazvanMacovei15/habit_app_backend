@@ -32,13 +32,4 @@ public class UserServiceI implements UserService {
     public List<UserHabitDTO> findHabitsByUser(User user) {
         return userRepo.findHabitsByUser(user);
     }
-
-    public List<User> allUsers() {
-        List<User> users = new ArrayList<>();
-
-        userRepo.findAll().forEach(users::add);
-
-        return users;
-    }
-
 }

@@ -22,7 +22,6 @@ import java.util.Set;
 @Entity
 @Table(name = "habits")
 public class Habit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habit_id_seq")
     @Column(name = "habit_id")

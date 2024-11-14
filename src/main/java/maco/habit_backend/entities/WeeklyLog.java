@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "weekly_logs")
 public class WeeklyLog implements Log {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "monthly_log_id_seq")
     @Column(name = "weekly_log_id")

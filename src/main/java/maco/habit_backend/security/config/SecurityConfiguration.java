@@ -18,14 +18,10 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
     // Custom authentication provider to handle user authentication
     private final AuthenticationProvider authenticationProvider;
-
     // Custom JWT filter to validate JWT tokens in requests
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    // Constructor for dependency injection of JwtAuthenticationFilter and AuthenticationProvider
     public SecurityConfiguration(
             JwtAuthenticationFilter jwtAuthenticationFilter,
             AuthenticationProvider authenticationProvider
@@ -45,24 +41,19 @@ public class SecurityConfiguration {
         http
                 // Disables CSRF (Cross-Site Request Forgery) protection, typically disabled for REST APIs
                 .csrf(AbstractHttpConfigurer::disable)
-
                 // Configures access rules for different request patterns
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Allows public access to endpoints under "/auth/**" for login, registration, etc.
                         .anyRequest().authenticated() // Requires authentication for all other endpoints
                 )
-
                 // Configures session management to be stateless as JWT tokens are used instead of server-side sessions
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
                 // Sets a custom authentication provider for handling authentication logic
                 .authenticationProvider(authenticationProvider)
-
                 // Adds the custom JWT authentication filter before the default UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         // Returns the configured SecurityFilterChain instance
         return http.build();
     }
@@ -83,7 +74,6 @@ public class SecurityConfiguration {
         // Registers the CORS configuration for all paths in the application
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
 }

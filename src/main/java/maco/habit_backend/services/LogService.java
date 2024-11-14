@@ -1,4 +1,4 @@
-package maco.habit_backend.utils;
+package maco.habit_backend.services;
 
 import maco.habit_backend.entities.Log;
 

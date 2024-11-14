@@ -22,7 +22,6 @@ public class DailyLogStrategy implements LogStrategy {
     @Override
     public void createNewHabitLog(Habit habit, User user) {
         LocalDate today = LocalDate.now();
-
         DailyLog dailyLog = DailyLog.builder()
                 .habit(habit)
                 .date(today)
@@ -31,7 +30,6 @@ public class DailyLogStrategy implements LogStrategy {
                 .currentCount(0)
                 .user(user)
                 .build();
-
         dailyLogRepository.save(dailyLog);
     }
 }

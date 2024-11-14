@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 public class HabitDTO {
-
     private int id;
     private String habitName;
     private String description;
@@ -27,5 +26,4 @@ public class HabitDTO {
     private int targetCount;
     private LocalDateTime dateCreated;
     private LocalDateTime lastUpdated;
-
 }

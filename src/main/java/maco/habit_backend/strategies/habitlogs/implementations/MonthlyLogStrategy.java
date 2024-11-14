@@ -10,13 +10,10 @@ import maco.habit_backend.strategies.habitlogs.LogStrategy;
 import java.time.LocalDate;
 
 public class MonthlyLogStrategy implements LogStrategy {
-
     private final MonthlyLogRepo monthlyLogRepository;
-
     public MonthlyLogStrategy(MonthlyLogRepo monthlyLogRepository) {
         this.monthlyLogRepository = monthlyLogRepository;
     }
-
     @Override
     public void createNewHabitLog(Habit habit, User user) {
         MonthlyLog monthlyLog = new MonthlyLog();

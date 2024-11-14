@@ -7,9 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 public class HabitBackendApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(HabitBackendApplication.class, args);
 	}
-
 }

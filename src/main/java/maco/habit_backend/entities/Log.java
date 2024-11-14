@@ -14,5 +14,4 @@ public interface Log {
     boolean isPreviousCompleted();
     void setPreviousCompleted(boolean previousCompleted);
     User getUser();
-
 }

@@ -11,12 +11,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/enums")
 public class EnumController {
-
     @GetMapping("/occurrences")
     public List<Occurrence> getOccurrences() {
         return Arrays.asList(Occurrence.values());
     }
-
     @GetMapping("/types")
     public List<Type> getTypes() {
         return Arrays.asList(Type.values());

@@ -17,21 +17,16 @@ public class WeeklyLogStrategy implements LogStrategy {
 
     @Override
     public void createNewHabitLog(Habit habit, User user) {
-
         WeeklyLog weeklyLog = new WeeklyLog();
-
         // Get current date to calculate the week
         LocalDate today = LocalDate.now();
         int year = today.getYear();
-
         // Define WeekFields with Monday as the first day of the week
         WeekFields weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
-
         // Calculate the week start and end dates
         LocalDate weekStartDay = today.with(weekFields.dayOfWeek(), 1); // Start of the week (Monday)
         LocalDate weekEndDay = today.with(weekFields.dayOfWeek(), 7);   // End of the week (Sunday)
         int yearWeek = year * 100 + (weekStartDay.get(weekFields.weekOfWeekBasedYear()));
-
         // Set the weekly log properties
         weeklyLog.setYearWeek(yearWeek);
         weeklyLog.setHabit(habit);
@@ -41,7 +36,6 @@ public class WeeklyLogStrategy implements LogStrategy {
         weeklyLog.setPreviousCompleted(false);
         weeklyLog.setWeekStartDay(weekStartDay);
         weeklyLog.setWeekEndDay(weekEndDay);
-
         weeklyLogRepository.save(weeklyLog);
     }
 

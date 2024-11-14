@@ -25,10 +25,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class HabitController {
-
     private HabitMapper habitMapper;
     private final HabitService habitService;
-    private UserMapper userMapper;
 
     @PostMapping("/create")
     public ResponseEntity<HabitDTO> createHabit(@RequestBody HabitDTO habitDTO, @AuthenticationPrincipal User user){
@@ -59,13 +57,11 @@ public class HabitController {
 
     @GetMapping("/all")
     public ResponseEntity<List<HabitDTO>> getAll( @AuthenticationPrincipal User user){
-
         List<HabitDTO> habits =  habitService
                 .getAllHabitsByUserId(user.getUserId())
                 .stream()
                 .map(habitMapper::mapTo)
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(habits);
     }
 
@@ -77,7 +73,6 @@ public class HabitController {
 
     @DeleteMapping("/deleteAll")
     public ResponseEntity<String> deleteAll( @AuthenticationPrincipal User user){
-
         habitService.deleteAllForUser(user);
         return ResponseEntity.ok("All habits deleted");
     }
@@ -91,15 +86,11 @@ public class HabitController {
 
     @GetMapping("/allByOccurrence/{occurrence}")
     public ResponseEntity<List<HabitDTO>> getAllByOccurrence(@PathVariable Occurrence occurrence, @AuthenticationPrincipal User user){
-
         List<HabitDTO> habits =  habitService
                 .getAllHabitsByOccurrenceAndUser(occurrence, user)
                 .stream()
                 .map(habitMapper::mapTo)
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(habits);
     }
-
-
 }

@@ -14,7 +14,6 @@ import java.util.List;
 
 @Repository
 public interface HabitRepo extends JpaRepository<Habit, Integer> {
-
     @Modifying
     @Transactional
     @Query("DELETE FROM Habit h WHERE h.id = :habitId")
@@ -24,9 +23,7 @@ public interface HabitRepo extends JpaRepository<Habit, Integer> {
     @Transactional
     @Query("DELETE FROM Habit h WHERE h.user = :user")
     void deleteAllHabitsForUser(User user);
-
     List<Habit> findAllByUserUserId(int userId);
-
     List<Habit> findAllByOccurrenceAndUser(Occurrence occurrence, User user);
     List<Habit> findAllByOccurrence(Occurrence occurrence);
 }

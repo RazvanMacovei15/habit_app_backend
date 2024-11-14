@@ -8,9 +8,7 @@ import lombok.Setter;
 @Getter
 @Builder
 public class LoginResponse {
-
     private String token;
-
     private long expiresIn;
 
 }

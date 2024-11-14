@@ -15,15 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
-
-    // Service for handling JWT token generation and validation
-    private final JwtService jwtService;
-
-    // Service for handling user registration and authentication
-    private final AuthenticationService authenticationService;
-
-    // Constructor for dependency injection of JwtService and AuthenticationService
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
+    private final JwtService jwtService;    // Service for handling JWT token generation and validation
+    private final AuthenticationService authenticationService;     // Service for handling user registration and authentication
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {    // Constructor for dependency injection of JwtService and AuthenticationService
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
     }
@@ -38,7 +32,6 @@ public class AuthenticationController {
     public ResponseEntity<User> register(@RequestBody RegisterUserDTO registerUserDto) {
         // Calls the AuthenticationService to register a new user
         User registeredUser = authenticationService.signup(registerUserDto);
-
         // Returns the registered User in the response with HTTP status 200 (OK)
         return ResponseEntity.ok(registeredUser);
     }
@@ -53,15 +46,12 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDTO loginUserDto) {
         // Calls AuthenticationService to authenticate the user based on provided credentials
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
-
         // Generates a JWT token for the authenticated user
         String jwtToken = jwtService.generateToken(authenticatedUser);
-
         // Builds a LoginResponse object containing the JWT token and expiration time
         LoginResponse loginResponse = LoginResponse.builder()
                 .token(jwtToken)               // Sets the generated JWT token
                 .expiresIn(jwtService.getExpirationTime()).build(); // Sets the token expiration time from JwtService
-
         // Returns the LoginResponse with HTTP status 200 (OK)
         return ResponseEntity.ok(loginResponse);
     }

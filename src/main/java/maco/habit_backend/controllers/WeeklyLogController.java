@@ -8,6 +8,7 @@ import maco.habit_backend.entities.User;
 import maco.habit_backend.entities.WeeklyLog;
 import maco.habit_backend.mapper.WeeklyLogMapper;
 import maco.habit_backend.services.HabitService;
+import maco.habit_backend.services.LogService;
 import maco.habit_backend.services.WeeklyLogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,38 +24,21 @@ public class WeeklyLogController {
     private final WeeklyLogService weeklyLogService;
     private final WeeklyLogMapper weeklyLogMapper;
     private final HabitService habitService;
-
-    @GetMapping("/getAll")
-        public ResponseEntity<List<WeeklyLogDTO>> getAll(@AuthenticationPrincipal User user) {
-        List<WeeklyLog> weeklyLogs = weeklyLogService.findAll(user);
-        List<WeeklyLogDTO> weeklyLogDTOS = weeklyLogs
-                .stream()
-                .map(weeklyLogMapper::mapTo)
-                .toList();
-
-        return ResponseEntity.ok(weeklyLogDTOS);
-    }
+    private final LogService logService;
 
     @PatchMapping("/{weeklyLogId}/addUpdate")
     public ResponseEntity<WeeklyLogDTO> addToWeeklyLog(@PathVariable int weeklyLogId, @AuthenticationPrincipal User user) {
-
         try{
             WeeklyLog weeklyLogToUpdate = weeklyLogService.getById(weeklyLogId);
-
             if (weeklyLogToUpdate == null) {
                 throw new EntityNotFoundException("Weekly log with id " + weeklyLogId + " not found");
             }
-
             if(weeklyLogToUpdate.getUser().getUserId() != user.getUserId()){
                 throw new EntityNotFoundException("This weekly log does not belong to the user");
             }
-
-            WeeklyLog updatedWeeklyLog = weeklyLogService.addUpdateStatus(weeklyLogToUpdate);
-
+            WeeklyLog updatedWeeklyLog = (WeeklyLog) logService.addUpdate(weeklyLogToUpdate);
             WeeklyLogDTO updatedWeeklyLogDTO = weeklyLogMapper.mapTo(updatedWeeklyLog);
-
             return ResponseEntity.ok(updatedWeeklyLogDTO);
-
         } catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
         }
@@ -62,24 +46,17 @@ public class WeeklyLogController {
 
     @PatchMapping("/{weeklyLogId}/decrementUpdate")
     public ResponseEntity<WeeklyLogDTO> decrementWeeklyLog(@PathVariable int weeklyLogId, @AuthenticationPrincipal User user) {
-
         try{
             WeeklyLog weeklyLogToUpdate = weeklyLogService.getById(weeklyLogId);
-
             if (weeklyLogToUpdate == null) {
                 throw new EntityNotFoundException("Weekly log with id " + weeklyLogId + " not found");
             }
-
             if(weeklyLogToUpdate.getUser().getUserId() != user.getUserId()){
                 throw new EntityNotFoundException("This weekly log does not belong to the user");
             }
-
-            WeeklyLog updatedWeeklyLog = weeklyLogService.decrementUpdateStatus(weeklyLogToUpdate);
-
+            WeeklyLog updatedWeeklyLog = (WeeklyLog) logService.decrementUpdate(weeklyLogToUpdate);
             WeeklyLogDTO updatedWeeklyLogDTO = weeklyLogMapper.mapTo(updatedWeeklyLog);
-
             return ResponseEntity.ok(updatedWeeklyLogDTO);
-
         } catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
         }
@@ -92,7 +69,6 @@ public class WeeklyLogController {
                 .stream()
                 .map(weeklyLogMapper::mapTo)
                 .toList();
-
         return ResponseEntity.ok(weeklyLogDTOS);
     }
 
@@ -103,14 +79,12 @@ public class WeeklyLogController {
                 .stream()
                 .map(weeklyLogMapper::mapTo)
                 .toList();
-
         return ResponseEntity.ok(weeklyLogDTOS);
     }
 
     @GetMapping("/yearWeek/{yearWeek}/habit/{habitId}")
     public ResponseEntity<WeeklyLogDTO> getWeeklyLogByHabitAndYearWeek(@PathVariable int yearWeek, @PathVariable int habitId, @AuthenticationPrincipal User user) {
         Habit habit = habitService.getById(habitId).orElseThrow(() -> new EntityNotFoundException("Habit with id " + habitId + " not found"));
-
         WeeklyLog weeklyLog = weeklyLogService.getWeeklyLogByHabitAndYearWeekAndUser(habit, yearWeek, user);
         WeeklyLogDTO weeklyLogDTO = weeklyLogMapper.mapTo(weeklyLog);
         return ResponseEntity.ok(weeklyLogDTO);

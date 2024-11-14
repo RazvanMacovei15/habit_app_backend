@@ -5,5 +5,4 @@ import maco.habit_backend.entities.User;
 
 public interface LogStrategy {
     void createNewHabitLog(Habit habit, User user);
-
 }

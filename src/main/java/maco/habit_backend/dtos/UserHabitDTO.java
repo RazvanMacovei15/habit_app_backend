@@ -8,7 +8,6 @@ import lombok.*;
 @Setter
 @Builder
 public class UserHabitDTO {
-
     private String username;
     private int userId;
     private int habitId;
