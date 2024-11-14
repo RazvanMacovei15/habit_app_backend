@@ -17,15 +17,20 @@ import java.util.List;
 @Component
 public class DailyLogStrategy implements LogStrategy {
     private final DailyLogRepo dailyLogRepository;
+
     @Transactional
     @Override
     public void createNewHabitLog(Habit habit, User user) {
+        LocalDate today = LocalDate.now();
+
         DailyLog dailyLog = DailyLog.builder()
-                        .habit(habit)
-                        .date(LocalDate.now())
-                        .isCompleted(false)
-                        .user(user)
-                        .build();
+                .habit(habit)
+                .date(today)
+                .isCompleted(false)
+                .previousCompleted(false)
+                .currentCount(0)
+                .user(user)
+                .build();
 
         dailyLogRepository.save(dailyLog);
     }

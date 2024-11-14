@@ -1,23 +1,39 @@
 package maco.habit_backend.utils;
 
+import lombok.RequiredArgsConstructor;
 import maco.habit_backend.entities.Habit;
+import maco.habit_backend.repositories.HabitRepo;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Component
+@RequiredArgsConstructor
 public class HabitUtils {
-    public static void updateHabitAfterDecrement(Habit habit, boolean logWasCompleted) {
-        if(habit.getCurrentStreak() == habit.getBestStreak()
-        && habit.getBestStreak() != 0
-        && habit.getDayOfBestStreak().equals(LocalDate.now())
-        && logWasCompleted){
+
+    private final HabitRepo habitRepo;
+
+    public void updateHabitAfterDecrement(Habit habit) {
+
+
+        if (habit.getCurrentStreak() == habit.getBestStreak()
+                && habit.getBestStreak() != 0
+                && habit.getDayOfBestStreak().equals(LocalDate.now())
+        ) {
+
             habit.setBestStreak(habit.getBestStreak() - 1);
+
+
         }
-        if(logWasCompleted && habit.getCurrentStreak() > 0){
-            habit.setBestStreak(habit.getCurrentStreak() -1);
+        if (habit.getCurrentStreak() > 0) {
+
+            habit.setCurrentStreak(habit.getCurrentStreak() - 1);
         }
-        if(logWasCompleted && habit.getTotalCount() > 0){
+        if (habit.getTotalCount() > 0) {
             habit.setTotalCount(habit.getTotalCount() - 1);
         }
+        System.out.println(habit);
+        habitRepo.save(habit);
     }
 
     public static void decrementCountsIfNeeded(Habit habit) {

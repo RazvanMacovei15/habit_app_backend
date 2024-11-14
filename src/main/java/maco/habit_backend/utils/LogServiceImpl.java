@@ -14,19 +14,20 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 @Builder
-@Service
+@Component
 public class LogServiceImpl implements LogService {
 
     private HabitService habitService;
     private DailyLogRepo dailyLogRepo;
     private WeeklyLogRepo weeklyLogRepo;
+    private HabitUtils habitUtils;
 
     public Log addUpdate(Log log){
         Habit habitToUpdate = log.getHabit();
 
-        log.setCurrentCount(log.getCurrentCount() + 1);
 
         if(habitToUpdate.getTargetCount() == 1){
+
             return handleSingleTargetLogCompletion(log);
         }
 
@@ -35,6 +36,7 @@ public class LogServiceImpl implements LogService {
 
     public Log decrementUpdate(Log log){
         int currentLogCount = log.getCurrentCount();
+
         currentLogCount--;
 
         return handleMultiTargetLogDecrement(log, currentLogCount);
@@ -49,9 +51,9 @@ public class LogServiceImpl implements LogService {
             throw new IllegalArgumentException("Current count cannot be negative");
         }
 
-        if(count < habit.getTargetCount()){
+        if(count < habit.getTargetCount() && logWasCompleted){
             log.setCompleted(false);
-            HabitUtils.updateHabitAfterDecrement(habit, logWasCompleted);
+            habitUtils.updateHabitAfterDecrement(habit);
         }
 
         habit.setUpdatedAt(LocalDateTime.now());
@@ -63,11 +65,9 @@ public class LogServiceImpl implements LogService {
         Habit habitToUpdate = log.getHabit();
         int previousStreak = habitToUpdate.getCurrentStreak();
 
-
         if(!log.isCompleted() && log.getCurrentCount() == 0){
             log.setCurrentCount(1);
             log.setCompleted(true);
-            habitToUpdate.setTotalCount(habitToUpdate.getTotalCount() + 1);
             HabitUtils.updateStreak(habitToUpdate, log.isPreviousCompleted(), previousStreak);
         } else if(log.isCompleted() && log.getCurrentCount() == 1){
             log.setCurrentCount(0);
@@ -81,13 +81,14 @@ public class LogServiceImpl implements LogService {
     }
     private Log handleMultipleTargetLogCompletion(Log log) {
         Habit habit = log.getHabit();
-
-        if (log.getCurrentCount() == habit.getTargetCount()) {
+        int currentCount = log.getCurrentCount();
+        currentCount++;
+        if (currentCount == habit.getTargetCount()) {
             // Completing the habit after reaching target count
             log.setCompleted(true);
             HabitUtils.updateStreak(habit, log.isPreviousCompleted(), habit.getCurrentStreak());
         }
-
+        log.setCurrentCount(currentCount);
         habit.setUpdatedAt(LocalDateTime.now());
         return saveLog(log);
    }

@@ -60,10 +60,10 @@ public class DailyLogController {
                 throw new EntityNotFoundException("This daily log does not belong to the user");
             }
 
-            DailyLog updatedDailyLog = (DailyLog) logService.addUpdate(dailyLogToUpdate);
+            System.out.println("Daily log to update: " + dailyLogToUpdate.toString());
+            System.out.println("Daily log to update: " + dailyLogToUpdate.getHabit().toString());
 
-//            // Save the updated log
-//            DailyLog updatedDailyLog = dailyLogService.addUpdateStatus(dailyLogToUpdate);
+            DailyLog updatedDailyLog = (DailyLog) logService.addUpdate(dailyLogToUpdate);
 
             // Map to DTO
             DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
@@ -91,7 +91,9 @@ public class DailyLogController {
                 throw new EntityNotFoundException("This daily log does not belong to the user");
             }
 
-            DailyLog updatedDailyLog = dailyLogService.decrementUpdateStatus(dailyLogToUpdate);
+//            DailyLog updatedDailyLog = dailyLogService.decrementUpdateStatus(dailyLogToUpdate);
+
+            DailyLog updatedDailyLog = (DailyLog) logService.decrementUpdate(dailyLogToUpdate);
 
             DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
 
