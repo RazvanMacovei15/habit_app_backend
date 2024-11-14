@@ -35,7 +35,7 @@ public class WeeklyLogController {
         return ResponseEntity.ok(weeklyLogDTOS);
     }
 
-    @PatchMapping("/{weeklyLogId}/addToCount")
+    @PatchMapping("/{weeklyLogId}/addUpdate")
     public ResponseEntity<WeeklyLogDTO> addToWeeklyLog(@PathVariable int weeklyLogId, @AuthenticationPrincipal User user) {
 
         try{
@@ -60,7 +60,7 @@ public class WeeklyLogController {
         }
     }
 
-    @PatchMapping("/{weeklyLogId}/decrementCount")
+    @PatchMapping("/{weeklyLogId}/decrementUpdate")
     public ResponseEntity<WeeklyLogDTO> decrementWeeklyLog(@PathVariable int weeklyLogId, @AuthenticationPrincipal User user) {
 
         try{

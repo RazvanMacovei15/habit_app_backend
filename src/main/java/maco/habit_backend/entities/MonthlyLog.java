@@ -15,11 +15,11 @@ import java.time.Year;
 
 @Entity
 @Table(name = "monthly_logs")
-public class MonthlyLog {
+public class MonthlyLog implements Log{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "monthly_log_id_seq")
     @Column(name = "monthly_log_id")
-    private int monthlyLogId;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "habit_id")
@@ -39,6 +39,9 @@ public class MonthlyLog {
 
     @Column(name = "is_completed")
     private boolean isCompleted;
+
+    @Column(name = "previous_completed")
+    private boolean previousCompleted;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

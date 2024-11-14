@@ -17,7 +17,7 @@ public class HabitMapper {
 
     public HabitDTO mapTo(Habit habit) {
         return HabitDTO.builder()
-                .id(habit.getHabitId())
+                .id(habit.getId())
                 .habitName(habit.getName())
                 .description(habit.getDescription())
                 .occurrence(habit.getOccurrence())
@@ -34,7 +34,7 @@ public class HabitMapper {
 
     public Habit mapFrom(HabitDTO habitDto) {
         return Habit.builder()
-                .habitId(habitDto.getId())
+                .id(habitDto.getId())
                 .name(habitDto.getHabitName())
                 .description(habitDto.getDescription())
                 .occurrence(habitDto.getOccurrence())
@@ -73,7 +73,7 @@ public class HabitMapper {
 
     public HabitDTO mapToNewHabitDTO(Habit habit) {
         return HabitDTO.builder()
-                .id(habit.getHabitId())
+                .id(habit.getId())
                 .habitName(habit.getName())
                 .description(habit.getDescription())
                 .occurrence(habit.getOccurrence())

@@ -12,7 +12,7 @@ public class WeeklyLogMapper {
 
     public WeeklyLogDTO mapTo(WeeklyLog weeklyLog) {
         return WeeklyLogDTO.builder()
-                .id(weeklyLog.getWeeklyLogId())
+                .id(weeklyLog.getId())
                 .habitDTO(habitMapper.mapTo(weeklyLog.getHabit()))
                 .yearWeek(weeklyLog.getYearWeek())
                 .weekStartDay(weeklyLog.getWeekStartDay())
@@ -25,7 +25,7 @@ public class WeeklyLogMapper {
 
     public WeeklyLog mapFrom(WeeklyLogDTO weeklyLogDTO) {
         return WeeklyLog.builder()
-                .weeklyLogId(weeklyLogDTO.getId())
+                .id(weeklyLogDTO.getId())
                 .habit(habitMapper.mapFrom(weeklyLogDTO.getHabitDTO()))
                 .yearWeek(weeklyLogDTO.getYearWeek())
                 .weekStartDay(weeklyLogDTO.getWeekStartDay())

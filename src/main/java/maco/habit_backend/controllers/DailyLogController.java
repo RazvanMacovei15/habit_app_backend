@@ -10,6 +10,8 @@ import maco.habit_backend.mapper.DailyLogMapper;
 import maco.habit_backend.repositories.UserRepo;
 import maco.habit_backend.services.DailyLogService;
 import maco.habit_backend.services.HabitService;
+import maco.habit_backend.utils.LogService;
+import maco.habit_backend.utils.LogServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,8 @@ public class DailyLogController {
     private final DailyLogMapper dailyLogMapper;
 
     private final HabitService habitService;
+
+    private final LogService logService;
 
     @GetMapping("/getAll")
     public ResponseEntity<List<DailyLogDTO>> getAll(@AuthenticationPrincipal User user) {
@@ -56,8 +60,10 @@ public class DailyLogController {
                 throw new EntityNotFoundException("This daily log does not belong to the user");
             }
 
-            // Save the updated log
-            DailyLog updatedDailyLog = dailyLogService.addUpdateStatus(dailyLogToUpdate);
+            DailyLog updatedDailyLog = (DailyLog) logService.addUpdate(dailyLogToUpdate);
+
+//            // Save the updated log
+//            DailyLog updatedDailyLog = dailyLogService.addUpdateStatus(dailyLogToUpdate);
 
             // Map to DTO
             DailyLogDTO updatedDailyLogDTO = dailyLogMapper.mapTo(updatedDailyLog);
@@ -71,7 +77,7 @@ public class DailyLogController {
     }
 
 
-    @PatchMapping("/{dailyLogId}/decrementCount")
+    @PatchMapping("/{dailyLogId}/decrementUpdate")
     public ResponseEntity<DailyLogDTO> decrementDailyLog(@PathVariable int dailyLogId, @AuthenticationPrincipal User user) {
 
         try {

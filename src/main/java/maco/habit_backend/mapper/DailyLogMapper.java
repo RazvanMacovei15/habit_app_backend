@@ -14,7 +14,7 @@ public class DailyLogMapper {
 
     public DailyLogDTO mapTo(DailyLog dailyLog) {
         return DailyLogDTO.builder()
-                .id(dailyLog.getDailyLogId())
+                .id(dailyLog.getId())
                 .date(dailyLog.getDate())
                 .habitDTO(habitMapper.mapTo(dailyLog.getHabit()))
                 .currentCount(dailyLog.getCurrentCount())

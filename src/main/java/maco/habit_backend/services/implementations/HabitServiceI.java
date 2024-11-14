@@ -45,8 +45,8 @@ public class HabitServiceI implements HabitService {
     @Transactional
     public void deleteHabitAndLogs(int habitId) {
         // First, delete all DailyLog entries associated with this habit
-        dailyLogRepository.deleteByHabit_HabitId(habitId);
-        weeklyLogRepo.deleteByHabit_HabitId(habitId);
+        dailyLogRepository.deleteByHabit_Id(habitId);
+        weeklyLogRepo.deleteByHabit_Id(habitId);
         // Then, delete the habit itself
         habitRepo.deleteById(habitId);
     }

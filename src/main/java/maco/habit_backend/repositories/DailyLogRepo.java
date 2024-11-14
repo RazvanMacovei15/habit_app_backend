@@ -14,11 +14,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface DailyLogRepo extends JpaRepository<DailyLog, Integer> {
+public interface DailyLogRepo extends JpaRepository<DailyLog, Integer>{
     List<DailyLog> findAllByDate(LocalDate date);
     List<DailyLog> findAllByUser(User user);
-    List<DailyLog> findAllByDateAndUser(LocalDate date, User user);
+    List<DailyLog> findAllByDateAndUserOrderByHabit(LocalDate date, User user);
     DailyLog getDailyLogByHabitAndDateAndUser(Habit habit, LocalDate date, User user);
     @Transactional
-    void deleteByHabit_HabitId(int habitId);
+    void deleteByHabit_Id(int habitId);
 }

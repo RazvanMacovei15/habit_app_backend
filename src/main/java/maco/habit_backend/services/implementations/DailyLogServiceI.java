@@ -55,7 +55,7 @@ public class DailyLogServiceI implements DailyLogService {
 
     @Override
     public List<DailyLog> findAllByDateAndUser(LocalDate date, User user) {
-        return dailyLogRepo.findAllByDateAndUser(date, user);
+        return dailyLogRepo.findAllByDateAndUserOrderByHabit(date, user);
     }
 
     @Override
@@ -78,18 +78,18 @@ public class DailyLogServiceI implements DailyLogService {
                 // If it's currently completed, set to incomplete and decrement the count
                 dailyLogToUpdate.setCompleted(false);
                 dailyLogToUpdate.setCurrentCount(0);
-                habitService.updateHabitFromTrueToFalse(habit.getHabitId(), wasCompleted);
+                habitService.updateHabitFromTrueToFalse(habit.getId(), wasCompleted);
             } else {
                 // If it's currently incomplete, set to complete and increment the count
                 dailyLogToUpdate.setCompleted(true);
                 dailyLogToUpdate.setCurrentCount(1);
-                habitService.updateHabitFromFalseToTrue(habit.getHabitId(), wasCompleted, habit.getCurrentStreak());
+                habitService.updateHabitFromFalseToTrue(habit.getId(), wasCompleted, habit.getCurrentStreak());
             }
         } else {
             currentCount++;
             if (currentCount == targetCount) {
                 dailyLogToUpdate.setCompleted(true);
-                habitService.updateHabitFromFalseToTrue(habit.getHabitId(), isPreviousDayCompleted, habit.getCurrentStreak());
+                habitService.updateHabitFromFalseToTrue(habit.getId(), isPreviousDayCompleted, habit.getCurrentStreak());
             }
             dailyLogToUpdate.setCurrentCount(currentCount);
         }
@@ -116,7 +116,7 @@ public class DailyLogServiceI implements DailyLogService {
             dailyLogToUpdate.setCompleted(false);
 
             // Only decrement totalCount if it was previously completed
-            habitService.updateHabitFromTrueToFalse(habit.getHabitId(), wasCompleted);
+            habitService.updateHabitFromTrueToFalse(habit.getId(), wasCompleted);
         }
 
         dailyLogToUpdate.setCurrentCount(currentCount);

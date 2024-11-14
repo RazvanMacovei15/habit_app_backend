@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
     //query to retrieve
-    @Query("SELECT new maco.habit_backend.dtos.UserHabitDTO(u.username, u.userId,h.habitId, h.name, h.currentStreak) " +
+    @Query("SELECT new maco.habit_backend.dtos.UserHabitDTO(u.username, u.userId,h.id, h.name, h.currentStreak) " +
             "FROM User u " +
             "JOIN u.userHabits h " +
             "WHERE u.userId = :userId")

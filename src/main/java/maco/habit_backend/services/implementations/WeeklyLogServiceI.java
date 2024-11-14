@@ -31,7 +31,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
     @Override
     public List<WeeklyLog> findAllByYearWeekAndUser(int yearWeek, User user) {
-        return weeklyLogRepo.findAllByYearWeekAndUser(yearWeek, user);
+        return weeklyLogRepo.findAllByYearWeekAndUserOrderByHabit(yearWeek, user);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
         currentCount++;
         if (currentCount == targetCount) {
             weeklyLogToUpdate.setCompleted(true);
-            habitService.updateHabitFromFalseToTrue(habit.getHabitId(), isPreviousWeekCompleted, habit.getCurrentStreak());
+            habitService.updateHabitFromFalseToTrue(habit.getId(), isPreviousWeekCompleted, habit.getCurrentStreak());
         }
         weeklyLogToUpdate.setCurrentCount(currentCount);
         return weeklyLogRepo.save(weeklyLogToUpdate);
@@ -78,7 +78,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
             weeklyLogToUpdate.setCompleted(false);
 
             // Only decrement totalCount if it was previously completed
-            habitService.updateHabitFromTrueToFalse(habit.getHabitId(), wasCompleted);
+            habitService.updateHabitFromTrueToFalse(habit.getId(), wasCompleted);
         }
 
         weeklyLogToUpdate.setCurrentCount(currentCount);
@@ -130,7 +130,7 @@ public class WeeklyLogServiceI implements WeeklyLogService {
 
             weeklyLogRepo.save(weeklyLog);
         }
-        return weeklyLogRepo.findAllByYearWeekAndUser(yearWeek, user);
+        return weeklyLogRepo.findAllByYearWeekAndUserOrderByHabit(yearWeek, user);
     }
 
     @Override

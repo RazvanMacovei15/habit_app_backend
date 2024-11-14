@@ -16,11 +16,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "daily_logs")
-public class DailyLog {
+public class DailyLog implements Log{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "daily_log_id_seq")
     @Column(name = "daily_log_id")
-    private int dailyLogId;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "habit_id")
