@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.List;
 
 @AllArgsConstructor
@@ -92,5 +93,13 @@ public class DailyLogController {
         DailyLog dailyLog = dailyLogService.getDailyLogByHabitAndDateAndUser(habit, date, user);
         DailyLogDTO dailyLogDTO = dailyLogMapper.mapTo(dailyLog);
         return ResponseEntity.ok(dailyLogDTO);
+    }
+
+    public static void main(String[] args) {
+        LocalDate today = LocalDate.now();
+        //get week number from date
+        WeekFields weekFields = WeekFields.of(java.time.DayOfWeek.MONDAY, 1);
+        int weekNumber = today.get(weekFields.weekOfWeekBasedYear());
+        System.out.println(weekNumber);
     }
 }
