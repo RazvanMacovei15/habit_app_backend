@@ -21,15 +21,25 @@ public class DailyLogStrategy implements LogStrategy {
     @Transactional
     @Override
     public void createNewHabitLog(Habit habit, User user) {
-        LocalDate today = LocalDate.now();
-        DailyLog dailyLog = DailyLog.builder()
-                .habit(habit)
-                .date(today)
-                .isCompleted(false)
-                .previousCompleted(false)
-                .currentCount(0)
-                .user(user)
-                .build();
-        dailyLogRepository.save(dailyLog);
+        List<LocalDate> uniqueDates = dailyLogRepository.findUniqueDates(user);
+
+        for(LocalDate date : uniqueDates){
+
+            DailyLog dailyLog = dailyLogRepository.getDailyLogByHabitAndDateAndUser(habit, date, user);
+
+            if(dailyLog == null){
+
+                DailyLog newDailyLog = DailyLog.builder()
+                        .habit(habit)
+                        .date(date)
+                        .isCompleted(false)
+                        .previousCompleted(false)
+                        .currentCount(0)
+                        .user(user)
+                        .build();
+                dailyLogRepository.save(newDailyLog);
+                System.out.println(newDailyLog);
+            }
+        }
     }
 }

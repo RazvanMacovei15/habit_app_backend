@@ -6,14 +6,16 @@ import maco.habit_backend.entities.User;
 import maco.habit_backend.entities.WeeklyLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface WeeklyLogRepo extends JpaRepository<WeeklyLog, Integer> {
-    List<WeeklyLog> findAllByUser(User user);
     List<WeeklyLog> findAllByYearWeekAndUserOrderByHabit(int yearWeek, User user);
     @Query("SELECT w FROM WeeklyLog w WHERE w.habit = ?1 AND w.yearWeek = ?2 AND w.user = ?3")
     WeeklyLog getWeeklyLogByHabitAndYearWeekAndUser(Habit habit, int yearWeek, User user);
     @Transactional
     void deleteByHabit_Id(int habitId);
+    @Query("SELECT DISTINCT wl.yearWeek FROM WeeklyLog wl WHERE wl.user = ?1")
+    List<Integer> findUniqueYearWeeks(@Param("user") User user);
 }

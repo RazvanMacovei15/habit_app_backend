@@ -68,6 +68,7 @@ public class DailyLogController {
     @PostMapping("/date/{date}")
     public ResponseEntity<List<DailyLogDTO>> createDailyLogsOnGivenDate(@PathVariable LocalDate date, @AuthenticationPrincipal User user) {
         List<DailyLog> dailyLogs = dailyLogService.createDailyLogsOnGivenDate(date, user);
+
         List<DailyLogDTO> dailyLogDTOS = dailyLogs
                 .stream()
                 .map(dailyLogMapper::mapTo)

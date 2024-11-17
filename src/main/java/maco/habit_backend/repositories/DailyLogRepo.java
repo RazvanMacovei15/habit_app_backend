@@ -15,9 +15,15 @@ import java.util.List;
 
 @Repository
 public interface DailyLogRepo extends JpaRepository<DailyLog, Integer>{
-    List<DailyLog> findAllByDate(LocalDate date);
-    List<DailyLog> findAllByDateAndUserOrderByHabit(LocalDate date, User user);
+    @Query("SELECT dl FROM DailyLog dl " +
+            "WHERE dl.date = :date " +
+            "AND dl.user = :user " +
+            "ORDER BY dl.habit.createdAt ASC")
+    List<DailyLog> findAllByDateAndUserOrderByHabit(@Param("date") LocalDate date,
+                                                    @Param("user") User user);
     DailyLog getDailyLogByHabitAndDateAndUser(Habit habit, LocalDate date, User user);
     @Transactional
     void deleteByHabit_Id(int habitId);
+    @Query("SELECT DISTINCT dl.date FROM DailyLog dl WHERE dl.user = :user")
+    List<LocalDate> findUniqueDates(@Param("user") User user);
 }

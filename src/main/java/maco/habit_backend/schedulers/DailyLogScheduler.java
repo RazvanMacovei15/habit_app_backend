@@ -39,6 +39,11 @@ public class DailyLogScheduler {
             List<Habit> dailyHabits = habitRepository.findAllByOccurrenceAndUser(Occurrence.DAILY, user);
             // Loop through each daily habit and create a new DailyLog
             for (Habit habit : dailyHabits) {
+                //check if daily log exists for the habit and date
+                DailyLog dailyLogToCheck = dailyLogRepository.getDailyLogByHabitAndDateAndUser(habit, today, user);
+                if(dailyLogToCheck != null){
+                    continue; // Skip if a daily log already exists for the habit and date
+                }
                 boolean isPreviousWeekCompleted;
                 DailyLog previousDailyLog = dailyLogRepository.getDailyLogByHabitAndDateAndUser(habit, today.minusDays(1), user);
                 if(previousDailyLog == null){

@@ -36,6 +36,7 @@ public class DailyLogServiceI implements DailyLogService {
     @Override
     public List<DailyLog> createDailyLogsOnGivenDate(LocalDate date, User user) {
         List<Habit> habits = habitService.getAllHabitsByOccurrenceAndUser(Occurrence.DAILY, user);
+
         for (Habit habit : habits) {
             boolean isPreviousWeekCompleted;
             DailyLog previousDailyLog = dailyLogRepo.getDailyLogByHabitAndDateAndUser(habit, date.minusDays(1), user);
@@ -54,7 +55,7 @@ public class DailyLogServiceI implements DailyLogService {
                     .build();
             dailyLogRepo.save(dailyLog);
         }
-        return dailyLogRepo.findAllByDate(date);
+        return dailyLogRepo.findAllByDateAndUserOrderByHabit(date, user);
     }
 
     @Override
